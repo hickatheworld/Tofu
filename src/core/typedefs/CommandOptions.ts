@@ -3,10 +3,10 @@ import Argument from "./Argument";
 
 export default interface CommandOptions {
 	aliases?: string[],
-	arguments?: Argument[],
 	cooldown?: number,
 	desc: string,
 	module: string,
 	name: string,
+	usages?: string[],
 	whitelist?: User[]
 }
