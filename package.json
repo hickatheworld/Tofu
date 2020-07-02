@@ -1,0 +1,31 @@
+{
+	"name": "oc",
+	"version": "1.0.0",
+	"description": "oc!, the bot.",
+	"main": "build/app.js",
+	"scripts": {
+		"build": "tsc && node build/app",
+		"test": "mocha -r ts-node/register src/test/*.spec.ts"
+	},
+	"author": "Hicka",
+	"license": "MIT",
+	"dependencies": {
+		"@types/validator": "^13.1.0",
+		"@types/ws": "^7.2.6",
+		"chalk": "^4.1.0",
+		"discord.js": "^12.2.0",
+		"dotenv": "^8.2.0",
+		"sequelize": "^6.2.3",
+		"sqlite3": "^4.2.0",
+		"strip-ansi": "^6.0.0",
+		"typescript": "^3.9.5"
+	},
+	"devDependencies": {
+		"@types/chai": "^4.2.11",
+		"@types/mocha": "^7.0.2",
+		"@types/node": "^14.0.14",
+		"chai": "^4.2.0",
+		"mocha": "^8.0.1",
+		"ts-node": "^8.10.2"
+	}
+}
