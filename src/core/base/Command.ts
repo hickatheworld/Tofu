@@ -7,7 +7,7 @@ import Argument from "../typedefs/Argument";
 export default abstract class Command {
 	private client: OCBot;
 	public aliases: string[];
-	public arguments?: Argument[];
+	public usages?: string[];
 	public cooldown: number;
 	public desc: string;
 	public module: string;
@@ -18,7 +18,7 @@ export default abstract class Command {
 	constructor(client: OCBot, options: CommandOptions) {
 		this.client = client;
 		this.aliases = options.aliases ?? [];
-		this.arguments = options.arguments;		
+		this.usages = options.usages;		
 		this.cooldown = options.cooldown ?? 0;
 		this.desc = options.desc;		
 		this.module = options.module;		
