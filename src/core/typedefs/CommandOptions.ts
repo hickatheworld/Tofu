@@ -1,5 +1,4 @@
 import { User } from "discord.js";
-import Argument from "./Argument";
 
 export default interface CommandOptions {
 	aliases?: string[],
