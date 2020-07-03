@@ -1,7 +1,7 @@
 {
-	"name": "oc",
+	"name": "oc-bot",
 	"version": "1.0.0",
-	"description": "oc!, the bot.",
+	"description": "Once Community's Discord Bot",
 	"main": "build/app.js",
 	"scripts": {
 		"build": "tsc && node build/app"
