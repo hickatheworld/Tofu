@@ -55,7 +55,7 @@ export function formatDuration(date1: Date, date2: Date, boldNumbers: boolean = 
 	const minutes: number = Math.floor(delta / SECS_IN_MINUTE) % 60;
 	delta -= minutes * SECS_IN_MINUTE;
 
-	const seconds: number = delta;
+	const seconds: number = Math.floor(delta);
 
 	var output: string = "";
 	if (years > 0) output += `${years} year${(years > 1) ? "s" : ""}, `;
