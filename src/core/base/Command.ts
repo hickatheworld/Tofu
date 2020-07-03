@@ -2,7 +2,6 @@ import OCBot from "./Client";
 import { Message, Snowflake, Collection, User } from "discord.js";
 import {formatDuration} from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
-import Argument from "../typedefs/Argument";
 
 export default abstract class Command {
 	private client: OCBot;
