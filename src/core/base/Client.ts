@@ -93,7 +93,6 @@ export default class OCBot extends Client {
 	public async run() {
 		await this.loadEvents();
 		await this.loadModules();
-		console.log(this.token);
 		this.login(this.token);
 	}
 }
