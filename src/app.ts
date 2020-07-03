@@ -9,5 +9,4 @@ const Instance: OCBot = new OCBot({
 	test: process.env.BOT_TEST == "true",
 	token: process.env.BOT_TOKEN
 });
-console.log(process.env.BOT_TOKEN);
 Instance.run();
