@@ -1,17 +1,20 @@
 import OCBot from "../core/base/Client";
 import * as log from "../core/lib/Log";
+import { yellow } from "chalk";
+import { BotEvent } from "../core/base/BotEvent";
 
-export = class {
-	private client: OCBot;
-	public name: string;
-	public once: boolean;
+export = class extends BotEvent {
 	constructor(client: OCBot) {
-		this.client = client;
-		this.name = "ready";
-		this.once = false;
+		super(client, "ready", true);
 	}
 
-	exe() {
-		log.info("Bot ready.");
+	public exe() {
+		this.client.setOwner();
+		this.client.setAdmins();
+		this.client.db.init(true);
+		log.info(`Bot ready and connected as ${log.user(this.client.user)}`);
+		if (this.client.test) {
+			console.log(yellow("/!\\ Bot in test mode. All non-admin messages will be ignored /!\\"));
+		}
 	}
 }
