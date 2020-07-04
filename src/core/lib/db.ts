@@ -90,8 +90,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getProfile(user: User): Promise<BotProfile> {
-		const model = this.model("profiles");
-		var profile = await model.findOne({ where: { user: user.id } });
+		var profile = await this.models.profiles.findOne({ where: { user: user.id } });
 		if (profile === null) {
 			return this.createProfile(user);
 		}
