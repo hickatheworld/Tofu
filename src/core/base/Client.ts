@@ -49,6 +49,9 @@ export default class OCBot extends Client {
 						const f = require(join(__dirname, "../../commands/", dir, file));
 						const cmd = new f(this);
 						this.commands.set(cmd.name, cmd);
+						if (cmd.setup) {
+							cmd.setup();
+						}
 						for (const alias of cmd.aliases) {
 							this.aliases.set(alias, cmd.name);
 						}
