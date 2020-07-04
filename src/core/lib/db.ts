@@ -1,9 +1,10 @@
 import "sequelize";
 import * as Sq from "sequelize";
-import { Snowflake, User } from "discord.js";
+import { Snowflake, User, Guild } from "discord.js";
 import OCBot from "../base/Client";
 import * as log from "./Log";
 import { BotProfile, BotProfileField } from "../typedefs/BotProfile";
+import { Model } from "sequelize";
 require("dotenv").config();
 export default class DB extends Sq.Sequelize {
 	private client: OCBot;
@@ -67,6 +68,7 @@ export default class DB extends Sq.Sequelize {
 				defaultValue: 0
 			}
 		}).sync({ force: force });
+		log.info("Defined Sequelize models");
 	}
 
 	async createProfile(user: User): Promise<BotProfile> {
@@ -75,6 +77,7 @@ export default class DB extends Sq.Sequelize {
 		await model.create({
 			user: snowflake
 		});
+		log.info(`Generated profile for ${log.user(user)}`);
 		return {
 			bestie: null,
 			canRep: true,
@@ -106,10 +109,15 @@ export default class DB extends Sq.Sequelize {
 
 	async setUser(user: User, key: BotProfileField, value: any): Promise<BotProfile> {
 		const profile: any = await this.getProfile(user);
-		const dbProfile = await this.model("profiles").findOne({ where: { user: user.id } });
 		profile[key] = value;
-		if (key === "bestie") dbProfile.set("bestie", value.id);
-		else dbProfile.set(key, value);
+		const obj: any = {};
+		if (key === "bestie") obj[key] = value.id;
+		else obj[key] = value;
+		await this.models.profiles.update(obj, { where: { user: user.id } });
+
+		if (typeof value === "number") log.info(`Set ${log.text(key)} to ${log.number(value)} for ${log.user(user)}`);
+		else if (value instanceof User) log.info(`Set ${log.text(key)} to ${log.user(value)} for ${log.user(user)}`);
+		else log.info(`Set ${log.text(key)} to ${log.text(value)} for ${log.user(user)}`);
 		return profile;
 	}
 
@@ -120,36 +128,27 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async setCommandUses(name: string, count: number): Promise<number> {
-		const model = this.model("commandUses");
-		const command = await model.findOne({ where: { name: name } });
-		if (command === null) {
-			model.create({
-				name: name,
-				value: count
-			});
-			return count;
-		}
-		command.set("name", count);
+		await this.getCommandUses(name);
+		await this.models.commandUses.update({ count: count }, { where: { name: name } });
+		log.info(`Set ${log.text(name)} command uses to ${log.number(count)}`);
 		return count;
 	}
 
 	async getCommandUses(name: string): Promise<number> {
-		const model = this.model("commandUses");
-		const command: any = await model.findOne({ where: { name: name } });
+		const command: any = await this.models.commandUses.findOne({ where: { name: name } });
 		if (command === null) {
-			return null;
+			this.models.commandUses.create({
+				name: name,
+				value: 0
+			});
+			return 0;
 		}
 		return command.toJSON().count;
 	}
 
 	async incrementCommand(name: string): Promise<number> {
-		const model = this.model("commandUses");
-		const command = await model.findOne({ where: { name: name } });
-		if (command === null) {
-			this.setCommandUses(name, 1);
-			return 1;
-		}
-		const count = await command.increment("count");
-		return count.getDataValue("count");
+		const old = await this.getCommandUses(name);
+		const count = await this.setCommandUses(name, old + 1);
+		return count;
 	}
 }
