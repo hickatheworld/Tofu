@@ -115,6 +115,9 @@ export default class OCBot extends Client {
 			const user = this.users.cache.get(this.ownerID);
 			this.owner = user;
 			log.info(`Set ${log.user(user)} as the bot owner.`);
+			if (!this.admins.has(user.id)) {
+				this.admins.set(user.id, user);
+			}
 		}
 	}
 }
