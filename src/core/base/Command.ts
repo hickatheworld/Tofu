@@ -13,6 +13,7 @@ export default abstract class Command {
 	public name: string;
 	public whitelist?: User[];
 	protected cooldowned?: Collection<Snowflake, number>;
+	public funcs: Map<string, Function>;
 
 	constructor(client: OCBot, options: CommandOptions) {
 		this.client = client;
@@ -24,6 +25,7 @@ export default abstract class Command {
 		this.name = options.name;
 		this.whitelist = options.whitelist;
 		this.cooldowned = new Collection<Snowflake, number>();
+		this.funcs = new Map<string,Function>();
 	}
 	public abstract exe(message: Message, args: string[]): Promise<void>;
 	public async check(message: Message, callback: Function): Promise<void> {
