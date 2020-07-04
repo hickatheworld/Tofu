@@ -1,4 +1,4 @@
-import { Message, GuildChannel, User } from "discord.js";
+import { GuildChannel, User, Guild } from "discord.js";
 import { formatDate, formatTime } from "./Time";
 import chalk from "chalk";
 import stripAnsi from "strip-ansi";
@@ -60,6 +60,14 @@ export function number(n: number): string {
 
 export function text(s: string): string {
 	return chalk.underline.yellow(s);
+}
+
+export function bool(b: boolean): string {
+	return chalk.greenBright(b);
+}
+
+export function guild(guild: Guild): string {
+	return chalk.underline(`${guild.name} (${guild.id})`);
 }
 
 export function debug(...message: string[]) {
