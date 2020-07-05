@@ -11,7 +11,7 @@ export = class extends BotEvent {
 	public exe() {
 		this.client.setOwner();
 		this.client.setAdmins();
-		this.client.db.init(true);
+		this.client.db.init(false);
 		log.info(`Bot ready and connected as ${log.user(this.client.user)}`);
 		if (this.client.test) {
 			console.log(yellow("/!\\ Bot in test mode. All non-admin messages will be ignored /!\\"));

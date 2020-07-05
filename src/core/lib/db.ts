@@ -1,17 +1,17 @@
 import "sequelize";
 import * as Sq from "sequelize";
-import { Snowflake, User, Guild } from "discord.js";
+import { User, Guild, TextChannel } from "discord.js";
 import OCBot from "../base/Client";
 import * as log from "./Log";
 import { BotProfile, BotProfileField } from "../typedefs/BotProfile";
-import { Model } from "sequelize";
+import { GuildWelcome, GuildWelcomeField } from "../typedefs/GuildWelcome";
 require("dotenv").config();
 export default class DB extends Sq.Sequelize {
 	private client: OCBot;
 	constructor(client: OCBot) {
 		super("OCBot", null, null, {
 			dialect: "sqlite",
-			logging: console.log,
+			logging: false,
 			storage: "db.sqlite"
 		});
 		this.client = client;
@@ -66,6 +66,39 @@ export default class DB extends Sq.Sequelize {
 				type: Sq.NUMBER,
 				allowNull: false,
 				defaultValue: 0
+			}
+		}).sync({ force: force });
+		this.define("welcomes", {
+			guild: {
+				type: Sq.STRING,
+				unique: true,
+				allowNull: false
+			},
+			enabled: {
+				type: Sq.BOOLEAN,
+				defaultValue: false,
+				allowNull: false,
+			},
+			channel: {
+				type: Sq.STRING
+			},
+			type: {
+				type: Sq.STRING,
+				defaultValue: "text",
+				allowNull: false
+			},
+			value: {
+				type: Sq.JSON,
+				defaultValue: { message: "Welcome to {SERVER_NAME}}, {USER_MENTION} !" },
+				allowNull: false,
+			},
+			logs: {
+				type: Sq.BOOLEAN,
+				defaultValue: false,
+				allowNull: false
+			},
+			logChannel: {
+				type: Sq.STRING
 			}
 		}).sync({ force: force });
 		log.info("Defined Sequelize models");
@@ -150,4 +183,51 @@ export default class DB extends Sq.Sequelize {
 		const count = await this.setCommandUses(name, old + 1);
 		return count;
 	}
+
+	async createWelcome(guild: Guild): Promise<GuildWelcome> {
+		await this.models.welcomes.create({
+			guild: guild.id
+		});
+		log.info(`Created row in ${log.text("welcome")} table for guild ${log.guild(guild)}`);
+		return {
+			channel: null,
+			enabled: false,
+			guild: guild,
+			logs: null,
+			logChannel: null,
+			type: "text",
+			value: null
+		};
+	}
+
+	async getWelcome(guild: Guild): Promise<GuildWelcome> {
+		const welcome = await this.models.welcomes.findOne({ where: { guild: guild.id } });
+		if (welcome === null) {
+			return this.createWelcome(guild);
+		}
+		const obj: any = welcome.toJSON();
+		return {
+			channel: this.client.channels.cache.get(obj.channel) as TextChannel ?? null,
+			enabled: obj.enabled,
+			guild: this.client.guilds.cache.get(obj.guild),
+			logs: obj.logs,
+			logChannel: this.client.channels.cache.get(obj.logChannel) as TextChannel ?? null,
+			type: obj.type,
+			value: obj.value
+		}
+	}
+
+	async setWelcome(guild: Guild, key: GuildWelcomeField, value: any): Promise<GuildWelcome> {
+		const welcome: any = await this.getWelcome(guild);
+		welcome[key] = value;
+		const obj: any = {};
+		if (key === "channel" || key === "logChannel") obj[key] = value.id;
+		else obj[key] = value;
+		await this.models.welcomes.update(obj, { where: { guild: guild.id } });
+		if (typeof value === "boolean") log.info(`Set welcome ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
+		else if (value instanceof TextChannel) log.info(`Set welcome ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
+		else log.info(`Set welcome ${log.text(key)} to ${log.text(value.toString())} for ${log.guild(guild)}`);
+		return welcome;
+	}
+
 }
