@@ -2,6 +2,7 @@ import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { Message, MessageEmbed, User, Guild, TextChannel } from "discord.js";
 import * as Args from "../../core/lib/Args";
+import { replaceWelcomeVariables } from "../../core/lib/utils";
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
@@ -17,15 +18,6 @@ export = class extends Command {
 				"logs enable/disable",
 				"logs <channel: Channel>",
 			]
-		});
-		this.funcs.set("replaceVariables", function (obj: Object, user: User, guild: Guild, embed: boolean): Object {
-			var str: string = JSON.stringify(obj);
-			str = str.replace("{SERVER_NAME}", guild.name);
-			str = str.replace("{USER_NAME}", user.tag);
-			str = str.replace("{USER_MENTION}", user.toString());
-			if (embed) str = str.replace("{SERVER_ICON}", guild.iconURL({ dynamic: true }));
-			if (embed) str = str.replace("{USER_AVATAR}", user.avatarURL({ dynamic: true }));
-			return JSON.parse(str);
 		});
 	}
 
@@ -60,7 +52,7 @@ export = class extends Command {
 					message.reply(`❌ JSON parsing error : \`${e.message}\``);
 					return;
 				}
-				const embed: MessageEmbed = new MessageEmbed(this.funcs.get("replaceVariables")(obj, message.author, message.guild, true));
+				const embed: MessageEmbed = new MessageEmbed(replaceWelcomeVariables(obj, message.author, message.guild, true));
 				try {
 					await message.channel.send("✅ Set the bye embed to :", embed);
 					if (!(await this.client.db.getBye(message.guild)).enabled) {
@@ -78,7 +70,7 @@ export = class extends Command {
 			if (arg0 === "message") {
 				args.shift();
 				const arg: string = args.join(" ");
-				const msg: Object = this.funcs.get("replaceVariables")({ message: arg }, message.author, message.guild, false);
+				const msg: Object = replaceWelcomeVariables({ message: arg }, message.author, message.guild, false);
 				await this.client.db.setBye(message.guild, "value", msg);
 				await this.client.db.setBye(message.guild, "type", "text");
 				await message.channel.send(`✅ Set the bye message to :\n${msg.message}`);

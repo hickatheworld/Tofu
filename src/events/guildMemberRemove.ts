@@ -1,10 +1,10 @@
 import OCBot from "../core/base/Client";
 import * as log from "../core/lib/Log";
-import { yellow } from "chalk";
 import { BotEvent } from "../core/base/BotEvent";
 import { GuildMember, MessageEmbed } from "discord.js";
 import { formatDuration } from "../core/lib/Time";
 import { GuildBye } from "../core/typedefs/GuildBye";
+import { replaceWelcomeVariables } from "../core/lib/utils";
 
 export = class extends BotEvent {
 	constructor(client: OCBot) {
@@ -14,13 +14,12 @@ export = class extends BotEvent {
 	public async exe(member: GuildMember) {
 		log.info(`${log.user(member.user)} left ${log.guild(member.guild)}`);
 		const bye: GuildBye = await this.client.db.getBye(member.guild);
-		const replaceVariables: Function = this.client.commands.get("bye").funcs.get("replaceVariables");
 		if (bye.enabled) {
 			if (bye.type === "embed") {
-				const embed: object = replaceVariables(bye.value, member.user, member.guild, true);
+				const embed: object = replaceWelcomeVariables(bye.value, member.user, member.guild, true);
 				bye.channel.send(new MessageEmbed(embed));
 			} else {
-				const msg: string = replaceVariables(bye.value.message, member.user, member.guild, false);
+				const msg: string = replaceWelcomeVariables(bye.value, member.user, member.guild, false).message;
 				bye.channel.send(msg);
 			}
 		}
