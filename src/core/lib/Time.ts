@@ -59,7 +59,7 @@ export function formatDuration(date1: Date, date2: Date, boldNumbers: boolean = 
 
 	var output: string = "";
 	if (years > 0) output += `${years} year${(years > 1) ? "s" : ""}, `;
-	if (months > 0) output += `${months} month${(years > 1) ? "s" : ""}, `;
+	if (months > 0) output += `${months} month${(months > 1) ? "s" : ""}, `;
 	if (days > 0) output += `${days} day${(days > 1) ? "s" : ""}, `;
 	if (hours > 0) output += `${hours} hour${(hours > 1) ? "s" : ""}, `;
 	if (minutes > 0) output += `${minutes} minute${(minutes > 1) ? "s" : ""}, `;
