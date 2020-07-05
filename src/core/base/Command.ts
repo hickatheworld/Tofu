@@ -4,26 +4,27 @@ import { formatDuration } from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
 
 export default abstract class Command {
-	protected client: OCBot;
 	public aliases: string[];
-	public usages?: string[];
+	protected client: OCBot;
 	public cooldown: number;
+	protected cooldowned?: Collection<Snowflake, number>;
 	public desc: string;
 	public module: string;
 	public name: string;
+	public props: Map<string, any>;
+	public usages?: string[];
 	public whitelist?: User[];
-	protected cooldowned?: Collection<Snowflake, number>;
-
 	constructor(client: OCBot, options: CommandOptions) {
-		this.client = client;
 		this.aliases = options.aliases ?? [];
-		this.usages = options.usages;
+		this.client = client;
 		this.cooldown = options.cooldown ?? 0;
+		this.cooldowned = new Collection<Snowflake, number>();
 		this.desc = options.desc;
 		this.module = options.module;
 		this.name = options.name;
+		this.props = new Map<string, any>();
+		this.usages = options.usages;
 		this.whitelist = options.whitelist;
-		this.cooldowned = new Collection<Snowflake, number>();
 	}
 	public abstract exe(message: Message, args: string[]): Promise<void>;
 	public async check(message: Message, callback: Function): Promise<void> {
