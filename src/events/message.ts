@@ -9,12 +9,12 @@ export = class extends BotEvent {
 
 	public exe(message: Message): void {
 		if (this.client.test && !this.client.admins.has(message.author.id)) return;
-		const prefix = this.client.prefix;
-		const msg = message.content;
+		const prefix: string = this.client.prefix;
+		const msg: string = message.content;
 		if (message.author.bot) return;
 		if (!msg.toLowerCase().startsWith(prefix)) return;
-		const args = msg.trim().slice(prefix.length).split(" ");
-		const command = args.shift().toLowerCase();
+		const args: string[] = msg.trim().slice(prefix.length).split(" ");
+		const command: string = args.shift().toLowerCase();
 		if (this.client.aliases.has(command)) {
 			this.client.commands.get(this.client.aliases.get(command)).exe(message, args);
 			return;

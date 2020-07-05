@@ -6,6 +6,7 @@ import * as log from "./Log";
 import { BotProfile, BotProfileField } from "../typedefs/BotProfile";
 import { GuildWelcome, GuildWelcomeField } from "../typedefs/GuildWelcome";
 import { GuildByeField, GuildBye } from "../typedefs/GuildBye";
+import { Model } from "sequelize";
 require("dotenv").config();
 export default class DB extends Sq.Sequelize {
 	private client: OCBot;
@@ -157,7 +158,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getProfile(user: User): Promise<BotProfile> {
-		var profile = await this.models.profiles.findOne({ where: { user: user.id } });
+		var profile: Model = await this.models.profiles.findOne({ where: { user: user.id } });
 		if (profile === null) {
 			return this.createProfile(user);
 		}
@@ -201,7 +202,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getCommandUses(name: string): Promise<number> {
-		const command: any = await this.models.commandUses.findOne({ where: { name: name } });
+		const command: Model = await this.models.commandUses.findOne({ where: { name: name } });
 		if (command === null) {
 			this.models.commandUses.create({
 				name: name,
@@ -209,12 +210,12 @@ export default class DB extends Sq.Sequelize {
 			});
 			return 0;
 		}
-		return command.toJSON().count;
+		return (command.toJSON() as { name: string, count: number }).count;
 	}
 
 	async incrementCommand(name: string): Promise<number> {
-		const old = await this.getCommandUses(name);
-		const count = await this.setCommandUses(name, old + 1);
+		const old: number = await this.getCommandUses(name);
+		const count: number = await this.setCommandUses(name, old + 1);
 		return count;
 	}
 
@@ -235,7 +236,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getWelcome(guild: Guild): Promise<GuildWelcome> {
-		const welcome = await this.models.welcomes.findOne({ where: { guild: guild.id } });
+		const welcome: Model = await this.models.welcomes.findOne({ where: { guild: guild.id } });
 		if (welcome === null) {
 			return this.createWelcome(guild);
 		}
@@ -281,7 +282,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getBye(guild: Guild): Promise<GuildBye> {
-		const bye = await this.models.byes.findOne({ where: { guild: guild.id } });
+		const bye: Model = await this.models.byes.findOne({ where: { guild: guild.id } });
 		if (bye === null) {
 			return this.createBye(guild);
 		}

@@ -19,7 +19,7 @@ export = class extends Command {
 			]
 		});
 		this.funcs.set("replaceVariables", function (obj: Object, user: User, guild: Guild, embed: boolean): Object {
-			var str = JSON.stringify(obj);
+			var str: string = JSON.stringify(obj);
 			str = str.replace("{SERVER_NAME}", guild.name);
 			str = str.replace("{USER_NAME}", user.tag);
 			str = str.replace("{USER_MENTION}", user.toString());
@@ -31,14 +31,14 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			var arg0 = "";
+			var arg0: string = "";
 			if (args[0]) arg0 = args[0].toLowerCase();
 			if (arg0 === "enable" || arg0 === "disable") {
 				if ((await this.client.db.getBye(message.guild)).channel === null) {
 					message.channel.send(`❌ Please specify a bye channel with \`${this.client.prefix}${this.name} channel\``);
 					return;
 				}
-				const enabled = arg0 === "enable";
+				const enabled: boolean = arg0 === "enable";
 				await this.client.db.setBye(message.guild, "enabled", enabled);
 				message.channel.send(`✅ ${enabled ? "Enabled" : "Disabled"} bye on this server.`);
 				return;
@@ -52,7 +52,7 @@ export = class extends Command {
 			if (arg0 === "embed") {
 				var obj: Object;
 				args.shift();
-				const arg = args.join(" ");
+				const arg: string = args.join(" ");
 				try {
 					obj = JSON.parse(arg);
 				} catch (e) {
@@ -60,7 +60,7 @@ export = class extends Command {
 					message.reply(`❌ JSON parsing error : \`${e.message}\``);
 					return;
 				}
-				const embed = new MessageEmbed(this.funcs.get("replaceVariables")(obj, message.author, message.guild, true));
+				const embed: MessageEmbed = new MessageEmbed(this.funcs.get("replaceVariables")(obj, message.author, message.guild, true));
 				try {
 					await message.channel.send("✅ Set the bye embed to :", embed);
 					if (!(await this.client.db.getBye(message.guild)).enabled) {
@@ -77,8 +77,8 @@ export = class extends Command {
 
 			if (arg0 === "message") {
 				args.shift();
-				const arg = args.join(" ");
-				const msg = this.funcs.get("replaceVariables")({ message: arg }, message.author, message.guild, false);
+				const arg: string = args.join(" ");
+				const msg: Object = this.funcs.get("replaceVariables")({ message: arg }, message.author, message.guild, false);
 				await this.client.db.setBye(message.guild, "value", msg);
 				await this.client.db.setBye(message.guild, "type", "text");
 				await message.channel.send(`✅ Set the bye message to :\n${msg.message}`);
@@ -89,7 +89,7 @@ export = class extends Command {
 			}
 
 			if (arg0 === "channel") {
-				const channel = Args.parseChannel(args[1], message.guild) as TextChannel;
+				const channel: TextChannel = Args.parseChannel(args[1], message.guild) as TextChannel;
 				if (channel === null) {
 					message.channel.send("❌ Can't find channel.");
 					return;
@@ -118,7 +118,7 @@ export = class extends Command {
 					message.channel.send(`❌ Please specify a leave logs channel with \`${this.client.prefix}${this.name} logs <channel>\``);
 					return;
 				}
-				const enabled = args[1].toLowerCase() === "enable";
+				const enabled: boolean = args[1].toLowerCase() === "enable";
 				await this.client.db.setBye(message.guild, "logs", enabled);
 				message.channel.send(`✅ ${(enabled) ? "Enabled" : "Disabled"} leave logs on this server.`);
 				return;

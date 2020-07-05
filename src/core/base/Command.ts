@@ -31,7 +31,7 @@ export default abstract class Command {
 	public async check(message: Message, callback: Function): Promise<void> {
 		if (this.whitelist) {
 			if (!this.whitelist.includes(message.author)) {
-				const msg = await message.channel.send("You're not authorized to use this command.")
+				const msg: Message = await message.channel.send("You're not authorized to use this command.")
 				setTimeout(() => {
 					msg.delete();
 					if (message.deletable) message.delete();
@@ -40,8 +40,8 @@ export default abstract class Command {
 			}
 		}
 		if (this.cooldowned.has(message.author.id)) {
-			const duration = formatDuration(new Date(this.cooldowned.get(message.author.id)), new Date(), true);
-			const msg = await message.channel.send(`You're on cooldown for this command. Please wait another ${duration}.`);
+			const duration: string = formatDuration(new Date(this.cooldowned.get(message.author.id)), new Date(), true);
+			const msg: Message = await message.channel.send(`You're on cooldown for this command. Please wait another ${duration}.`);
 			setTimeout(() => {
 				msg.delete();
 				if (message.deletable) message.delete();

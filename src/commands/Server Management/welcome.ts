@@ -31,14 +31,14 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			var arg0 = "";
+			var arg0: string = "";
 			if (args[0]) arg0 = args[0].toLowerCase();
 			if (arg0 === "enable" || arg0 === "disable") {
 				if ((await this.client.db.getWelcome(message.guild)).channel === null) {
 					message.channel.send(`❌ Please specify a welcome channel with \`${this.client.prefix}${this.name} channel\``);
 					return;
 				}
-				const enabled = arg0 === "enable";
+				const enabled: boolean = arg0 === "enable";
 				await this.client.db.setWelcome(message.guild, "enabled", enabled);
 				message.channel.send(`✅ ${enabled ? "Enabled" : "Disabled"} welcome on this server.`);
 				return;
@@ -77,8 +77,8 @@ export = class extends Command {
 
 			if (arg0 === "message") {
 				args.shift();
-				const arg = args.join(" ");
-				const msg = this.funcs.get("replaceVariables")({ message: arg }, message.author, message.guild, false);
+				const arg: string = args.join(" ");
+				const msg: Object = this.funcs.get("replaceVariables")({ message: arg }, message.author, message.guild, false);
 				await this.client.db.setWelcome(message.guild, "value", msg);
 				await this.client.db.setWelcome(message.guild, "type", "text");
 				await message.channel.send(`✅ Set the welcome message to :\n${msg.message}`);
@@ -89,7 +89,7 @@ export = class extends Command {
 			}
 
 			if (arg0 === "channel") {
-				const channel = Args.parseChannel(args[1], message.guild) as TextChannel;
+				const channel: TextChannel = Args.parseChannel(args[1], message.guild) as TextChannel;
 				if (channel === null) {
 					message.channel.send("❌ Can't find channel.");
 					return;
@@ -118,7 +118,7 @@ export = class extends Command {
 					message.channel.send(`❌ Please specify a join logs channel with \`${this.client.prefix}${this.name} logs <channel>\``);
 					return;
 				}
-				const enabled = args[1].toLowerCase() === "enable";
+				const enabled: boolean = args[1].toLowerCase() === "enable";
 				await this.client.db.setWelcome(message.guild, "logs", enabled);
 				message.channel.send(`✅ ${(enabled) ? "Enabled" : "Disabled"} join logs on this server.`);
 				return;

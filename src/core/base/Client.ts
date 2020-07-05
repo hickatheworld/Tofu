@@ -1,10 +1,11 @@
-import { Client, Snowflake, User, Collection } from "discord.js";
+import { Client, Snowflake, User, Collection, ClientEvents } from "discord.js";
 import BotOptions from "../typedefs/BotOptions";
 import { promises as fs, existsSync as exists } from "fs";
 import { join } from "path";
 import * as log from "../lib/Log";
 import Command from "./Command";
 import DB from "../lib/db";
+import { BotEvent } from "./BotEvent";
 
 export default class OCBot extends Client {
 	public admins: Collection<Snowflake, User>;
@@ -35,15 +36,15 @@ export default class OCBot extends Client {
 	}
 
 	public async loadModules() {
-		const dirs = (await fs.readdir(join(__dirname, "../../commands"), { withFileTypes: true }))
+		const dirs: string[] = (await fs.readdir(join(__dirname, "../../commands"), { withFileTypes: true }))
 			.filter(dirent => dirent.isDirectory())
 			.map(dirent => dirent.name);
-		var loaded = 0;
-		var failed = 0;
+		var loaded: number = 0;
+		var failed: number = 0;
 		for (const dir of dirs) {
 			try {
 				log.info(`Loading module ${log.text(dir)}`);
-				const files = (await fs.readdir(join(__dirname, "../../commands/", dir))).filter(file => file.endsWith(".js"));
+				const files: string[] = (await fs.readdir(join(__dirname, "../../commands/", dir))).filter(file => file.endsWith(".js"));
 				for (const file of files) {
 					try {
 						const f = require(join(__dirname, "../../commands/", dir, file));
@@ -74,14 +75,14 @@ export default class OCBot extends Client {
 	}
 
 	public async loadEvents() {
-		const files = (await fs.readdir(join(__dirname, "../../events"))).filter(file => file.endsWith(".js"));
-		var loaded = 0;
-		var failed = 0;
+		const files: string[] = (await fs.readdir(join(__dirname, "../../events"))).filter(file => file.endsWith(".js"));
+		var loaded: number = 0;
+		var failed: number = 0;
 		for (const file of files) {
 			try {
 				const f = require(join(__dirname, "../../events/", file));
-				const event = new f(this);
-				this[(event.once) ? "once" : "on"](event.name, (...args) => event.exe(...args));
+				const event: BotEvent = new f(this);
+				this[(event.once) ? "once" : "on"](event.name as keyof ClientEvents, (...args) => event.exe(...args));
 			} catch (e) {
 				log.error(`An error occured while loading event ${log.text(file.split(".")[0])}`);
 				log.error(e);
@@ -103,7 +104,7 @@ export default class OCBot extends Client {
 	public setAdmins() {
 		for (const id of this.adminIDs) {
 			if (this.users.cache.has(id)) {
-				const user = this.users.cache.get(id);
+				const user: User = this.users.cache.get(id);
 				this.admins.set(id, user);
 				log.info(`Set ${log.user(user)} as a bot admin.`);
 			}
@@ -112,7 +113,7 @@ export default class OCBot extends Client {
 
 	public setOwner() {
 		if (this.users.cache.has(this.ownerID)) {
-			const user = this.users.cache.get(this.ownerID);
+			const user: User = this.users.cache.get(this.ownerID);
 			this.owner = user;
 			log.info(`Set ${log.user(user)} as the bot owner.`);
 			if (!this.admins.has(user.id)) {
