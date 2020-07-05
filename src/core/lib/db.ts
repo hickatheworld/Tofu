@@ -5,6 +5,7 @@ import OCBot from "../base/Client";
 import * as log from "./Log";
 import { BotProfile, BotProfileField } from "../typedefs/BotProfile";
 import { GuildWelcome, GuildWelcomeField } from "../typedefs/GuildWelcome";
+import { GuildByeField, GuildBye } from "../typedefs/GuildBye";
 require("dotenv").config();
 export default class DB extends Sq.Sequelize {
 	private client: OCBot;
@@ -90,6 +91,39 @@ export default class DB extends Sq.Sequelize {
 			value: {
 				type: Sq.JSON,
 				defaultValue: { message: "Welcome to {SERVER_NAME}}, {USER_MENTION} !" },
+				allowNull: false,
+			},
+			logs: {
+				type: Sq.BOOLEAN,
+				defaultValue: false,
+				allowNull: false
+			},
+			logChannel: {
+				type: Sq.STRING
+			}
+		}).sync({ force: force });
+		this.define("byes", {
+			guild: {
+				type: Sq.STRING,
+				unique: true,
+				allowNull: false
+			},
+			enabled: {
+				type: Sq.BOOLEAN,
+				defaultValue: false,
+				allowNull: false,
+			},
+			channel: {
+				type: Sq.STRING
+			},
+			type: {
+				type: Sq.STRING,
+				defaultValue: "text",
+				allowNull: false
+			},
+			value: {
+				type: Sq.JSON,
+				defaultValue: { message: "Goodbye, {USER_NAME}." },
 				allowNull: false,
 			},
 			logs: {
@@ -228,6 +262,52 @@ export default class DB extends Sq.Sequelize {
 		else if (value instanceof TextChannel) log.info(`Set welcome ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
 		else log.info(`Set welcome ${log.text(key)} to ${log.text(value.toString())} for ${log.guild(guild)}`);
 		return welcome;
+	}
+
+	async createBye(guild: Guild): Promise<GuildBye> {
+		await this.models.byes.create({
+			guild: guild.id
+		});
+		log.info(`Created row in ${log.text("byes")} table for guild ${log.guild(guild)}`);
+		return {
+			channel: null,
+			enabled: false,
+			guild: guild,
+			logs: null,
+			logChannel: null,
+			type: "text",
+			value: null
+		};
+	}
+
+	async getBye(guild: Guild): Promise<GuildBye> {
+		const bye = await this.models.byes.findOne({ where: { guild: guild.id } });
+		if (bye === null) {
+			return this.createBye(guild);
+		}
+		const obj: any = bye.toJSON();
+		return {
+			channel: this.client.channels.cache.get(obj.channel) as TextChannel ?? null,
+			enabled: obj.enabled,
+			guild: this.client.guilds.cache.get(obj.guild),
+			logs: obj.logs,
+			logChannel: this.client.channels.cache.get(obj.logChannel) as TextChannel ?? null,
+			type: obj.type,
+			value: obj.value
+		}
+	}
+
+	async setBye(guild: Guild, key: GuildByeField, value: any): Promise<GuildBye> {
+		const bye: any = await this.getBye(guild);
+		bye[key] = value;
+		const obj: any = {};
+		if (key === "channel" || key === "logChannel") obj[key] = value.id;
+		else obj[key] = value;
+		await this.models.byes.update(obj, { where: { guild: guild.id } });
+		if (typeof value === "boolean") log.info(`Set bye ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
+		else if (value instanceof TextChannel) log.info(`Set bye ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
+		else log.info(`Set bye ${log.text(key)} to ${log.text(value.toString())} for ${log.guild(guild)}`);
+		return bye;
 	}
 
 }
