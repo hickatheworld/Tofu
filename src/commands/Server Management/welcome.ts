@@ -31,7 +31,8 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			const arg0 = args[0].toLowerCase();
+			var arg0 = "";
+			if (args[0]) arg0 = args[0].toLowerCase();
 			if (arg0 === "enable" || arg0 === "disable") {
 				if ((await this.client.db.getWelcome(message.guild)).channel === null) {
 					message.channel.send(`❌ Please specify a welcome channel with \`${this.client.prefix}${this.name} channel\``);
