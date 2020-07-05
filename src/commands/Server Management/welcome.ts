@@ -105,7 +105,7 @@ export = class extends Command {
 					await this.client.db.setWelcome(message.guild, "logChannel", channel);
 					await message.channel.send(`✅ Set join logs channel to ${channel.toString()}`);
 					if (!(await this.client.db.getWelcome(message.guild)).logs) {
-						await message.channel.send(`**Joins log is disabled.** Do \`${this.client.prefix}${this.name} logs enable\` to enable it.`);
+						await message.channel.send(`**Join logs are disabled.** Do \`${this.client.prefix}${this.name} logs enable\` to enable it.`);
 					}
 					return;
 				}

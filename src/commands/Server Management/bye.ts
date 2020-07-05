@@ -105,7 +105,7 @@ export = class extends Command {
 					await this.client.db.setBye(message.guild, "logChannel", channel);
 					await message.channel.send(`✅ Set leaves logs channel to ${channel.toString()}`);
 					if (!(await this.client.db.getBye(message.guild)).logs) {
-						await message.channel.send(`**Leaves log is disabled.** Do \`${this.client.prefix}${this.name} logs enable\` to enable it.`);
+						await message.channel.send(`**Leave logs are disabled.** Do \`${this.client.prefix}${this.name} logs enable\` to enable it.`);
 					}
 					return;
 				}
