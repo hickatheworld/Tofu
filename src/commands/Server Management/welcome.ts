@@ -17,7 +17,8 @@ export = class extends Command {
 				"channel <channel: Channel>",
 				"logs enable/disable",
 				"logs <channel: Channel>",
-			]
+			],
+			whitelist: client.admins
 		});
 	}
 
