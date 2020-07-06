@@ -162,6 +162,7 @@ export = class extends Command {
 				log.info(`${log.user(message.author)} cancelled [${log.number(ga.id)}] ${log.text(ga.name)} giveaway.`);
 				message.channel.send(`✅ Cancelled giveaway \`[${ga.id}]\` **${ga.name}**`);
 			}
+			message.channel.send(`❌ Invalid argument. Do \`${this.client.prefix}help ${this.name}\` for more informations.`);
 		});
 	}
 }
