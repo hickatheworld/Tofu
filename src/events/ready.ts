@@ -8,9 +8,7 @@ export = class extends BotEvent {
 		super(client, "ready", true);
 	}
 
-	public exe() {
-		this.client.setOwner();
-		this.client.setAdmins();
+	public async exe() {
 		this.client.db.init(false);
 		log.info(`Bot ready and connected as ${log.user(this.client.user)}`);
 		if (this.client.test) {

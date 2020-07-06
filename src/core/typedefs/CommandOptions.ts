@@ -1,4 +1,4 @@
-import { User } from "discord.js";
+import { Snowflake } from "discord.js";
 
 export default interface CommandOptions {
 	aliases?: string[],
@@ -7,5 +7,5 @@ export default interface CommandOptions {
 	module: string,
 	name: string,
 	usages?: string[],
-	whitelist?: User[]
+	whitelist?: Snowflake[]
 }

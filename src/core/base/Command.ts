@@ -13,7 +13,7 @@ export default abstract class Command {
 	public name: string;
 	public props: Map<string, any>;
 	public usages?: string[];
-	public whitelist?: User[];
+	public whitelist?: Snowflake[];
 	constructor(client: OCBot, options: CommandOptions) {
 		this.aliases = options.aliases ?? [];
 		this.client = client;
@@ -29,7 +29,7 @@ export default abstract class Command {
 	public abstract exe(message: Message, args: string[]): Promise<void>;
 	public async check(message: Message, callback: Function): Promise<void> {
 		if (this.whitelist) {
-			if (!this.whitelist.includes(message.author)) {
+			if (!this.whitelist.includes(message.author.id)) {
 				const msg: Message = await message.channel.send("You're not authorized to use this command.")
 				setTimeout(() => {
 					msg.delete();

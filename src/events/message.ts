@@ -8,7 +8,7 @@ export = class extends BotEvent {
 	}
 
 	public exe(message: Message): void {
-		if (this.client.test && !this.client.admins.has(message.author.id)) return;
+		if (this.client.test && !this.client.admins.includes(message.author.id)) return;
 		const prefix: string = this.client.prefix;
 		const msg: string = message.content;
 		if (message.author.bot) return;

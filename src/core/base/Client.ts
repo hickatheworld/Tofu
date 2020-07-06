@@ -8,12 +8,10 @@ import DB from "../lib/db";
 import { BotEvent } from "./BotEvent";
 
 export default class OCBot extends Client {
-	public admins: Collection<Snowflake, User>;
-	private adminIDs: Snowflake[];
+	public admins: Snowflake[];
 	public description: string;
 	public name: string;
-	public owner: User;
-	private ownerID: Snowflake
+	public owner: Snowflake
 	public prefix: string;
 	public readonly test: boolean;
 	public commands: Collection<string, Command>;
@@ -22,11 +20,10 @@ export default class OCBot extends Client {
 
 	constructor(options: BotOptions) {
 		super();
-		this.admins = new Collection<Snowflake, User>();
-		this.adminIDs = options.admins;
+		this.admins = options.admins;
 		this.description = options.description;
 		this.name = options.name;
-		this.ownerID = options.owner;
+		this.owner = options.owner;
 		this.prefix = options.prefix;
 		this.token = options.token;
 		this.test = options.test;
@@ -99,26 +96,5 @@ export default class OCBot extends Client {
 		await this.loadEvents();
 		await this.loadModules();
 		this.login(this.token);
-	}
-
-	public setAdmins() {
-		for (const id of this.adminIDs) {
-			if (this.users.cache.has(id)) {
-				const user: User = this.users.cache.get(id);
-				this.admins.set(id, user);
-				log.info(`Set ${log.user(user)} as a bot admin.`);
-			}
-		}
-	}
-
-	public setOwner() {
-		if (this.users.cache.has(this.ownerID)) {
-			const user: User = this.users.cache.get(this.ownerID);
-			this.owner = user;
-			log.info(`Set ${log.user(user)} as the bot owner.`);
-			if (!this.admins.has(user.id)) {
-				this.admins.set(user.id, user);
-			}
-		}
 	}
 }
