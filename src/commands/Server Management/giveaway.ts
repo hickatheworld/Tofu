@@ -18,7 +18,7 @@ export = class extends Command {
 				"list",
 				"cancel <ID: Number>",
 			],
-			"aliases": ["ga"],
+			aliases: ["ga"],
 			whitelist: client.admins
 		});
 	}
