@@ -191,6 +191,7 @@ export default class DB extends Sq.Sequelize {
 			cookies: 0,
 			desc: null,
 			rep: 0,
+			title: "<:dubuSaranghae:687377533074931782> Bot user",
 			uses: 0,
 			user: user
 		};
@@ -208,6 +209,7 @@ export default class DB extends Sq.Sequelize {
 			cookies: obj.cookies,
 			desc: obj.desc,
 			rep: obj.rep,
+			title: obj.title,
 			uses: obj.uses,
 			user: user
 		};
@@ -217,7 +219,7 @@ export default class DB extends Sq.Sequelize {
 		const profile: any = await this.getProfile(user);
 		profile[key] = value;
 		const obj: any = {};
-		if (key === "bestie") obj[key] = value.id;
+		if (key === "bestie") obj[key] = (value) ? value.id : null;
 		else obj[key] = value;
 		await this.models.profiles.update(obj, { where: { user: user.id } });
 

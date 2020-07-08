@@ -1,6 +1,6 @@
 import { User } from "discord.js";
 
-export type BotProfileField = "bestie" | "canRep" | "cookies" | "desc" | "rep" | "uses";
+export type BotProfileField = "bestie" | "canRep" | "cookies" | "desc" | "rep" | "title" | "uses";
 
 export interface BotProfile {
 	bestie?: User,
@@ -8,6 +8,7 @@ export interface BotProfile {
 	cookies: number,
 	desc?: string,
 	rep: number,
+	title: string,
 	uses: number,
 	user: User
 }
