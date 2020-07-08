@@ -49,8 +49,10 @@ export default abstract class Command {
 		}
 		this.client.db.incrementCommand(this.name);
 		this.client.db.incrementUser(message.author);
-		this.cooldowned.set(message.author.id, Date.now() + this.cooldown);
-		setTimeout(() => this.cooldowned.delete(message.author.id), this.cooldown);
+		if (!this.client.admins.includes(message.author.id)) {
+			this.cooldowned.set(message.author.id, Date.now() + this.cooldown);
+			setTimeout(() => this.cooldowned.delete(message.author.id), this.cooldown);
+		}
 		callback();
 	}
 
