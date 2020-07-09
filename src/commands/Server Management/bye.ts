@@ -71,7 +71,7 @@ export = class extends Command {
 			if (arg0 === "message") {
 				args.shift();
 				const arg: string = args.join(" ");
-				const msg: Object = replaceWelcomeVariables({ message: arg }, message.author, message.guild, false);
+				const msg: any = replaceWelcomeVariables({ message: arg }, message.author, message.guild, false);
 				await this.client.db.setBye(message.guild, "value", msg);
 				await this.client.db.setBye(message.guild, "type", "text");
 				await message.channel.send(`✅ Set the bye message to :\n${msg.message}`);
