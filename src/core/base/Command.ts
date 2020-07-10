@@ -26,7 +26,10 @@ export default abstract class Command {
 		this.usages = options.usages;
 		this.whitelist = options.whitelist;
 	}
-	public abstract exe(message: Message, args: string[]): Promise<void>;
+
+	public abstract async setup(): Promise<void>;
+	public abstract async exe(message: Message, args: string[]): Promise<void>;
+	
 	public async check(message: Message, callback: Function): Promise<void> {
 		if (this.whitelist) {
 			if (!this.whitelist.includes(message.author.id)) {

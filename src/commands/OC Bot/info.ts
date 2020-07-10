@@ -13,6 +13,8 @@ export = class extends Command {
 		});
 	}
 
+	public async setup(): Promise<void> {}
+
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
 			const commit: string = require("child_process").execSync("git rev-parse HEAD");

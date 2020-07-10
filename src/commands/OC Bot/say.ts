@@ -17,6 +17,9 @@ export = class extends Command {
 		});
 
 	}
+
+	public async setup(): Promise<void> {}
+
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
 			var content: string;
