@@ -1,4 +1,4 @@
-import { User, Guild, TextChannel, ReactionCollector, Message, MessageEmbed } from "discord.js";
+import { User, Guild, ReactionCollector, Message, MessageEmbed } from "discord.js";
 import Giveaway from "../typedefs/Giveaway";
 import DB from "./db";
 

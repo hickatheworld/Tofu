@@ -1,8 +1,6 @@
 import { Guild, MessageEmbedOptions, TextChannel } from "discord.js";
 
-export type GuildByeField = "channel" | "enabled" | "logs" | "logChannel" | "type" | "value";
-
-export interface GuildBye {
+export default interface GuildBye {
 	channel: TextChannel,
 	enabled: boolean,
 	guild: Guild,

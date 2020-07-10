@@ -1,4 +1,4 @@
-import { User, Snowflake, Collection } from "discord.js";
+import { Snowflake } from "discord.js";
 
 export default interface BotOptions {
 	admins: Snowflake[],

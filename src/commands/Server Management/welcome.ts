@@ -1,6 +1,6 @@
+import { Message, MessageEmbed, TextChannel } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
-import { Message, MessageEmbed, User, Guild, TextChannel } from "discord.js";
 import * as Args from "../../core/lib/Args";
 import { replaceWelcomeVariables } from "../../core/lib/utils";
 export = class extends Command {
@@ -26,25 +26,25 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			var arg0: string = "";
-			if (args[0]) arg0 = args[0].toLowerCase();
-			if (arg0 === "enable" || arg0 === "disable") {
+			var subcommand: string = "";
+			if (args[0]) subcommand = args[0].toLowerCase();
+			if (subcommand === "enable" || subcommand === "disable") {
 				if ((await this.client.db.getWelcome(message.guild)).channel === null) {
 					message.channel.send(`❌ Please specify a welcome channel with \`${this.client.prefix}${this.name} channel\``);
 					return;
 				}
-				const enabled: boolean = arg0 === "enable";
+				const enabled: boolean = subcommand === "enable";
 				await this.client.db.setWelcome(message.guild, "enabled", enabled);
 				message.channel.send(`✅ ${enabled ? "Enabled" : "Disabled"} welcome on this server.`);
 				return;
 			}
 
-			if (arg0 === "variables" || arg0 === "vars") {
+			if (subcommand === "variables" || subcommand === "vars") {
 				message.channel.send("You can use following variables in your welcome message : `{SERVER_NAME}`, `{USER_NAME}`, `{USER_MENTION}`\n**Embed only :** `{SERVER_ICON}`, `{USER_AVATAR}`");
 				return;
 			}
 
-			if (arg0 === "embed") {
+			if (subcommand === "embed") {
 				var obj: Object;
 				args.shift();
 				const arg = args.join(" ");
@@ -70,7 +70,7 @@ export = class extends Command {
 				return;
 			}
 
-			if (arg0 === "message") {
+			if (subcommand === "message") {
 				args.shift();
 				const arg: string = args.join(" ");
 				const msg: any = replaceWelcomeVariables({ message: arg }, message.author, message.guild, false);
@@ -83,7 +83,7 @@ export = class extends Command {
 				return;
 			}
 
-			if (arg0 === "channel") {
+			if (subcommand === "channel") {
 				const channel: TextChannel = Args.parseChannel(args[1], message.guild) as TextChannel;
 				if (channel === null) {
 					message.channel.send("❌ Can't find channel.");
@@ -94,7 +94,7 @@ export = class extends Command {
 				return;
 			}
 
-			if (arg0 === "logs") {
+			if (subcommand === "logs") {
 				var channel: TextChannel;
 				if ((channel = Args.parseChannel(args[1], message.guild) as TextChannel) !== null) {
 					await this.client.db.setWelcome(message.guild, "logChannel", channel);

@@ -1,5 +1,5 @@
+import { Message, Snowflake, Collection } from "discord.js";
 import OCBot from "./Client";
-import { Message, Snowflake, Collection, User } from "discord.js";
 import { formatDuration } from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
 

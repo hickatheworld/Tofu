@@ -1,6 +1,6 @@
-import { BotEvent } from "../core/base/BotEvent";
-import OCBot from "../core/base/Client";
 import { Message } from "discord.js";
+import BotEvent from "../core/base/BotEvent";
+import OCBot from "../core/base/Client";
 
 export = class extends BotEvent {
 	constructor(client: OCBot) {

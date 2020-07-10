@@ -1,6 +1,6 @@
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
-import { BotProfile } from "../../core/typedefs/BotProfile";
+import BotProfile from "../../core/typedefs/BotProfile";
 import { Message } from "discord.js";
 
 export = class extends Command {

@@ -1,9 +1,9 @@
 import OCBot from "../core/base/Client";
+import BotEvent from "../core/base/BotEvent";
 import * as log from "../core/lib/Log";
-import { BotEvent } from "../core/base/BotEvent";
 import { GuildMember, MessageEmbed } from "discord.js";
 import { formatDuration } from "../core/lib/Time";
-import { GuildBye } from "../core/typedefs/GuildBye";
+import GuildBye from "../core/typedefs/GuildBye";
 import { replaceWelcomeVariables } from "../core/lib/utils";
 
 export = class extends BotEvent {
@@ -16,10 +16,10 @@ export = class extends BotEvent {
 		const bye: GuildBye = await this.client.db.getBye(member.guild);
 		if (bye.enabled) {
 			if (bye.type === "embed") {
-				const embed: object = replaceWelcomeVariables(bye.value, member.user, member.guild, true);
+				const embed: object = replaceWelcomeVariables(bye.value as Object, member.user, member.guild, true);
 				bye.channel.send(new MessageEmbed(embed));
 			} else {
-				const msg: string = replaceWelcomeVariables(bye.value, member.user, member.guild, false).message;
+				const msg: string = replaceWelcomeVariables(bye.value as Object, member.user, member.guild, false).message;
 				bye.channel.send(msg);
 			}
 		}

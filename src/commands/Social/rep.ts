@@ -1,8 +1,8 @@
+import { Message, User } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
-import { Message, User } from "discord.js";
 import { parseUser } from "../../core/lib/Args";
-import { BotProfile } from "../../core/typedefs/BotProfile";
+import BotProfile from "../../core/typedefs/BotProfile";
 import { formatDuration } from "../../core/lib/Time";
 
 export = class extends Command {

@@ -1,8 +1,6 @@
 import { User } from "discord.js";
 
-export type BotProfileField = "bestie" | "canRep" | "cookies" | "desc" | "rep" | "title" | "uses";
-
-export interface BotProfile {
+export default interface BotProfile {
 	bestie?: User,
 	canRep: boolean,
 	cookies: number,

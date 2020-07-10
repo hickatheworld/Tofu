@@ -1,6 +1,6 @@
+import { Message, TextChannel, MessageEmbed, MessageCollector } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
-import { Message, TextChannel, MessageEmbed, MessageCollector } from "discord.js";
 import * as Args from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
 import Giveaway from "../../core/typedefs/Giveaway";
@@ -27,9 +27,9 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			var arg0: string = "";
-			if (args[0]) arg0 = args[0].toLowerCase();
-			if (arg0 === "create") {
+			var subcommand: string = "";
+			if (args[0]) subcommand = args[0].toLowerCase();
+			if (subcommand === "create") {
 				const gaChannel: TextChannel = (Args.parseChannel(args[1], message.guild) || message.channel) as TextChannel;
 				const creationEmbed: MessageEmbed = new MessageEmbed()
 					.setAuthor(message.guild.name, message.guild.iconURL({ dynamic: true }))
@@ -113,7 +113,7 @@ export = class extends Command {
 						const gaEmbed: MessageEmbed = new MessageEmbed()
 							.setAuthor(message.guild.name, message.guild.iconURL({ dynamic: true }))
 							.setTitle(`Giveaway - ${ga.name}`)
-							.setDescription("React with on this message with <a:ultraDahyun:704993375748620338> to join giveaway")
+							.setDescription("React on this message with <a:ultraDahyun:704993375748620338> to join giveaway")
 							.setColor("E73863")
 							.addField("Winners", ga.winnersCount, true)
 							.addField("End", `${formatDate(ga.end)} ${formatTime(ga.end, false, false)} KST`, true)
@@ -135,18 +135,20 @@ export = class extends Command {
 					await creationMessage.delete();
 					message.channel.send("❌ You've been idle for too long. Giveaway creation cancelled.");
 				});
+				return;
 			}
 
-			if (arg0 === "list") {
+			if (subcommand === "list") {
 				const giveaways: Giveaway[] = await this.client.db.getAllGiveaways(false);
 				if (giveaways.length < 1) {
 					message.channel.send("🤷‍♂️ There are no giveaways going on...");
 					return
 				}
 				message.channel.send(`__Ongoing giveaways :__\n${giveaways.map(ga => `\`[${ga.id}]\` **${ga.name}** | Ends at : \`${formatDate(ga.end, "-")} ${formatTime(ga.end, false, false)} KST\` | Hosted by : **${ga.host.tag}**`).join("\n")}`);
+				return;
 			}
 
-			if (arg0 === "cancel") {
+			if (subcommand === "cancel") {
 				if (!args[1]) {
 					message.channel.send("❌ Please specify an id.");
 					return;
@@ -163,6 +165,7 @@ export = class extends Command {
 				}
 				log.info(`${log.user(message.author)} cancelled [${log.number(ga.id)}] ${log.text(ga.name)} giveaway.`);
 				message.channel.send(`✅ Cancelled giveaway \`[${ga.id}]\` **${ga.name}**`);
+				return;
 			}
 			message.channel.send(`❌ Invalid argument. Do \`${this.client.prefix}help ${this.name}\` for more informations.`);
 		});

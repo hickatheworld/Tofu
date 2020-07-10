@@ -1,6 +1,6 @@
 import OCBot from "./Client";
 
-export abstract class BotEvent {
+export default abstract class BotEvent {
 	protected client: OCBot;
 	public name: string;
 	public once: boolean;

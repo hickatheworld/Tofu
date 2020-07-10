@@ -1,11 +1,10 @@
-import "sequelize";
 import * as Sq from "sequelize";
 import { User, Guild, TextChannel, Message } from "discord.js";
 import OCBot from "../base/Client";
 import * as log from "./Log";
-import { BotProfile, BotProfileField } from "../typedefs/BotProfile";
-import { GuildWelcome, GuildWelcomeField } from "../typedefs/GuildWelcome";
-import { GuildByeField, GuildBye } from "../typedefs/GuildBye";
+import BotProfile from "../typedefs/BotProfile";
+import GuildWelcome from "../typedefs/GuildWelcome";
+import GuildBye  from "../typedefs/GuildBye";
 import { Model } from "sequelize";
 import Giveaway from "../typedefs/Giveaway";
 require("dotenv").config();
@@ -215,7 +214,7 @@ export default class DB extends Sq.Sequelize {
 		};
 	}
 
-	async setUser(user: User, key: BotProfileField, value: any): Promise<BotProfile> {
+	async setUser(user: User, key: keyof BotProfile, value: any): Promise<BotProfile> {
 		const profile: any = await this.getProfile(user);
 		profile[key] = value;
 		const obj: any = {};
@@ -293,7 +292,7 @@ export default class DB extends Sq.Sequelize {
 		}
 	}
 
-	async setWelcome(guild: Guild, key: GuildWelcomeField, value: any): Promise<GuildWelcome> {
+	async setWelcome(guild: Guild, key: keyof GuildWelcome, value: any): Promise<GuildWelcome> {
 		const welcome: any = await this.getWelcome(guild);
 		welcome[key] = value;
 		const obj: any = {};
@@ -339,7 +338,7 @@ export default class DB extends Sq.Sequelize {
 		}
 	}
 
-	async setBye(guild: Guild, key: GuildByeField, value: any): Promise<GuildBye> {
+	async setBye(guild: Guild, key: keyof GuildBye, value: any): Promise<GuildBye> {
 		const bye: any = await this.getBye(guild);
 		bye[key] = value;
 		const obj: any = {};
@@ -446,7 +445,7 @@ export default class DB extends Sq.Sequelize {
 		const ga: any = await this.models.giveaways.findOne({ where: { id: id } });
 		if (ga === null) return null;
 		const dbEntry: Object = {
-			finished: true,
+			finished: true.toString(),
 			winners: winners.map(u => u.id).join(",")
 		};
 		await this.models.giveaways.update(dbEntry, { where: { id: id } });

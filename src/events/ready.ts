@@ -1,10 +1,10 @@
+import * as cron from "node-cron";
+import { yellow } from "chalk";
+import BotEvent from "../core/base/BotEvent";
 import OCBot from "../core/base/Client";
 import * as log from "../core/lib/Log";
-import { yellow } from "chalk";
-import { BotEvent } from "../core/base/BotEvent";
 import Giveaway from "../core/typedefs/Giveaway";
 import { collectGiveaway } from "../core/lib/utils";
-import * as cron from "node-cron";
 export = class extends BotEvent {
 	constructor(client: OCBot) {
 		super(client, "ready", true);

@@ -1,11 +1,11 @@
+import { MessageEmbed, Message, GuildMember, User } from "discord.js";
+import { existsSync as exists } from "fs";
+import { join } from "path";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { formatDuration } from "../../core/lib/Time";
 import { parseUser } from "../../core/lib/Args";
-import { BotProfile } from "../../core/typedefs/BotProfile";
-import { MessageEmbed, Message, GuildMember, User } from "discord.js";
-import { existsSync as exists } from "fs";
-import { join } from "path";
+import BotProfile from "../../core/typedefs/BotProfile";
 
 export = class extends Command {
 	constructor(client: OCBot) {
