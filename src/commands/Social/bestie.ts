@@ -2,6 +2,7 @@ import { Message, User, ReactionCollector } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
+import BotProfile from "../../core/typedefs/BotProfile";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -23,6 +24,16 @@ export = class extends Command {
 			const proposed: User = parseUser(args[0], this.client);
 			if (!proposed || !message.guild.members.cache.has(proposed.id)) {
 				message.channel.send("❌ Please a correct server member to bestie.");
+				return;
+			}
+			const proposingProfile: BotProfile = await this.client.db.getProfile(proposing);
+			const proposedProfile: BotProfile = await this.client.db.getProfile(proposed);
+			if (proposingProfile.bestie) {
+				message.channel.send("❌ You already have bestie, stay loyal.");
+				return;
+			}
+			if (proposedProfile.bestie) {
+				message.channel.send("❌ This person already has a bestie.");
 				return;
 			}
 			if (proposed.bot) {
