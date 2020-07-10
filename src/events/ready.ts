@@ -27,5 +27,10 @@ export = class extends BotEvent {
 		if (this.client.test) {
 			console.log(yellow("/!\\ Bot in test mode. All non-admin messages will be ignored /!\\"));
 		}
+
+		cron.schedule("* * 0 * * *", () => {
+			this.client.db.models.profiles.update({ canRep: true }, { where: { canRep: false } });
+			log.info("Reset canRep property for all users.");
+		});
 	}
 }
