@@ -3,3 +3,5 @@ build
 logs
 db.sqlite
 .env
+assets/img/banners
+temp
