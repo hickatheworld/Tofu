@@ -50,7 +50,6 @@ export = class extends Command {
 			await proposition.react("❎");
 			const collector: ReactionCollector = new ReactionCollector(proposition, _ => true, { time: 120000 });
 			collector.on("collect", (reaction, user) => {
-				console.log(reaction);
 				if (reaction.emoji.name !== "✅" && reaction.emoji.name !== "❎") {
 					reaction.remove();
 					return;
