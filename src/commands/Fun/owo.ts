@@ -1,6 +1,6 @@
+import { Message } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
-import { Message } from "discord.js";
 
 const EYES: string[] = ["OO","oo","ÒÓ","òó","QQ","qq","ÈÉ","èé","ÙÚ","ùú","--","••","¬¬",";;"];
 const MOUTHS: string[] = ["w","W","u","_","__",".","-"];

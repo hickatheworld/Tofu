@@ -2,6 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
+
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {

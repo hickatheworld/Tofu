@@ -1,8 +1,9 @@
-import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import { Message } from "discord.js";
 import { promises as fs } from "fs";
 import { join } from "path";
-import { Message } from "discord.js";
+import Command from "../../core/base/Command";
+import OCBot from "../../core/base/Client";
+
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
