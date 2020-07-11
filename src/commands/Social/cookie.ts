@@ -2,6 +2,7 @@ import { Message, User } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
+import * as log from "../../core/lib/Log";
 
 
 export = class extends Command {
@@ -44,6 +45,7 @@ export = class extends Command {
 			await this.client.db.setUser(cookied, "cookies", cookies);
 			const reason: string = args.join(" ").trim();
 			message.channel.send(`🍪 ${message.author.toString()}, I gave a cookie to ${cookied.toString()}! 🍪\n${(reason) && `**Reason** : ${reason}`}`);
+			log.info(`${log.user(giver)} gave a cookie to ${log.user(cookied)} ${(reason) && `with reason : ${log.text(reason)}`}`);
 		});
 	}
 }

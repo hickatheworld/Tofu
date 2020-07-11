@@ -3,6 +3,7 @@ import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
+import * as log from "../../core/lib/Log";
 
 export = class extends Command {
 	constructor(client: OCBot) {
