@@ -22,15 +22,14 @@ export = class extends BotEvent {
 			if (cmd.setup)
 				cmd.setup();
 		});
-
+		cron.schedule("0 0 0 * * *", () => {
+			this.client.db.models.profiles.update({ canRep: true }, { where: { canRep: false } });
+			log.info("Reset canRep property for all users.");
+		});
+		
 		log.info(`Bot ready and connected as ${log.user(this.client.user)}`);
 		if (this.client.test) {
 			console.log(yellow("/!\\ Bot in test mode. All non-admin messages will be ignored /!\\"));
 		}
-
-		cron.schedule("* * 0 * * *", () => {
-			this.client.db.models.profiles.update({ canRep: true }, { where: { canRep: false } });
-			log.info("Reset canRep property for all users.");
-		});
 	}
 }
