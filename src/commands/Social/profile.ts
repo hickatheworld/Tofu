@@ -11,7 +11,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "profile",
-			desc: "Displays an user's profile",
+			desc: "Displays or edits an user's profile",
 			module: "Social",
 			cooldown: 10000,
 			usages: [
