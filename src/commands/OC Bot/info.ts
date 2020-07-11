@@ -8,7 +8,6 @@ export = class extends Command {
 			name: "info",
 			desc: "Gives informations about OC Bot",
 			module: "OC Bot",
-			aliases: ["ga"],
 			whitelist: client.admins
 		});
 	}
