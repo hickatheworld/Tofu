@@ -7,7 +7,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "dog",
-			desc: "Gets you a lovely dog picture. Powered by TheDogAPI.com",
+			desc: "Gets you a lovely dog picture. Powered by [TheDogAPI](https://thedogapi.com)",
 			module: "Fun"
 		});
 	}
