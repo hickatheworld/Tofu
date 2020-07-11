@@ -16,6 +16,7 @@ export default class OCBot extends Client {
 	public readonly test: boolean;
 	public commands: Collection<string, Command>;
 	public aliases: Collection<string, string>;
+	public modules: Collection<string, string[]>;
 	public db: DB;
 
 	constructor(options: BotOptions) {
@@ -30,6 +31,7 @@ export default class OCBot extends Client {
 		this.db = new DB(this);
 		this.commands = new Collection<string, Command>();
 		this.aliases = new Collection<string, string>();
+		this.modules = new Collection<string, string[]>();
 	}
 
 	public async loadModules() {
@@ -41,6 +43,7 @@ export default class OCBot extends Client {
 		for (const dir of dirs) {
 			try {
 				log.info(`Loading module ${log.text(dir)}`);
+				this.modules.set(dir, []);
 				const files: string[] = (await fs.readdir(join(__dirname, "../../commands/", dir))).filter(file => file.endsWith(".js"));
 				for (const file of files) {
 					try {
@@ -57,6 +60,7 @@ export default class OCBot extends Client {
 						continue;
 					}
 					log.info(`Loaded command ${log.text(file.split(".")[0])} from module ${log.text(dir)}`);
+					this.modules.get(dir).push(file.split(".")[0]);
 					loaded++;
 				}
 			} catch (e) {
