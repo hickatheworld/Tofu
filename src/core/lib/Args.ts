@@ -16,7 +16,7 @@ function parseID(str: string, regex: RegExp): Snowflake | null {
 export function parseChannel(str: string, guild: Guild): GuildChannel | null {
 	if (parseID(str, channelMention) === null) return null;
 	const id: Snowflake = parseID(str, channelMention);
-	if (!guild.channels.cache.has(id)) return null;
+	if (!guild.channels.cache.has(id) || guild.channels.cache.get(id).type !== "text") return null;
 	return guild.channels.cache.get(id);
 }
 
