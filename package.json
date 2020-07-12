@@ -4,11 +4,13 @@
 	"description": "Once Community's Discord Bot",
 	"main": "build/app.js",
 	"scripts": {
-		"win-compile": "rmdir /S /Q build && tsc",
-		"linux-compile": "rm -f build && tsc",
+		"compile": "run-script-os",
+		"compile:windows": "rmdir /S /Q build && tsc",
+		"compile:nix": "rm -f build && tsc",
 		"serve": "node build/app.js",
-		"win-start": "npm run win-compile && npm run serve",
-		"linux-start": "npm run linux-comile && npm run serve"
+		"start": "run-script-os",
+		"start:windows": "npm run compile && npm run serve",
+		"start:nix": "npm run compile && npm run serve"
 	},
 	"author": "Hicka",
 	"license": "MIT",
@@ -22,6 +24,7 @@
 		"dotenv": "^8.2.0",
 		"node-cron": "^2.0.3",
 		"node-fetch": "^2.6.0",
+		"run-script-os": "^1.1.1",
 		"sequelize": "^6.3.0",
 		"sqlite3": "^4.2.0",
 		"strip-ansi": "^6.0.0",
