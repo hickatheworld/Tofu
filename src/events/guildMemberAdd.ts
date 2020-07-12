@@ -8,7 +8,7 @@ import { replaceWelcomeVariables } from "../core/lib/utils";
 
 export = class extends BotEvent {
 	constructor(client: OCBot) {
-		super(client, "guildMemberAdd", true);
+		super(client, "guildMemberAdd", false);
 	}
 
 	public async exe(member: GuildMember) {
