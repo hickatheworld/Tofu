@@ -6,7 +6,7 @@
 	"scripts": {
 		"compile": "rmdir /S /Q build && tsc",
 		"serve": "node build/app.js",
-		"start": "npm run compile && npm serve"
+		"start": "npm run compile && npm run serve"
 	},
 	"author": "Hicka",
 	"license": "MIT",
