@@ -5,7 +5,6 @@ import * as log from "./Log";
 import BotProfile from "../typedefs/BotProfile";
 import GuildWelcome from "../typedefs/GuildWelcome";
 import GuildBye  from "../typedefs/GuildBye";
-import { Model } from "sequelize";
 import Giveaway from "../typedefs/Giveaway";
 require("dotenv").config();
 export default class DB extends Sq.Sequelize {
@@ -197,7 +196,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getProfile(user: User): Promise<BotProfile> {
-		var profile: Model = await this.models.profiles.findOne({ where: { user: user.id } });
+		var profile: Sq.Model = await this.models.profiles.findOne({ where: { user: user.id } });
 		if (profile === null) {
 			return this.createProfile(user);
 		}
@@ -242,7 +241,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getCommandUses(name: string): Promise<number> {
-		const command: Model = await this.models.commandUses.findOne({ where: { name: name } });
+		const command: Sq.Model = await this.models.commandUses.findOne({ where: { name: name } });
 		if (command === null) {
 			this.models.commandUses.create({
 				name: name,
@@ -276,7 +275,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getWelcome(guild: Guild): Promise<GuildWelcome> {
-		const welcome: Model = await this.models.welcomes.findOne({ where: { guild: guild.id } });
+		const welcome: Sq.Model = await this.models.welcomes.findOne({ where: { guild: guild.id } });
 		if (welcome === null) {
 			return this.createWelcome(guild);
 		}
@@ -322,7 +321,7 @@ export default class DB extends Sq.Sequelize {
 	}
 
 	async getBye(guild: Guild): Promise<GuildBye> {
-		const bye: Model = await this.models.byes.findOne({ where: { guild: guild.id } });
+		const bye: Sq.Model = await this.models.byes.findOne({ where: { guild: guild.id } });
 		if (bye === null) {
 			return this.createBye(guild);
 		}
