@@ -8,7 +8,7 @@ import { replaceWelcomeVariables } from "../core/lib/utils";
 
 export = class extends BotEvent {
 	constructor(client: OCBot) {
-		super(client, "guildMemberAdd", true);
+		super(client, "guildMemberAdd", false);
 	}
 
 	public async exe(member: GuildMember) {
@@ -19,7 +19,7 @@ export = class extends BotEvent {
 				const embed: object = replaceWelcomeVariables(welcome.value as Object, member.user, member.guild, true);
 				welcome.channel.send(new MessageEmbed(embed));
 			} else {
-				const msg: string = replaceWelcomeVariables(welcome.value as Object, member.user, member.guild, false).message;
+				const msg: string = (replaceWelcomeVariables(welcome.value as Object, member.user, member.guild, false) as any).message;
 				welcome.channel.send(msg);
 			}
 		}

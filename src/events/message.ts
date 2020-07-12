@@ -13,6 +13,7 @@ export = class extends BotEvent {
 		const msg: string = message.content;
 		if (message.author.bot) return;
 		if (!msg.toLowerCase().startsWith(prefix)) return;
+		if (message.channel.type === "dm") return;
 		const args: string[] = msg.trim().slice(prefix.length).split(" ");
 		const command: string = args.shift().toLowerCase();
 		if (this.client.aliases.has(command)) {

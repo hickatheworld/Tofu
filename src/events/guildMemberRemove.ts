@@ -8,7 +8,7 @@ import { replaceWelcomeVariables } from "../core/lib/utils";
 
 export = class extends BotEvent {
 	constructor(client: OCBot) {
-		super(client, "guildMemberRemove", true);
+		super(client, "guildMemberRemove", false);
 	}
 
 	public async exe(member: GuildMember) {
@@ -19,13 +19,13 @@ export = class extends BotEvent {
 				const embed: object = replaceWelcomeVariables(bye.value as Object, member.user, member.guild, true);
 				bye.channel.send(new MessageEmbed(embed));
 			} else {
-				const msg: string = replaceWelcomeVariables(bye.value as Object, member.user, member.guild, false).message;
+				const msg: string = (replaceWelcomeVariables(bye.value as Object, member.user, member.guild, false) as any).message;
 				bye.channel.send(msg);
 			}
 		}
 		if (bye.logs) {
 			const accAge: string = formatDuration(new Date(), member.user.createdAt, true);
-			const joinAge: string = formatDuration(new Date(), member.joinedAt, true);
+			const joinAge: string = (member.joinedAt) ? formatDuration(new Date(), member.joinedAt, true) : "**Can't find duration**";
 			const embed: MessageEmbed = new MessageEmbed()
 				.setTitle(`${member.user.tag} (${member.user.id})`)
 				.setDescription(`${member.user.toString()} left.`)
