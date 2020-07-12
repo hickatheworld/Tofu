@@ -6,7 +6,7 @@
 	"scripts": {
 		"compile": "run-script-os",
 		"compile:windows": "rmdir /S /Q build && tsc",
-		"compile:nix": "rm -f build && tsc",
+		"compile:nix": "rm -rf build && tsc",
 		"serve": "node build/app.js",
 		"start": "run-script-os",
 		"start:windows": "npm run compile && npm run serve",
