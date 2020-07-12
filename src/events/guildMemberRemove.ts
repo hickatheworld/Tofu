@@ -25,7 +25,7 @@ export = class extends BotEvent {
 		}
 		if (bye.logs) {
 			const accAge: string = formatDuration(new Date(), member.user.createdAt, true);
-			const joinAge: string = formatDuration(new Date(), member.joinedAt, true);
+			const joinAge: string = (member.joinedAt) ? formatDuration(new Date(), member.joinedAt, true) : "**Can't find duration**";
 			const embed: MessageEmbed = new MessageEmbed()
 				.setTitle(`${member.user.tag} (${member.user.id})`)
 				.setDescription(`${member.user.toString()} left.`)
