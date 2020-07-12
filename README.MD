@@ -7,7 +7,8 @@
 <a href="https://discord.gg/uJR4gvK" target="_blank"><img alt="Discord" src="https://img.shields.io/discord/648589630723325974"></a>
 
 <hr>
-This bot was made for the <a href="https://discord.gg/uJR4gvK" target="_blank">Once Community Discord server</a>. It is built to work only on one server at a time, if you want to host your own build of it feel free but be careful if you ever want to use it on several servers. Even though it's mostly technically ready to run it on multiple servers, there will sure be things to change.
+This bot was made for the <a href="https://discord.gg/oncecommunity" target="_blank">Once Community Discord server</a>.<br />
+It was built specifically to run on, and only, this server. Technically, the bot can be used on multiple servers, but permissions aren't made for this. If you ever want to self-host this bot on multiple servers, you will probably have to build new systems for permissions, especially for the <u>Server Management</u> module.
 <hr>
 <a href="https://forthebadge.com" target="_blank"><img src="https://forthebadge.com/images/badges/built-with-love.svg" /></a>
 </div>
