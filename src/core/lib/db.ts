@@ -427,7 +427,7 @@ export default class DB extends Sq.Sequelize {
 		}
 		const ids = ga.toJSON().participating.replace(user.id, "");
 		var participating: User[] = [];
-		for (const id of ids) {
+		for (const id of ids.split(",")) {
 			if (id === user.id) continue;
 			if (this.client.users.cache.has(id)) {
 				participating.push(this.client.users.cache.get(id));
