@@ -19,7 +19,7 @@ export = class extends BotEvent {
 				const embed: object = replaceWelcomeVariables(bye.value as Object, member.user, member.guild, true);
 				bye.channel.send(new MessageEmbed(embed));
 			} else {
-				const msg: string = replaceWelcomeVariables(bye.value as Object, member.user, member.guild, false).message;
+				const msg: string = (replaceWelcomeVariables(bye.value as Object, member.user, member.guild, false) as any).message;
 				bye.channel.send(msg);
 			}
 		}
