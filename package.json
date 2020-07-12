@@ -4,7 +4,9 @@
 	"description": "Once Community's Discord Bot",
 	"main": "build/app.js",
 	"scripts": {
-		"build": "tsc && node build/app"
+		"compile": "rmdir /S /Q build && tsc",
+		"serve": "node build/app.js",
+		"start": "npm run compile && npm serve"
 	},
 	"author": "Hicka",
 	"license": "MIT",
