@@ -24,6 +24,7 @@ export = class extends Command {
 		super.check(message, async () => {
 			var content: string;
 			var msg: Message;
+			if (message.deletable) message.delete();
 			if (!parseChannel(args[0], message.guild) || parseChannel(args[0], message.guild).type !== "text") {
 				content = args.join(" ");
 				msg = await message.channel.send(content);
@@ -33,7 +34,6 @@ export = class extends Command {
 				content = args.join(" ");
 				msg = await channel.send(content);
 			}
-			if (message.deletable) message.delete();
 			log.info(`${log.user(message.author)} used bot to say ${log.text(msg.content)} in ${log.channel(msg.channel as GuildChannel)}`);
 		});
 	}
