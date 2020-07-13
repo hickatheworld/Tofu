@@ -18,7 +18,7 @@ export = class extends Command {
 	}
 
 	public async setup(): Promise<void> {
-		this.props.set("giver", this.client.users.cache.get("192671814650953728"));
+		this.props.set("giver", this.client.users.cache.get("573812128482459648"));
 	}
 
 	public async exe(message: Message, args: string[]): Promise<void> {
