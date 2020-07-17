@@ -15,6 +15,7 @@
 	"author": "Hicka",
 	"license": "MIT",
 	"dependencies": {
+		"@types/gm": "^1.18.9",
 		"@types/node-cron": "^2.0.3",
 		"@types/node-fetch": "^2.5.7",
 		"@types/validator": "^13.1.0",
@@ -22,6 +23,7 @@
 		"chalk": "^4.1.0",
 		"discord.js": "^12.2.0",
 		"dotenv": "^8.2.0",
+		"gm": "^1.23.1",
 		"node-cron": "^2.0.3",
 		"node-fetch": "^2.6.0",
 		"run-script-os": "^1.1.1",
