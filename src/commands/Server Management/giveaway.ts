@@ -163,9 +163,9 @@ export = class extends Command {
 					message.channel.send(`❌ Unable to find giveaway with ID \`${args[1]}\``);
 					return;
 				}
-				ga.channel.send(`Giveaway **${ga.name}** was cancelled by ${message.author}`);
+				ga.channel.send(`Giveaway **${ga.name}** (\`${ga.id}\`) was cancelled by ${message.author}`);
 				for (const user of ga.participating) {
-					user.send(`Giveaway **${ga.name}** was cancelled. __If someone is picked as a winner, it is cheating.__`);
+					user.send(`Giveaway **${ga.name}** (\`${ga.id}\`) was cancelled. __If someone is picked as a winner, it is cheating.__`);
 				}
 				log.info(`${log.user(message.author)} cancelled [${log.number(ga.id)}] ${log.text(ga.name)} giveaway.`);
 				message.channel.send(`✅ Cancelled giveaway \`[${ga.id}]\` **${ga.name}**`);
