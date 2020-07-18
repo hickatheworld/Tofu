@@ -15,7 +15,7 @@ export = class extends Command {
 			usages: [
 				"<hexcode: String>"
 			],
-			cooldown: 5000
+			cooldown: 20000
 		});
 	}
 
