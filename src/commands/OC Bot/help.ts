@@ -47,8 +47,9 @@ export = class extends Command {
 				.setTitle(`${this.client.prefix}${command.name}`)
 				.setDescription(`${command.desc}\n\`\`\`${usages}\`\`\``)
 				.setColor("5cff82")
+				.addField("Module",command.module, true)
 				.setFooter(`This command was used ${await this.client.db.getCommandUses(command.name)} times`);
-			if (command.aliases.length > 0) embed.addField("**Aliases**", command.aliases.map(a => `__${a}__`).join(", "), );
+			if (command.aliases.length > 0) embed.addField("**Aliases**", command.aliases.map(a => `__${a}__`).join(", "), true);
 			message.channel.send(embed);
 		});
 	}

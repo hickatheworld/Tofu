@@ -45,7 +45,7 @@ export = class extends Command {
 				args.shift();
 				const user: User = parseUser(args[0], this.client);
 				if (!user) {
-					message.channel.send("❌ Can't find user");
+					message.channel.send("❌ Can't find user.");
 					return;
 				}
 				args.shift();

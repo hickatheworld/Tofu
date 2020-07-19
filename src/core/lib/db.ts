@@ -4,8 +4,9 @@ import OCBot from "../base/Client";
 import * as log from "./Log";
 import BotProfile from "../typedefs/BotProfile";
 import GuildWelcome from "../typedefs/GuildWelcome";
-import GuildBye  from "../typedefs/GuildBye";
+import GuildBye from "../typedefs/GuildBye";
 import Giveaway from "../typedefs/Giveaway";
+import StarboardSettings from "../typedefs/StarboardSettings";
 require("dotenv").config();
 export default class DB extends Sq.Sequelize {
 	private client: OCBot;
@@ -172,6 +173,20 @@ export default class DB extends Sq.Sequelize {
 				allowNull: false
 			}
 
+		}).sync({ force: force });
+		this.define("starboards", {
+			enabled: {
+				type: Sq.BOOLEAN,
+				allowNull: false,
+				defaultValue: false
+			},
+			channel: {
+				type: Sq.STRING
+			},
+			guild: {
+				type: Sq.STRING,
+				allowNull: false
+			}
 		}).sync({ force: force });
 		log.info("Defined Sequelize models");
 	}
@@ -448,7 +463,7 @@ export default class DB extends Sq.Sequelize {
 			winners: winners.map(u => u.id).join(",")
 		};
 		await this.models.giveaways.update(dbEntry, { where: { id: id } });
-		if (winners.length < 1)log.info(`Nobody won the [${log.number(id)}] ${log.text(ga.toJSON().name)} giveaway.`);
+		if (winners.length < 1) log.info(`Nobody won the [${log.number(id)}] ${log.text(ga.toJSON().name)} giveaway.`);
 		else log.info(`${winners.map(u => log.user(u)).join(", ")} won the [${log.number(id)}] ${log.text(ga.toJSON().name)} giveaway.`);
 		return await this.modelToGiveaway(await this.models.giveaways.findOne({ where: { id: id } }));
 	}
@@ -460,6 +475,41 @@ export default class DB extends Sq.Sequelize {
 			giveaways.push(await this.modelToGiveaway(model));
 		}
 		return giveaways;
+	}
+
+	async createStarboard(guild: Guild): Promise<StarboardSettings> {
+		await this.models.starboards.create({
+			guild: guild.id
+		});
+		log.info(`Created row in ${log.text("starboards")} table for guild ${log.guild(guild)}`);
+		return {
+			channel: null,
+			enabled: false,
+			guild: guild,
+		}
+	}
+
+	async getStarboard(guild: Guild): Promise<StarboardSettings> {
+		const sb: Sq.Model = await this.models.starboards.findOne({ where: { guild: guild.id } });
+		if (sb === null) return await this.createStarboard(guild);
+		const obj: any = sb.toJSON();
+		return {
+			guild: guild,
+			enabled: obj.enabled,
+			channel: this.client.channels.cache.get(obj.channel) as TextChannel || null
+		}
+	}
+
+	async setStarboard(guild: Guild, key: "enabled" | "channel", value: any): Promise<StarboardSettings> {
+		var sb: StarboardSettings = await this.getStarboard(guild);
+		sb[key] = value;
+		if (key === "channel") value = value.id;
+		var obj: any = {};
+		obj[key] = value;
+		this.models.starboards.update(obj, { where: { guild: guild.id } });
+		if (key === "enabled") log.info(`Set starboard ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
+		else log.info(`Set starboard ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
+		return sb;
 	}
 
 }
