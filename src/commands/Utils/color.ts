@@ -1,10 +1,10 @@
 import { Message, MessageEmbed, GuildMember, Role } from "discord.js";
-import gm = require("gm");
+import { createCanvas, Canvas, PNGStream } from "canvas";
 import nodeFetch from "node-fetch";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { join } from "path";
-import { unlink, unlinkSync } from "fs";
+import { unlinkSync, createWriteStream, WriteStream } from "fs";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -36,11 +36,18 @@ export = class extends Command {
 			const name: string = Math.random().toString(36).slice(2) + ".png";
 			const res = await nodeFetch(`https://www.thecolorapi.com/id?format=json&hex=${color}`);
 			const data: any = await res.json();
-			gm(800, 200, `#${color}`).write(join(__dirname, "../../../temp/", name), async (err) => {
-				if (err) {
-					message.channel.send(`❌ An error occured :\n\`${err.message}\``);
-					return;
-				}
+			const canvas: Canvas = createCanvas(800, 200);
+			const ctx = canvas.getContext("2d");
+			ctx.fillStyle = data.hex.value;
+			ctx.fillRect(0, 0, 800, 200);
+			ctx.fill();
+			const outStream: WriteStream = createWriteStream(join(__dirname, "../../../temp", name));
+			const stream: PNGStream = canvas.createPNGStream();
+			stream.pipe(outStream);
+			stream.on("error", (err) => {
+				message.channel.send(`❌ An error occured : \n\`${err.toString()}\``)
+			})
+			stream.on("end", async () => {
 				const embed: MessageEmbed = new MessageEmbed()
 					.setTitle(`${data.hex.value}`)
 					.setDescription(`${data.hex.value} — **${data.name.value}**`)
@@ -66,5 +73,4 @@ export = class extends Command {
 			});
 		});
 	}
-
 }
