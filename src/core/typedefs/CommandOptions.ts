@@ -1,4 +1,4 @@
-import { Snowflake } from "discord.js";
+import { Snowflake, PermissionResolvable } from "discord.js";
 
 export default interface CommandOptions {
 	aliases?: string[],
@@ -6,6 +6,7 @@ export default interface CommandOptions {
 	desc: string,
 	module: string,
 	name: string,
+	perms?: PermissionResolvable[],
 	usages?: string[],
 	whitelist?: Snowflake[]
 }
