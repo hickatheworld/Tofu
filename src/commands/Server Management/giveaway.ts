@@ -11,7 +11,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "giveaway",
-			desc: "Manages giveaways (Admin only)",
+			desc: "Manages giveaways",
 			module: "Server Management",
 			usages: [
 				"create [channel: Channel]",

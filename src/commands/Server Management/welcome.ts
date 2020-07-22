@@ -7,7 +7,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "welcome",
-			desc: "Manages welcome messages and join logs (Admin only)",
+			desc: "Manages welcome messages and join logs",
 			module: "Server Management",
 			usages: [
 				"enable/disable",

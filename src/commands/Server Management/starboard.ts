@@ -8,7 +8,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "starboard",
-			desc: "Manages server starboard (Admin only)",
+			desc: "Manages server starboard",
 			module: "Server Management",
 			usages: [
 				"enable/disable",
