@@ -58,3 +58,9 @@ export function parseDuration(str: string): number | null {
 	duration = days * 86400000 + hours * 3600000 + minutes * 60000;
 	return (duration == Infinity) ? 0 : duration;
 }
+
+export function parseLink(str: string): string | null {
+	const regex: RegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+	if (!regex.test(str)) return null;
+	return str;
+}
