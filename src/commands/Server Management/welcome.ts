@@ -18,7 +18,7 @@ export = class extends Command {
 				"logs enable/disable",
 				"logs <channel: Channel>",
 			],
-			whitelist: client.admins
+			perms: ["MANAGE_GUILD"]
 		});
 	}
 

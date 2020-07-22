@@ -19,7 +19,7 @@ export = class extends Command {
 				"cancel <ID: Number>",
 			],
 			aliases: ["ga"],
-			whitelist: client.admins
+			perms: ["MANAGE_GUILD"]
 		});
 	}
 

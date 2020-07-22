@@ -14,8 +14,8 @@ export = class extends Command {
 				"enable/disable",
 				"channel <channel: Channel>"
 			],
-			whitelist: client.admins,
-			aliases: ["star","sb"]
+			aliases: ["star","sb"],
+			perms: ["MANAGE_CHANNELS"]
 		});
 	}
 
