@@ -43,7 +43,7 @@ export = class extends Command {
 			const embed: MessageEmbed = new MessageEmbed()
 				.setTitle(`${user.username}'s avatar`)
 				.setDescription(`Here is your avatar in all possible formats and sizes.\n[Main file](${mainUrl})`)
-				.setThumbnail(mainUrl)
+				.setImage(mainUrl)
 				.addFields(Object.values(fields))
 			message.channel.send(embed);
 		});
