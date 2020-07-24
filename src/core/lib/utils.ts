@@ -2,6 +2,10 @@ import { User, Guild, ReactionCollector, Message, MessageEmbed } from "discord.j
 import Giveaway from "../typedefs/Giveaway";
 import DB from "./db";
 
+export function randomInt(min: number, max: number) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export function replaceWelcomeVariables(obj: Object, user: User, guild: Guild, embed: boolean): Object {
 	var str = JSON.stringify(obj);
 	str = str.replace("{SERVER_NAME}", guild.name);
