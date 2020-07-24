@@ -46,6 +46,10 @@ export = class extends Command {
 				return;
 			}
 			if (subcommand === "reset") {
+				if (!message.member.hasPermission("MANAGE_CHANNELS")) {
+					message.channel.send("❌ You must have the `Manage Channels` permission to reset dvd.");
+					return;
+				}
 				await message.reply(`are you sure that you want to reset ${message.guild.name}'s DVD? **(yes/no)**`);
 				const collector: MessageCollector = message.channel.createMessageCollector((msg) => msg.author === message.author, { time: 3000 });
 				collector.on("collect", async (msg) => {
