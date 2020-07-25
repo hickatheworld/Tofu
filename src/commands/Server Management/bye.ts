@@ -7,7 +7,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "bye",
-			desc: "Manages bye messages and leave logs (Admin only)",
+			desc: "Manages bye messages and leave logs",
 			module: "Server Management",
 			usages: [
 				"enable/disable",
@@ -18,7 +18,7 @@ export = class extends Command {
 				"logs enable/disable",
 				"logs <channel: Channel>",
 			],
-			whitelist: client.admins
+			perms: ["MANAGE_GUILD"]
 		});
 	}
 

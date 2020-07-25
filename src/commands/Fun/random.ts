@@ -2,9 +2,7 @@ import { Message } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseNumber } from "../../core/lib/Args";
-
-const rnd: Function = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1)) + min;
-
+import { randomInt } from "../../core/lib/utils";
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
@@ -37,7 +35,7 @@ export = class extends Command {
 				max = min;
 				min = temp;
 			}
-			message.channel.send(`**${rnd(min, max)}**`);
+			message.channel.send(`**${randomInt(min, max)}**`);
 		});
 	}
 }

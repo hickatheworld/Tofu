@@ -7,6 +7,8 @@ import GuildWelcome from "../typedefs/GuildWelcome";
 import GuildBye from "../typedefs/GuildBye";
 import Giveaway from "../typedefs/Giveaway";
 import StarboardSettings from "../typedefs/StarboardSettings";
+import DVD from "../typedefs/DVD";
+import { randomInt } from "./utils";
 require("dotenv").config();
 export default class DB extends Sq.Sequelize {
 	private client: OCBot;
@@ -185,6 +187,36 @@ export default class DB extends Sq.Sequelize {
 			},
 			guild: {
 				type: Sq.STRING,
+				allowNull: false
+			}
+		}).sync({ force: force });
+		this.define("dvd", {
+			corners: {
+				type: Sq.INTEGER,
+				allowNull: false
+			},
+			edges: {
+				type: Sq.INTEGER,
+				allowNull: false
+			},
+			guild: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			x: {
+				type: Sq.INTEGER,
+				allowNull: false
+			},
+			xspeed: {
+				type: Sq.INTEGER,
+				allowNull: false
+			},
+			y: {
+				type: Sq.INTEGER,
+				allowNull: false
+			},
+			yspeed: {
+				type: Sq.INTEGER,
 				allowNull: false
 			}
 		}).sync({ force: force });
@@ -510,6 +542,66 @@ export default class DB extends Sq.Sequelize {
 		if (key === "enabled") log.info(`Set starboard ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
 		else log.info(`Set starboard ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
 		return sb;
+	}
+
+	private async buildDVD(guild: Guild): Promise<DVD> {
+		const xs: number = (Math.random() > 0.5) ? 5 : -5;
+		const ys: number = (Math.random() > 0.5) ? 5 : -5;
+		// Gif Dimensions : 800x600 | Logo Dimensions : 225x130
+		return {
+			corners: 0,
+			edges: 0,
+			guild: guild,
+			x: randomInt(0, 800 - 225),
+			xspeed: xs,
+			y: randomInt(0, 600 - 130),
+			yspeed: ys
+		};
+	}
+
+	async createDVD(guild: Guild): Promise<DVD> {
+		const dvd: DVD = await this.buildDVD(guild);
+		await this.models.dvd.create({
+			corners: dvd.corners,
+			edges: dvd.edges,
+			guild: dvd.guild.id,
+			x: dvd.x,
+			xspeed: dvd.xspeed,
+			y: dvd.y,
+			yspeed: dvd.yspeed
+		});
+		log.info(`Created row in ${log.text("dvd")} table for guild ${log.guild(guild)}`);
+		return dvd;
+	}
+
+	async getDVD(guild: Guild): Promise<DVD> {
+		const dvd: Sq.Model = await this.models.dvd.findOne({ where: { guild: guild.id } });
+		if (!dvd) return await this.createDVD(guild);
+		const obj: any = dvd.toJSON();
+		return {
+			corners: obj.corners,
+			edges: obj.edges,
+			guild: this.client.guilds.cache.get(obj.guild),
+			x: obj.x,
+			xspeed: obj.xspeed,
+			y: obj.y,
+			yspeed: obj.yspeed
+		}
+	}
+
+	async updateDVD(guild: Guild, dvd: DVD): Promise<DVD> {
+		const obj: any = dvd;
+		obj.guild = dvd.guild.id;
+		await this.models.dvd.update(obj, { where: { guild: guild.id } });
+		return dvd;
+	}
+
+	async resetDVD(guild: Guild): Promise<DVD> {
+		const dvd: DVD = await this.buildDVD(guild);
+		const obj: any = dvd;
+		obj.guild = dvd.guild.id;
+		await this.models.dvd.update(obj, { where: { guild: guild.id } });
+		return dvd;
 	}
 
 }

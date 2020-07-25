@@ -1,5 +1,11 @@
+import { existsSync, mkdirSync } from "fs";
 import OCBot from "./core/base/Client";
 require("dotenv").config();
+
+if (!existsSync("temp")) {
+	mkdirSync("temp");
+}
+
 const Instance: OCBot = new OCBot({
 	admins: process.env.BOT_ADMINS.split(","),
 	name: "OC Bot",

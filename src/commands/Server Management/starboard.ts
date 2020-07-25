@@ -8,14 +8,14 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "starboard",
-			desc: "Manages server starboard (Admin only)",
+			desc: "Manages server starboard",
 			module: "Server Management",
 			usages: [
 				"enable/disable",
 				"channel <channel: Channel>"
 			],
-			whitelist: client.admins,
-			aliases: ["star","sb"]
+			aliases: ["star","sb"],
+			perms: ["MANAGE_CHANNELS"]
 		});
 	}
 

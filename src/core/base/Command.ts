@@ -1,4 +1,4 @@
-import { Message, Snowflake, Collection } from "discord.js";
+import { Message, Snowflake, Collection, PermissionResolvable } from "discord.js";
 import OCBot from "./Client";
 import { formatDuration } from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
@@ -11,6 +11,7 @@ export default abstract class Command {
 	public desc: string;
 	public module: string;
 	public name: string;
+	public perms?: PermissionResolvable[];
 	public props: Map<string, any>;
 	public usages?: string[];
 	public whitelist?: Snowflake[];
@@ -22,6 +23,7 @@ export default abstract class Command {
 		this.desc = options.desc;
 		this.module = options.module;
 		this.name = options.name;
+		this.perms = options.perms;
 		this.props = new Map<string, any>();
 		this.usages = options.usages;
 		this.whitelist = options.whitelist;
@@ -41,6 +43,16 @@ export default abstract class Command {
 				return;
 			}
 		}
+
+		if (this.perms) {
+			for (const perm of this.perms) {
+				if (!message.member.hasPermission(perm)) {
+					message.channel.send(`❌ You need the \`${perm}\` permission to run this command in this server.`);
+					return;
+				}
+			}
+		}
+
 		if (this.cooldowned.has(message.author.id)) {
 			const duration: string = formatDuration(new Date(this.cooldowned.get(message.author.id)), new Date(), true);
 			const msg: Message = await message.channel.send(`You're on cooldown for this command. Please wait another ${duration}.`);

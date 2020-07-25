@@ -28,7 +28,7 @@ export = class extends BotEvent {
 			const embed: MessageEmbed = new MessageEmbed()
 				.setTitle(`${member.user.tag} (${member.user.id})`)
 				.setDescription(`${member.user.toString()} joined.`)
-				.setThumbnail(member.user.avatarURL({ dynamic: true }))
+				.setThumbnail(member.user.avatarURL({ dynamic: true }) || member.user.defaultAvatarURL)
 				.addField("Created at", member.user.createdAt.toUTCString(), true)
 				.addField("Account age", accAge, true)
 				.setFooter(`${member.guild.memberCount}th member`)
