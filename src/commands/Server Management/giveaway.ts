@@ -23,7 +23,13 @@ export = class extends Command {
 		});
 	}
 
-	public async setup(): Promise<void> {}
+	public async setup(): Promise<void> {
+		const giveaways: Giveaway[] = await this.client.db.getAllGiveaways(false);
+		for (const giveaway of giveaways) {
+			log.info(`Catching up [${log.number(giveaway.id)}] ${log.text(giveaway.name)} giveaway.`);
+			collectGiveaway(giveaway, this.client.db);
+		}
+	}
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
