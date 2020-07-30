@@ -593,6 +593,7 @@ export default class DB extends Sq.Sequelize {
 		const obj: any = dvd;
 		obj.guild = dvd.guild.id;
 		await this.models.dvd.update(obj, { where: { guild: guild.id } });
+		log.info(`Updated dvd for ${log.guild(guild)}`);
 		return dvd;
 	}
 
@@ -601,6 +602,7 @@ export default class DB extends Sq.Sequelize {
 		const obj: any = dvd;
 		obj.guild = dvd.guild.id;
 		await this.models.dvd.update(obj, { where: { guild: guild.id } });
+		log.info(`Reset dvd for ${log.guild(guild)}`);
 		return dvd;
 	}
 
