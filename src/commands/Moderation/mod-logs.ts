@@ -1,6 +1,6 @@
+import { Message, TextChannel } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
-import { Message, TextChannel } from "discord.js";
 import GuildModerationSettings from "../../core/typedefs/GuildModerationSettings";
 import { parseChannel } from "../../core/lib/Args";
 
