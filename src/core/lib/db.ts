@@ -9,7 +9,10 @@ import Giveaway from "../typedefs/Giveaway";
 import StarboardSettings from "../typedefs/StarboardSettings";
 import DVD from "../typedefs/DVD";
 import { randomInt } from "./utils";
+import Punishment from "../typedefs/Punishment";
+import GuildModerationSettings from "../typedefs/GuildModerationSettings";
 require("dotenv").config();
+
 export default class DB extends Sq.Sequelize {
 	private client: OCBot;
 	constructor(client: OCBot) {
@@ -220,6 +223,48 @@ export default class DB extends Sq.Sequelize {
 				allowNull: false
 			}
 		}).sync({ force: force });
+		this.define("punishments", {
+			guild: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			type: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			author: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			target: {
+				type: Sq.STRING,
+				allowNull: false,
+			},
+			reason: {
+				type: Sq.STRING
+			},
+			end: {
+				type: Sq.DATE
+			}
+		}).sync({ force: force });
+		this.define("moderationSettings", {
+			guild: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			mutedRole: {
+				type: Sq.STRING
+			},
+			enableDM: {
+				type: Sq.BOOLEAN
+			},
+			modLogsEnabled: {
+				type: Sq.BOOLEAN
+			},
+			modLogsChannel: {
+				type: Sq.STRING
+			},
+		}).sync({force: force});
 		log.info("Defined Sequelize models");
 	}
 
@@ -604,6 +649,87 @@ export default class DB extends Sq.Sequelize {
 		await this.models.dvd.update(obj, { where: { guild: guild.id } });
 		log.info(`Reset dvd for ${log.guild(guild)}`);
 		return dvd;
+	}
+
+	async createModerationSettings(guild: Guild): Promise<GuildModerationSettings> {
+		this.models.moderationSettings.create({
+			guild: guild.id,
+			enableDM: true,
+			modLogsEnabled: false
+		});
+		log.info(`Created row in ${log.text("moderationSettings")} table for guild ${log.guild(guild)}`);
+		return {
+			guild: guild,
+			enableDM: true,
+			modLogsEnabled: false
+		}
+	}
+
+	async getModerationSettings(guild: Guild): Promise<GuildModerationSettings> {
+		const settings: Sq.Model = await this.models.moderationSettings.findOne({ where: { guild: guild.id } });
+		if (!settings) return this.createModerationSettings(guild);
+		const obj: any = settings.toJSON();
+		return {
+			guild: guild,
+			mutedRole: guild.roles.cache.get(obj.mutedRole) || null,
+			enableDM: obj.enableDM,
+			modLogsEnabled: obj.modLogsEnabled,
+			modLogsChannel: guild.channels.cache.get(obj.modLogsChannel) as TextChannel || null
+
+		}
+	}
+
+	async setModerationSetting(guild: Guild, key: keyof GuildModerationSettings, value: any): Promise<GuildModerationSettings> {
+		const settings: GuildModerationSettings = await this.getModerationSettings(guild);
+		const obj: any = {};
+		settings[key] = value;
+		if (key === "modLogsChannel" || key === "mutedRole") {
+			obj[key] = value.id;
+		} else obj[key] = value;
+		this.models.moderationSettings.update(obj, { where: { guild: guild.id } });
+		if (key === "modLogsChannel") log.info(`Set moderationSettings ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
+		else if (key === "mutedRole") log.info(`Set moderationSettings ${log.text(key)} to ${log.role(value)} for ${log.guild(guild)}`);
+		else log.info(`Set moderationSettings ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
+		return settings;
+	}
+
+	async addPunishmentEntry(type: "KICK" | "MUTE" | "BAN" | "UNMUTE" | "UNBAN", guild: Guild, author: User, target: User, end?: Date, reason?: string): Promise<Punishment> {
+		await this.models.punishments.create({
+			type: type,
+			guild: guild.id,
+			author: author.id,
+			target: target.id,
+			reason: reason || "No reason provided",
+			end: end || null
+		});
+		return {
+			type: type,
+			guild: guild,
+			author: author,
+			target: target,
+			reason: reason,
+			end: end
+		};
+	}
+
+	async kick(guild: Guild, author: User, kicked: User, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("KICK", guild, author, kicked, null, reason);
+	}
+
+	async mute(guild: Guild, author: User, kicked: User, end?: Date, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("MUTE", guild, author, kicked, end, reason);
+	}
+
+	async ban(guild: Guild, author: User, kicked: User, end?: Date, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("KICK", guild, author, kicked, end, reason);
+	}
+
+	async unmute(guild: Guild, author: User, kicked: User, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("UNMUTE", guild, author, kicked, null, reason);
+	}
+
+	async unban(guild: Guild, author: User, kicked: User, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("UNMUTE", guild, author, kicked, null, reason);
 	}
 
 }

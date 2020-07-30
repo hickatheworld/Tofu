@@ -1,4 +1,4 @@
-import { GuildChannel, User, Guild } from "discord.js";
+import { GuildChannel, User, Guild, Role } from "discord.js";
 import { formatDate, formatTime } from "./Time";
 import chalk from "chalk";
 import stripAnsi from "strip-ansi";
@@ -52,6 +52,10 @@ export function channel(c: GuildChannel): string {
 
 export function user(u: User): string {
 	return chalk.cyan(`${u.tag} (${u.id})`);
+}
+
+export function role(r: Role): string {
+	return chalk.red(`${r.name} (${r.id})`);
 }
 
 export function number(n: number): string {
