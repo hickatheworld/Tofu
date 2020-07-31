@@ -31,7 +31,7 @@ export = class extends Command {
 				return;
 			}
 			if (!kicked.kickable) {
-				message.channel.send("❌ I cannot kick this member.");
+				message.channel.send("❌ I can't kick this member.");
 				return;
 			}
 			const reason: string = args.join(" ").trim();
