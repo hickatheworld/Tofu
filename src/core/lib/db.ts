@@ -716,20 +716,20 @@ export default class DB extends Sq.Sequelize {
 		return this.addPunishmentEntry("KICK", guild, author, kicked, null, reason);
 	}
 
-	async mute(guild: Guild, author: User, kicked: User, end?: Date, reason?: string): Promise<Punishment> {
-		return this.addPunishmentEntry("MUTE", guild, author, kicked, end, reason);
+	async mute(guild: Guild, author: User, muted: User, end?: Date, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("MUTE", guild, author, muted, end, reason);
 	}
 
-	async ban(guild: Guild, author: User, kicked: User, end?: Date, reason?: string): Promise<Punishment> {
-		return this.addPunishmentEntry("KICK", guild, author, kicked, end, reason);
+	async ban(guild: Guild, author: User, banned: User, end?: Date, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("KICK", guild, author, banned, end, reason);
 	}
 
-	async unmute(guild: Guild, author: User, kicked: User, reason?: string): Promise<Punishment> {
-		return this.addPunishmentEntry("UNMUTE", guild, author, kicked, null, reason);
+	async unmute(guild: Guild, author: User, unmuted: User, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("UNMUTE", guild, author, unmuted, null, reason);
 	}
 
-	async unban(guild: Guild, author: User, kicked: User, reason?: string): Promise<Punishment> {
-		return this.addPunishmentEntry("UNMUTE", guild, author, kicked, null, reason);
+	async unban(guild: Guild, author: User, unbanned: User, reason?: string): Promise<Punishment> {
+		return this.addPunishmentEntry("UNMUTE", guild, author, unbanned, null, reason);
 	}
 
 }
