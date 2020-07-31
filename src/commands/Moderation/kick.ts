@@ -34,7 +34,7 @@ export = class extends Command {
 				message.channel.send("❌ I can't kick this member.");
 				return;
 			}
-			const reason: string = args.join(" ").trim();
+			const reason: string = args.join(" ").trim() || "No reason provided";
 			this.client.db.kick(message.guild, message.author, kicked.user, reason || "No reason provided");
 			message.channel.send(`**👢 Kicked ${kicked.user.tag}**`);
 			const modSettings: GuildModerationSettings = await this.client.db.getModerationSettings(message.guild);
@@ -42,7 +42,7 @@ export = class extends Command {
 				const channel: TextChannel = modSettings.modLogsChannel;
 				const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor(`${message.author.tag} (${message.author.id})`, message.author.avatarURL({ dynamic: true }))
-				.setDescription(`👢 **Kicked ${kicked.user.tag}** (${kicked.user.id})\n**Reason** : ${reason || "No reason provided"}`)
+				.setDescription(`👢 **Kicked ${kicked.user.tag}** (${kicked.user.id})\n**Reason** : ${reason}`)
 				.setThumbnail(kicked.user.avatarURL({ dynamic: true }))
 				.setColor("ORANGE");
 				channel.send(embed);
@@ -50,12 +50,12 @@ export = class extends Command {
 			if (modSettings.enableDM) {
 					const embed: MessageEmbed = new MessageEmbed()
 					.setAuthor(message.guild.name, message.guild.iconURL({ dynamic: true }))
-					.setDescription(`👢 __You have been kicked__\n**Actioned by:** ${message.author.tag}\n**Reason:** ${reason || "No reason provided"}`)
+					.setDescription(`👢 __You have been kicked__\n**Actioned by:** ${message.author.tag}\n**Reason:** ${reason}`)
 					.setColor("ORANGE")
 					.setTimestamp(new Date());
 					kicked.user.send(embed).catch((_error) => false);
 			}
-			kicked.kick(`${message.author.tag} — ${reason || "No reason provided"}`);
+			kicked.kick(`${message.author.tag} — ${reason}`);
 			return;
 		});
 	}
