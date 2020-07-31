@@ -245,6 +245,10 @@ export default class DB extends Sq.Sequelize {
 			},
 			end: {
 				type: Sq.DATE
+			},
+			closed: {
+				type: Sq.BOOLEAN,
+				allowNull: false
 			}
 		}).sync({ force: force });
 		this.define("moderationSettings", {
@@ -700,7 +704,8 @@ export default class DB extends Sq.Sequelize {
 			author: author.id,
 			target: target.id,
 			reason: reason || "No reason provided",
-			end: end || null
+			end: end || null,
+			closed: false
 		});
 		return {
 			type: type,
@@ -708,7 +713,7 @@ export default class DB extends Sq.Sequelize {
 			author: author,
 			target: target,
 			reason: reason,
-			end: end
+			end: end,
 		};
 	}
 
