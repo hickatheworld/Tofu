@@ -26,8 +26,8 @@ export = class extends Command {
 				message.channel.send("❌ Please mention a correct user.");
 				return;
 			}
-			if (kicked.roles.highest.position > message.member.roles.highest.position) {
-				message.channel.send("❌ You can't kick this member, they have a higher role as you.");
+			if (kicked.roles.highest.position >= message.member.roles.highest.position) {
+				message.channel.send("❌ You can't kick this member, your role isn't high enough.");
 				return;
 			}
 			if (!kicked.kickable) {
