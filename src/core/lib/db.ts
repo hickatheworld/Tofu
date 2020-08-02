@@ -1,5 +1,5 @@
 import * as Sq from "sequelize";
-import { User, Guild, TextChannel, Message } from "discord.js";
+import { User, Guild, TextChannel, Message, Snowflake } from "discord.js";
 import OCBot from "../base/Client";
 import * as log from "./Log";
 import BotProfile from "../typedefs/BotProfile";
@@ -268,7 +268,7 @@ export default class DB extends Sq.Sequelize {
 			modLogsChannel: {
 				type: Sq.STRING
 			},
-		}).sync({force: force});
+		}).sync({ force: force });
 		log.info("Defined Sequelize models");
 	}
 
@@ -697,17 +697,18 @@ export default class DB extends Sq.Sequelize {
 		return settings;
 	}
 
-	async addPunishmentEntry(type: "KICK" | "MUTE" | "BAN" | "UNMUTE" | "UNBAN", guild: Guild, author: User, target: User, end?: Date, reason?: string): Promise<Punishment> {
-		await this.models.punishments.create({
+	async addPunishmentEntry(type: "KICK" | "MUTE" | "BAN" | "UNMUTE" | "UNBAN", guild: Guild | Snowflake, author: User | Snowflake, target: User | Snowflake, end?: Date, reason?: string): Promise<Punishment> {
+		const model: Sq.Model = await this.models.punishments.create({
 			type: type,
-			guild: guild.id,
-			author: author.id,
-			target: target.id,
+			guild: (guild instanceof Guild) ? guild.id : guild,
+			author: (author instanceof User) ? author.id : author,
+			target: (target instanceof User) ? target.id : target,
 			reason: reason || "No reason provided",
 			end: end || null,
 			closed: false
 		});
 		return {
+			id: (model.toJSON() as any).id,
 			type: type,
 			guild: guild,
 			author: author,
@@ -725,7 +726,7 @@ export default class DB extends Sq.Sequelize {
 		return this.addPunishmentEntry("MUTE", guild, author, muted, end, reason);
 	}
 
-	async ban(guild: Guild, author: User, banned: User, end?: Date, reason?: string): Promise<Punishment> {
+	async ban(guild: Guild, author: User, banned: User | Snowflake, end?: Date, reason?: string): Promise<Punishment> {
 		return this.addPunishmentEntry("BAN", guild, author, banned, end, reason);
 	}
 
@@ -733,7 +734,7 @@ export default class DB extends Sq.Sequelize {
 		return this.addPunishmentEntry("UNMUTE", guild, author, unmuted, null, reason);
 	}
 
-	async unban(guild: Guild, author: User, unbanned: User, reason?: string): Promise<Punishment> {
+	async unban(guild: Snowflake, author: Snowflake, unbanned: Snowflake, reason?: string): Promise<Punishment> {
 		return this.addPunishmentEntry("UNBAN", guild, author, unbanned, null, reason);
 	}
 

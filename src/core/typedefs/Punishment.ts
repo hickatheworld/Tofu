@@ -1,10 +1,11 @@
-import { Guild, User } from "discord.js";
+import { Guild, User, Snowflake } from "discord.js";
 
 export default interface Punishment {
+	id?: number,
 	type: "KICK" | "MUTE" | "BAN" | "UNMUTE" | "UNBAN",
-	guild: Guild,
-	author: User,
-	target: User,
+	guild: Guild | Snowflake,
+	author: User | Snowflake,
+	target: User | Snowflake,
 	reason?: string,
 	end?: Date
 }
