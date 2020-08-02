@@ -692,7 +692,8 @@ export default class DB extends Sq.Sequelize {
 		} else obj[key] = value;
 		this.models.moderationSettings.update(obj, { where: { guild: guild.id } });
 		if (key === "modLogsChannel") log.info(`Set moderationSettings ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
-		else if (key === "mutedRole") log.info(`Set moderationSettings ${log.text(key)} to ${log.role(value)} for ${log.guild(guild)}`);
+		else if (key === "mutedRole" && value) log.info(`Set moderationSettings ${log.text(key)} to ${log.role(value)} for ${log.guild(guild)}`);
+		else if (key === "mutedRole") log.info(`Reset moderationSettings ${log.text(key)} for ${log.guild(guild)}`);
 		else log.info(`Set moderationSettings ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
 		return settings;
 	}
