@@ -22,18 +22,18 @@ export = class extends BotEvent {
 		var switcher: boolean = false;
 		this.client.user.setActivity({
 			type: "LISTENING",
-			name: `${this.client.commands.array().length} wonderful commands`
+			name: `${this.client.commands.array().length} commands`
 		});
 		setInterval(() => {
 			if (switcher) {
 				this.client.user.setActivity({
 					type: "LISTENING",
-					name: `${this.client.commands.array().length} wonderful commands`
+					name: `${this.client.commands.array().length} commands`
 				});
 			} else {
 				this.client.user.setActivity({
 					type: "WATCHING",
-					name: `${this.client.guilds.cache.get("648589630723325974").memberCount} beautiful members`
+					name: `${this.client.guilds.cache.get("648589630723325974").memberCount} members`
 				});
 			}
 			switcher = !switcher;
