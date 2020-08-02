@@ -1,11 +1,11 @@
 import { Client, Guild, GuildChannel, GuildMember, Role, Snowflake, User } from "discord.js";
 
-const userMention: RegExp = /<@!?(\d{18,})>/;
-const channelMention: RegExp = /<#(\d{18,})>/;
-const roleMention: RegExp = /<@&(\d{18,})>/;
-const snowflakeDetect: RegExp = /(\d{18,})/;
+export const userMention: RegExp = /<@!?(\d{18,})>/;
+export const channelMention: RegExp = /<#(\d{18,})>/;
+export const roleMention: RegExp = /<@&(\d{18,})>/;
+export const snowflakeDetect: RegExp = /(\d{18,})/;
 
-function parseID(str: string, regex: RegExp): Snowflake | null {
+export function parseID(str: string, regex: RegExp): Snowflake | null {
 	if (regex.test(str)) {
 		return regex.exec(str)[1];
 	} else if (snowflakeDetect.test(str)) {
