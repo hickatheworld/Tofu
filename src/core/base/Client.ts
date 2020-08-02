@@ -1,4 +1,4 @@
-import { Client, Snowflake, Collection, ClientEvents } from "discord.js";
+import { Client, Snowflake, Collection, ClientEvents, User, Guild, MessageEmbed } from "discord.js";
 import { promises as fs } from "fs";
 import { join } from "path";
 import BotOptions from "../typedefs/BotOptions";
@@ -6,6 +6,7 @@ import Command from "./Command";
 import * as log from "../lib/Log";
 import DB from "../lib/db";
 import BotEvent from "./BotEvent";
+import GuildModerationSettings from "../typedefs/GuildModerationSettings";
 
 export default class OCBot extends Client {
 	public admins: Snowflake[];
@@ -97,5 +98,26 @@ export default class OCBot extends Client {
 		await this.loadEvents();
 		await this.loadModules();
 		this.login(this.token);
+	}
+	public async unban(guildID: Snowflake, unbannedID: Snowflake, unbanning: User, reason: string, rowID?: number): Promise<void> {
+		const guild: Guild = this.guilds.cache.get(guildID);
+		if (!guild) {
+			await this.db.models.punishments.update({ closed: true }, { where: { guild: guildID } });
+			return;
+		}
+		const user: User = await guild.members.unban(unbannedID, `${unbanning.tag} — ${reason}`);
+		const modSettings: GuildModerationSettings = await this.db.getModerationSettings(guild);
+		if (modSettings.enableDM && modSettings.modLogsChannel) {
+			const embed: MessageEmbed = new MessageEmbed()
+				.setAuthor(`${unbanning.tag} (${unbanning.id})`, unbanning.avatarURL({ dynamic: true }))
+				.setDescription(`🔓 **Unbanned ${user.tag}** (${user.id})\n**Reason** : ${reason}`)
+				.setThumbnail(user.avatarURL({ dynamic: true }))
+				.setColor("GREEN");
+			modSettings.modLogsChannel.send(embed);
+		}
+		if (rowID) {
+			await this.db.models.punishments.update({ closed: true }, { where: { id: rowID } });
+		}
+		this.db.unban(guild.id, unbanning.id, user.id, reason);
 	}
 }
