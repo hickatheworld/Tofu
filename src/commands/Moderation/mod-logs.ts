@@ -47,8 +47,8 @@ export = class extends Command {
 				return;
 			}
 			if (subcommand === "dm") {
-				if (args[0].toLocaleLowerCase() !== "enable" || args[0].toLocaleLowerCase() !== "disable") {
-					message.channel.send(`❌ Incorrect arguments.\n\`Correct usage: ${this.client.prefix}${this.name} dm <enabled/disable>\``);
+				if (args[0].toLocaleLowerCase() !== "enable" && args[0].toLocaleLowerCase() !== "disable") {
+					message.channel.send(`❌ Incorrect arguments.\n\`Correct usage: ${this.client.prefix}${this.name} dm <enable/disable>\``);
 					return;
 				}
 				const enabled: boolean = (args[0].toLowerCase() === "enable");
