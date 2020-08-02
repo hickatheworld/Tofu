@@ -688,7 +688,7 @@ export default class DB extends Sq.Sequelize {
 		const obj: any = {};
 		settings[key] = value;
 		if (key === "modLogsChannel" || key === "mutedRole") {
-			obj[key] = value.id;
+			obj[key] = (value) ? value.id : null;
 		} else obj[key] = value;
 		this.models.moderationSettings.update(obj, { where: { guild: guild.id } });
 		if (key === "modLogsChannel") log.info(`Set moderationSettings ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
