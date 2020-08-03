@@ -107,13 +107,21 @@ export default class OCBot extends Client {
 		}
 		const user: User = await guild.members.unban(unbannedID, `${unbanning.tag} — ${reason}`);
 		const modSettings: GuildModerationSettings = await this.db.getModerationSettings(guild);
-		if (modSettings.enableDM && modSettings.modLogsChannel) {
+		if (modSettings.modLogsEnabled && modSettings.modLogsChannel) {
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor(`${unbanning.tag} (${unbanning.id})`, unbanning.avatarURL({ dynamic: true }))
 				.setDescription(`🔓 **Unbanned ${user.tag}** (${user.id})\n**Reason** : ${reason}`)
 				.setThumbnail(user.avatarURL({ dynamic: true }))
 				.setColor("GREEN");
 			modSettings.modLogsChannel.send(embed);
+		}
+		if (modSettings.enableDM) {
+			const embed: MessageEmbed = new MessageEmbed()
+				.setAuthor(guild.name, guild.iconURL({ dynamic: true }))
+				.setDescription(`🔓 __You have been unbanned__\n**Actioned by:** ${unbanning.tag}\n**Reason:** ${reason}`)
+				.setColor("GREEN")
+				.setTimestamp(new Date());
+			user.send(embed).catch((_error) => false);
 		}
 		if (rowID) {
 			await this.db.models.punishments.update({ closed: true }, { where: { id: rowID } });
