@@ -43,6 +43,10 @@ export = class extends Command {
 				return;
 			}
 			const role: Role = parseRole(args[0], message.guild);
+			if (role.position >= message.guild.me.roles.highest.position) {
+				message.channel.send("❌ This role is too high in the list for me to control it. Please move it under my highest role.");
+				return;
+			}
 			await this.client.db.setModerationSetting(message.guild, "mutedRole", role);
 			message.channel.send(`✅ Set muted role to **${role.name}**.`);
 		});
