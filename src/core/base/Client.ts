@@ -1,4 +1,4 @@
-import { Client, Snowflake, Collection, ClientEvents, User, Guild, MessageEmbed } from "discord.js";
+import { Client, Snowflake, Collection, ClientEvents, User, Guild, MessageEmbed, GuildMember } from "discord.js";
 import { promises as fs } from "fs";
 import { join } from "path";
 import BotOptions from "../typedefs/BotOptions";
@@ -109,23 +109,36 @@ export default class OCBot extends Client {
 		const modSettings: GuildModerationSettings = await this.db.getModerationSettings(guild);
 		if (modSettings.modLogsEnabled && modSettings.modLogsChannel) {
 			const embed: MessageEmbed = new MessageEmbed()
-				.setAuthor(`${unbanning.tag} (${unbanning.id})`, unbanning.avatarURL({ dynamic: true }))
-				.setDescription(`🔓 **Unbanned ${user.tag}** (${user.id})\n**Reason** : ${reason}`)
-				.setThumbnail(user.avatarURL({ dynamic: true }))
-				.setColor("GREEN");
+			.setAuthor(`${unbanning.tag} (${unbanning.id})`, unbanning.avatarURL({ dynamic: true }))
+			.setDescription(`🔓 **Unbanned ${user.tag}** (${user.id})\n**Reason** : ${reason}`)
+			.setThumbnail(user.avatarURL({ dynamic: true }))
+			.setColor("GREEN");
 			modSettings.modLogsChannel.send(embed);
 		}
 		if (modSettings.enableDM) {
 			const embed: MessageEmbed = new MessageEmbed()
-				.setAuthor(guild.name, guild.iconURL({ dynamic: true }))
-				.setDescription(`🔓 __You have been unbanned__\n**Actioned by:** ${unbanning.tag}\n**Reason:** ${reason}`)
-				.setColor("GREEN")
-				.setTimestamp(new Date());
+			.setAuthor(guild.name, guild.iconURL({ dynamic: true }))
+			.setDescription(`🔓 __You have been unbanned__\n**Actioned by:** ${unbanning.tag}\n**Reason:** ${reason}`)
+			.setColor("GREEN")
+			.setTimestamp(new Date());
 			user.send(embed).catch((_error) => false);
 		}
 		if (rowID) {
 			await this.db.models.punishments.update({ closed: true }, { where: { id: rowID } });
 		}
 		this.db.unban(guild.id, unbanning.id, user.id, reason);
+	}
+
+	public async unmute(guildID: Snowflake, unmutedID: Snowflake, unmuting: User, reason: string, rowID?: number): Promise<void> {
+		const guild: Guild = this.guilds.resolve(guildID);
+		if (!guild) {
+			await this.db.models.punishments.update({ closed: true }, { where: { guild: guildID } });
+			return;
+		}
+		const member: GuildMember = await guild.members.fetch(unmutedID);
+		if (!member) {
+			return;			
+		}
+
 	}
 }
