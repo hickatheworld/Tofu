@@ -2,6 +2,9 @@ import { Message } from "discord.js";
 import fetch from "node-fetch";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
+import { XmlEntities } from "html-entities";
+import Trivia from "../../core/typedefs/Trivia";
+import { shuffleArray } from "../../core/lib/utils";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -16,10 +19,28 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			const question: any = await (fetch("https://opentdb.com/api.php?amount=1").then(res => res.json()));
-			message.channel.send(question.results[0].question);
+			const decode: Function = new XmlEntities().decode;
+			const res: any = await fetch("https://opentdb.com/api.php?amount=1").then(async res => (await res.json()).results[0]);
+			var answers: string[] = res.incorrect_answers.concat(res.correct_answer);
+			for (const i in answers) {
+				answers[i] = decode(answers[i]);
+			}
+			answers = shuffleArray(answers);
+			const index = answers.indexOf(res.correct_answer);
+			const trivia: Trivia = {
+				answers: answers,
+				correct: index,
+				difficulty: res.difficulty,
+				question: decode(res.question),
+			}
+			const letters: string[] = ["🇦", "🇧", "🇨", "🇩"];
+			var msg: string = `Difficulty : *${trivia.difficulty}*\n**${trivia.question}**`;
+			for (const i in answers) {
+				msg+=`\n${letters[i]} ${answers[i]}`;
+			}
+			await message.channel.send(msg);
 			setTimeout(() => {
-				message.channel.send(`Answer was : **${question.results[0].correct_answer.replace("&quot;","\"")}**`);
+				message.channel.send(`Answer : ${letters[trivia.correct]} **${trivia.answers[trivia.correct]}**`);
 			}, 10000);
 		});
 	}
