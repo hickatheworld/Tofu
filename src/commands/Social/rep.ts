@@ -1,9 +1,11 @@
+import * as cron from "node-cron";
 import { Message, User } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
 import { formatDuration } from "../../core/lib/Time";
+import * as log from "../../core/lib/Log";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -17,7 +19,12 @@ export = class extends Command {
 		});
 	}
 
-	public async setup() {}
+	public async setup(): Promise<void> {
+		cron.schedule("0 0 0 * * *", () => {
+			this.client.db.models.profiles.update({ canRep: true }, { where: { canRep: false } });
+			log.info("Reset canRep property for all users.");
+		});
+	}
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {

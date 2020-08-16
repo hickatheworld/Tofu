@@ -1,4 +1,4 @@
-import { Client, Snowflake, Collection, ClientEvents } from "discord.js";
+import { Client, Snowflake, Collection, ClientEvents, User, Guild, MessageEmbed, GuildMember } from "discord.js";
 import { promises as fs } from "fs";
 import { join } from "path";
 import BotOptions from "../typedefs/BotOptions";
@@ -6,6 +6,7 @@ import Command from "./Command";
 import * as log from "../lib/Log";
 import DB from "../lib/db";
 import BotEvent from "./BotEvent";
+import GuildModerationSettings from "../typedefs/GuildModerationSettings";
 
 export default class OCBot extends Client {
 	public admins: Snowflake[];

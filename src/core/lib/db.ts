@@ -1,5 +1,5 @@
 import * as Sq from "sequelize";
-import { User, Guild, TextChannel, Message } from "discord.js";
+import { User, Guild, TextChannel, Message, Snowflake } from "discord.js";
 import OCBot from "../base/Client";
 import * as log from "./Log";
 import BotProfile from "../typedefs/BotProfile";
@@ -9,7 +9,10 @@ import Giveaway from "../typedefs/Giveaway";
 import StarboardSettings from "../typedefs/StarboardSettings";
 import DVD from "../typedefs/DVD";
 import { randomInt } from "./utils";
+import Punishment from "../typedefs/Punishment";
+import GuildModerationSettings from "../typedefs/GuildModerationSettings";
 require("dotenv").config();
+
 export default class DB extends Sq.Sequelize {
 	private client: OCBot;
 	constructor(client: OCBot) {
@@ -593,6 +596,7 @@ export default class DB extends Sq.Sequelize {
 		const obj: any = dvd;
 		obj.guild = dvd.guild.id;
 		await this.models.dvd.update(obj, { where: { guild: guild.id } });
+		log.info(`Updated dvd for ${log.guild(guild)}`);
 		return dvd;
 	}
 
@@ -601,7 +605,7 @@ export default class DB extends Sq.Sequelize {
 		const obj: any = dvd;
 		obj.guild = dvd.guild.id;
 		await this.models.dvd.update(obj, { where: { guild: guild.id } });
+		log.info(`Reset dvd for ${log.guild(guild)}`);
 		return dvd;
 	}
-
 }
