@@ -21,12 +21,15 @@ export = class extends Command {
 		super.check(message, async () => {
 			const decode: Function = new XmlEntities().decode;
 			const res: any = await fetch("https://opentdb.com/api.php?amount=1").then(async res => (await res.json()).results[0]);
+			console.log(res);
 			var answers: string[] = res.incorrect_answers.concat(res.correct_answer);
 			for (const i in answers) {
 				answers[i] = decode(answers[i]);
 			}
 			answers = shuffleArray(answers);
-			const index = answers.indexOf(res.correct_answer);
+			const index = answers.indexOf(decode(res.correct_answer));
+			console.log(index);
+			console.log(answers);
 			const trivia: Trivia = {
 				answers: answers,
 				correct: index,
@@ -41,7 +44,7 @@ export = class extends Command {
 			await message.channel.send(msg);
 			setTimeout(() => {
 				message.channel.send(`Answer : ${letters[trivia.correct]} **${trivia.answers[trivia.correct]}**`);
-			}, 10000);
+			}, 0);
 		});
 	}
 }
