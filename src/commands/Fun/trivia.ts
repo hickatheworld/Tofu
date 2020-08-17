@@ -44,7 +44,7 @@ export = class extends Command {
 			await message.channel.send(msg);
 			setTimeout(() => {
 				message.channel.send(`Answer : ${letters[trivia.correct]} **${trivia.answers[trivia.correct]}**`);
-			}, 0);
+			}, 10000);
 		});
 	}
 }
