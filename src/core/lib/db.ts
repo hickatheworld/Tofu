@@ -5,12 +5,9 @@ import * as log from "./Log";
 import BotProfile from "../typedefs/BotProfile";
 import GuildWelcome from "../typedefs/GuildWelcome";
 import GuildBye from "../typedefs/GuildBye";
-import Giveaway from "../typedefs/Giveaway";
 import StarboardSettings from "../typedefs/StarboardSettings";
 import DVD from "../typedefs/DVD";
 import { randomInt } from "./utils";
-import Punishment from "../typedefs/Punishment";
-import GuildModerationSettings from "../typedefs/GuildModerationSettings";
 require("dotenv").config();
 
 export default class DB extends Sq.Sequelize {
@@ -140,44 +137,6 @@ export default class DB extends Sq.Sequelize {
 			logChannel: {
 				type: Sq.STRING
 			}
-		}).sync({ force: force });
-		this.define("giveaways", {
-			channel: {
-				type: Sq.STRING,
-				allowNull: false
-			},
-			message: {
-				type: Sq.STRING,
-				allowNull: false
-			},
-			name: {
-				type: Sq.STRING,
-				allowNull: false
-			},
-			end: {
-				type: Sq.DATE,
-				allowNull: false
-			},
-			participating: {
-				type: Sq.STRING
-			},
-			winnersCount: {
-				type: Sq.NUMBER,
-				allowNull: false
-			},
-			winners: {
-				type: Sq.STRING
-			},
-			finished: {
-				type: Sq.BOOLEAN,
-				allowNull: false,
-				defaultValue: false
-			},
-			host: {
-				type: Sq.STRING,
-				allowNull: false
-			}
-
 		}).sync({ force: force });
 		this.define("starboards", {
 			enabled: {
@@ -398,118 +357,6 @@ export default class DB extends Sq.Sequelize {
 		else if (value instanceof TextChannel) log.info(`Set bye ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
 		else log.info(`Set bye ${log.text(key)} to ${log.text(value.toString())} for ${log.guild(guild)}`);
 		return bye;
-	}
-
-	private async modelToGiveaway(model: Sq.Model): Promise<Giveaway> {
-		const obj: any = model.toJSON();
-		const channel: TextChannel = this.client.channels.cache.get(obj.channel) as TextChannel;
-		const message: Message = await channel.messages.fetch(obj.message);
-		var participating: User[] = [];
-		var winners: User[] = [];
-		for (const id of obj.participating.split(",")) {
-			if (this.client.users.cache.has(id)) {
-				participating.push(this.client.users.cache.get(id));
-			}
-		}
-		for (const id of obj.winners.split(",")) {
-			if (this.client.users.cache.has(id)) {
-				winners.push(this.client.users.cache.get(id));
-			}
-		}
-		return {
-			channel: channel,
-			host: this.client.users.cache.get(obj.host) || null,
-			end: obj.end,
-			finished: obj.finished,
-			message: message,
-			name: obj.name,
-			id: obj.id,
-			participating: participating,
-			winners: winners,
-			winnersCount: obj.winnersCount
-		}
-	}
-
-	async createGiveaway(ga: Giveaway): Promise<Giveaway> {
-		const dbGA: Sq.Model = await this.models.giveaways.create({
-			channel: ga.channel.id,
-			name: ga.name,
-			message: ga.message.id,
-			winnersCount: ga.winnersCount,
-			end: ga.end,
-			participating: ga.participating.map(u => u.id).join(","),
-			winners: ga.winners.map(u => u.id).join(","),
-			finished: ga.finished,
-			host: ga.host.id,
-		});
-		ga.id = (dbGA.toJSON() as any).id;
-		log.info(`A new giveaway has been created\nID : ${log.number(ga.id)}\nName : ${log.text(ga.name)}\nChannel : ${log.channel(ga.channel)}\nHost : ${log.user(ga.host)}\nWinners : ${log.number(ga.winnersCount)}\nEnd : ${ga.end.toUTCString()}`);
-		return ga;
-	}
-
-	async getGiveaway(id: number): Promise<Giveaway | null> {
-		const ga: any = await this.models.giveaways.findOne({ where: { id: id } });
-		if (ga === null) return null;
-		return await this.modelToGiveaway(ga);
-	}
-	async addGAParticipating(id: number, user: User): Promise<Giveaway | null> {
-		const ga: any = await this.models.giveaways.findOne({ where: { id: id } });
-		if (ga === null) {
-			return null;
-		}
-		var participating: User[] = [];
-		for (const id of ga.toJSON().participating.split(",")) {
-			if (this.client.users.cache.has(id)) {
-				participating.push(this.client.users.cache.get(id));
-			}
-		}
-		if (!(ga.toJSON().participating.includes(user.id) || user.bot)) participating.push(user);
-		const dbEntry: string = participating.map(u => u.id).join(",");
-		await this.models.giveaways.update({ participating: dbEntry }, { where: { id: id } });
-		const updatedGA: Sq.Model = await this.models.giveaways.findOne({ where: { id: id } });
-		log.info(`${log.user(user)} was added to the [${log.number(id)}] ${log.text(ga.toJSON().name)} giveaway.`);
-		return await this.modelToGiveaway(updatedGA);
-	}
-	async removeGAParticipating(id: number, user: User): Promise<Giveaway | null> {
-		const ga: any = await this.models.giveaways.findOne({ where: { id: id } });
-		if (ga === null) {
-			return null;
-		}
-		const ids = ga.toJSON().participating.replace(user.id, "");
-		var participating: User[] = [];
-		for (const id of ids.split(",")) {
-			if (id === user.id) continue;
-			if (this.client.users.cache.has(id)) {
-				participating.push(this.client.users.cache.get(id));
-			}
-		}
-		const dbEntry: string = participating.map(u => u.id).join(",");
-		await this.models.giveaways.update({ participating: dbEntry }, { where: { id: id } });
-		const updatedGA: Sq.Model = await this.models.giveaways.findOne({ where: { id: id } });
-		log.info(`${log.user(user)} was removed from the [${log.number(id)}] ${log.text(ga.toJSON().name)} giveaway.`);
-		return await this.modelToGiveaway(updatedGA);
-	}
-
-	async finishGiveaway(id: number, winners: User[]): Promise<Giveaway> {
-		const ga: any = await this.models.giveaways.findOne({ where: { id: id } });
-		if (ga === null) return null;
-		const dbEntry: Object = {
-			finished: true.toString(),
-			winners: winners.map(u => u.id).join(",")
-		};
-		await this.models.giveaways.update(dbEntry, { where: { id: id } });
-		if (winners.length < 1) log.info(`Nobody won the [${log.number(id)}] ${log.text(ga.toJSON().name)} giveaway.`);
-		else log.info(`${winners.map(u => log.user(u)).join(", ")} won the [${log.number(id)}] ${log.text(ga.toJSON().name)} giveaway.`);
-		return await this.modelToGiveaway(await this.models.giveaways.findOne({ where: { id: id } }));
-	}
-
-	async getAllGiveaways(includeFinished: boolean = false): Promise<Giveaway[]> {
-		const models: Sq.Model[] = await this.models.giveaways.findAll((includeFinished) ? null : { where: { finished: false } });
-		const giveaways: Giveaway[] = [];
-		for (const model of models) {
-			giveaways.push(await this.modelToGiveaway(model));
-		}
-		return giveaways;
 	}
 
 	async createStarboard(guild: Guild): Promise<StarboardSettings> {
