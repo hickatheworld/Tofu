@@ -13,7 +13,7 @@ export = class extends Command {
 				"<message: String>",
 				"<channel: Channel> <message: String>"
 			],
-			whitelist: client.admins
+			perms: ["MANAGE_MESSAGES"]
 		});
 
 	}
