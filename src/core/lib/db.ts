@@ -93,7 +93,7 @@ export default class DB extends Sq.Sequelize {
 			},
 			value: {
 				type: Sq.JSON,
-				defaultValue: { message: "Welcome to {SERVER_NAME}}, {USER_MENTION} !" },
+				defaultValue: { message: "Welcome to {SERVER_NAME}, {USER_MENTION} !" },
 				allowNull: false,
 			},
 			logs: {
