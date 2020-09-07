@@ -34,7 +34,7 @@ export = class extends BotEvent {
 				.setFooter(`${member.guild.memberCount}th member`)
 				.setColor("GREEN")
 				.setTimestamp(new Date());
-			welcome.logChannel.send(embed);
+			welcome.logChannel.send(`\`${member.id}\``, { embed: embed });
 		}
 	}
 }	
