@@ -6,11 +6,12 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "embed",
-			desc: "Makes the bot send an embed (Admin only)",
+			desc: "Makes the bot send an embed",
 			module: "OC Bot",
 			usages: [
 				"<options: Object>"
 			],
+			perms: ["MANAGE_MESSAGES"]
 		});
 	}
 
