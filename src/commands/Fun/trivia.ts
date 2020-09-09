@@ -11,7 +11,8 @@ export = class extends Command {
 		super(client, {
 			name: "trivia",
 			desc: "Gets you a trivia question. Powered by [Open Trivia Database](https://opentdb.com/)",
-			module: "Fun"
+			module: "Fun",
+			cooldown: 10000
 		});
 	}
 
