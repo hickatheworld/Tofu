@@ -8,7 +8,6 @@
 
 <hr>
 This bot was made for the <a href="https://discord.gg/oncecommunity" target="_blank">Once Community Discord server</a>.<br />
-It was built specifically to run on, and only, this server. Technically, the bot can be used on multiple servers, but permissions aren't made for this. If you ever want to self-host this bot on multiple servers, you will probably have to build new systems for permissions, especially for the <u>Server Management</u> module.
 <hr>
 <a href="https://forthebadge.com" target="_blank"><img src="https://forthebadge.com/images/badges/built-with-love.svg" /></a>
 </div>
@@ -17,4 +16,4 @@ It was built specifically to run on, and only, this server. Technically, the bot
 
 <a href="https://twitter.com/puddingmangue" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/puddingmangue?style=social"></a>
 <br>
-Discord direct contact : Hicka#3151
+Discord direct contact : **Hicka#3151**
