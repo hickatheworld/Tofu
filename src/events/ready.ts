@@ -19,25 +19,9 @@ export = class extends BotEvent {
 		if (this.client.test) {
 			console.log(yellow("/!\\ Bot in test mode. All non-admin messages will be ignored /!\\"));
 		}
-		var switcher: boolean = false;
 		this.client.user.setActivity({
-			type: "LISTENING",
-			name: `${this.client.commands.array().length} commands`
+			type: "PLAYING",
+			name: `intolerable stupidity`
 		});
-		setInterval(() => {
-			if (switcher) {
-				this.client.user.setActivity({
-					type: "LISTENING",
-					name: `${this.client.commands.array().length} commands`
-				});
-			} else {
-				this.client.user.setActivity({
-					type: "WATCHING",
-					name: `${this.client.guilds.cache.get("648589630723325974").memberCount} members`
-				});
-			}
-			switcher = !switcher;
-		}, 30000);
-
 	}
 }
