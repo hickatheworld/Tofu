@@ -34,11 +34,13 @@ export = class extends Command {
 				message.channel.send("❌ Invalid type");
 				return;
 			}
-			const name: string = args.join(" ");
+			var name: string = args.join(" ").trim();
 			if (!name) {
 				message.channel.send("❌ Please set an activity name");
 				return;
 			}
+			if (type === "LISTENING" && name.toLowerCase().startsWith("to"))
+				name = name.slice(3);
 			if (type === "STREAMING")
 				await this.client.user.setActivity(name, { type: type, url: "https://twitch.tv/puddingmangue" });
 			else
