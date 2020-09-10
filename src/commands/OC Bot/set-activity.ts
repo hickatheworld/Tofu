@@ -1,6 +1,7 @@
-import { Message, MessageEmbed, ActivityType } from "discord.js";
+import { Message, MessageEmbed, ActivityType, GuildAuditLogs } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
+import * as log from "../../core/lib/Log";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -25,6 +26,7 @@ export = class extends Command {
 			const type: ActivityType = (args.shift() || "").toUpperCase() as ActivityType;
 			if ((type as string) == "" && args.length < 2) {
 				await this.client.user.setActivity();
+				log.info(`${log.user(message.author)} cleared bot's activity`);
 				message.channel.send("✅ Cleared activity.");
 				return;
 			}
@@ -42,6 +44,7 @@ export = class extends Command {
 			else
 				await this.client.user.setActivity(name, { type: type });
 			message.channel.send(`✅ Set activity to : ${type[0] + type.slice(1).toLocaleLowerCase()} ${(type === "LISTENING") ? "to" : ""} **${name}**`);
+			log.info(`${log.user(message.author)} set bot's activity to : ${log.text(type + " " + name)}`);
 			return;
 		});
 	}
