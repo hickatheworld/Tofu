@@ -194,7 +194,6 @@ export default class DB extends Sq.Sequelize {
 				user: snowflake
 			});
 		} catch (err) {
-			console.log("yes");
 			/* This is a quick fix
 			Must find why this is triggered twice for the same user */
 		}
