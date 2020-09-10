@@ -25,7 +25,8 @@ export default class DB extends Sq.Sequelize {
 		this.define("profiles", {
 			user: {
 				type: Sq.STRING,
-				unique: true
+				unique: true,
+				allowNull: false
 			},
 			title: {
 				type: Sq.STRING,
@@ -188,9 +189,15 @@ export default class DB extends Sq.Sequelize {
 	async createProfile(user: User): Promise<BotProfile> {
 		const model = this.model("profiles");
 		const snowflake = user.id;
-		await model.create({
-			user: snowflake
-		});
+		try {
+			await model.create({
+				user: snowflake
+			});
+		} catch (err) {
+			console.log("yes");
+			/* This is a quick fix
+			Must find why this is triggered twice for the same user */
+		}
 		log.info(`Generated profile for ${log.user(user)}`);
 		return {
 			bestie: null,
