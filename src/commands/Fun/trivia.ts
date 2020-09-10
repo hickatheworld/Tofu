@@ -36,9 +36,9 @@ export = class extends Command {
 			}
 			const letters: string[] = ["🇦", "🇧", "🇨", "🇩"];
 			const colors: any = {
-				"easy": "GREEN",
-				"medium": "ORANGE",
-				"hard": "RED"
+				"easy": "#31a6e0",
+				"medium": "#f5d41b",
+				"hard": "#d61c1c"
 			};
 
 			var questions: string = "";
