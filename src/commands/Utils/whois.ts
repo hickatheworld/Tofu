@@ -120,17 +120,17 @@ export = class extends Command {
 					},
 					{
 						name: "Color role",
-						value: (member.roles.color) ? member.roles.color : "None",
+						value: member.roles.color || "@everyone",
 						inline: true
 					},
 					{
 						name: "Hoisted role",
-						value: (member.roles.hoist) ? member.roles.hoist : "None",
+						value: member.roles.hoist || "@everyone",
 						inline: true
 					},
 					{
 						name: "Permisions",
-						value: member.permissions.toArray().map(i => "`" + i + "`").join(", "),
+						value: member.permissions.toArray().map(i => "`" + i + "`").join(", ") || "None",
 						inline: false
 					}
 				])
