@@ -9,6 +9,30 @@
 <hr>
 This bot was made for the <a href="https://discord.gg/oncecommunity" target="_blank">Once Community Discord server</a>.<br />
 <hr>
+</div>
+<h2>Self hosting</h2>
+To host your own version of OC Bot, follow the steps : 
+
+ - Clone this repository using the following command in your terminal :
+<pre>
+$ git clone https://github.com/Hickacou/OC-Bot
+</pre>
+- Set the environment variables. For this, rename <code>.env.example</code> to <code>.env</code> and fill the blank spaces with your values.
+- Install the dependencies with : 
+<pre>
+$ npm install
+</pre>
+- Make sur you set usable constants in <code>./src/lib/Constants.ts</code>
+- Compile and run with <b>pm2</b>:
+<pre>
+$ npm run compile
+$ pm2 start build/app.js --name "OC-Bot"
+</pre>
+You can also use <code>npm start</code>
+
+<b>Make sure to name your pm2 process "OC-Bot" for the npm scripts to work correctly</b>
+
+<div align="center">
 <a href="https://forthebadge.com" target="_blank"><img src="https://forthebadge.com/images/badges/built-with-love.svg" /></a>
 </div>
 <h3>Made by Hicka</h3>
