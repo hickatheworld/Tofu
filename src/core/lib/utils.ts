@@ -34,8 +34,8 @@ export function formatPermission(name: string): string {
 	for (const i of name.split("_")) {
 		out += i[0].toUpperCase() + i.slice(1).toLowerCase() + " ";
 	}
-	out.replace(/tts/i, "TTS")
-	out.replace(/Vad/, "Voice Activity Detection")
+	out = out.replace(/tts/i, "TTS")
+	out = out.replace(/Vad/, "Voice Activity Detection")
 	return out.slice(0, out.length - 1);
 }
 
