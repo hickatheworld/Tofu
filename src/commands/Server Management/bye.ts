@@ -3,6 +3,7 @@ import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import * as Args from "../../core/lib/Args";
 import { replaceWelcomeVariables } from "../../core/lib/utils";
+import { BotResponseEmotes } from "../../core/lib/Constants";
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
@@ -22,7 +23,7 @@ export = class extends Command {
 		});
 	}
 
-	public async setup(): Promise<void> {}
+	public async setup(): Promise<void> { }
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
@@ -30,12 +31,12 @@ export = class extends Command {
 			if (args[0]) subcommand = args[0].toLowerCase();
 			if (subcommand === "enable" || subcommand === "disable") {
 				if ((await this.client.db.getBye(message.guild)).channel === null) {
-					message.channel.send(`❌ Please specify a bye channel with \`${this.client.prefix}${this.name} channel\``);
+					this.error(`Please specify a bye channel with \`${this.client.prefix}${this.name} channel\``, message.channel);
 					return;
 				}
 				const enabled: boolean = subcommand === "enable";
 				await this.client.db.setBye(message.guild, "enabled", enabled);
-				message.channel.send(`✅ ${enabled ? "Enabled" : "Disabled"} bye on this server.`);
+				this.success(`${enabled ? "Enabled" : "Disabled"} bye on this server.`, message.channel);
 				return;
 			}
 
@@ -50,19 +51,19 @@ export = class extends Command {
 				const arg: string = args.join(" ");
 				try {
 					obj = JSON.parse(arg);
-				} catch (e) {
+				} catch (err) {
 					message.channel.send(`'${args[1]}'`);
-					message.reply(`❌ JSON parsing error : \`${e.message}\``);
+					this.error("JSON parsing error", message.channel, err);
 					return;
 				}
 				const embed: MessageEmbed = new MessageEmbed(replaceWelcomeVariables(obj, message.author, message.guild, true));
 				try {
-					await message.channel.send("✅ Set the bye embed to :", embed);
+					await message.channel.send(BotResponseEmotes.SUCCESS + " Set the bye embed to :", embed);
 					if (!(await this.client.db.getBye(message.guild)).enabled) {
-						await message.channel.send(`**Bye is disabled.** Do \`${this.client.prefix}${this.name} enable\` to enable it.`);
+						await this.warn(`**Bye is disabled.** Do \`${this.client.prefix}${this.name} enable\` to enable it.`, message.channel);
 					}
-				} catch (e) {
-					message.channel.send(`❌ \`${e.message}\`\n Here are the docs of Discord's MessageEmbeds, it may help : https://discord.js.org/#/docs/main/stable/class/MessageEmbed`);
+				} catch (err) {
+					this.error("An error occured.\n[Docs of Discord Embeds](https://discord.js.org/#/docs/main/stable/class/MessageEmbed]", message.channel, err);
 					return;
 				}
 				this.client.db.setBye(message.guild, "value", obj);
@@ -76,9 +77,9 @@ export = class extends Command {
 				const msg: any = replaceWelcomeVariables({ message: arg }, message.author, message.guild, false);
 				await this.client.db.setBye(message.guild, "value", msg);
 				await this.client.db.setBye(message.guild, "type", "text");
-				await message.channel.send(`✅ Set the bye message to :\n${msg.message}`);
+				await this.success(`Set the bye message to :\n${msg.message}`, message.channel);
 				if (!(await this.client.db.getBye(message.guild)).enabled) {
-					await message.channel.send(`**Bye is disabled.** Do \`${this.client.prefix}${this.name} enable\` to enable it.`);
+					await this.warn(`**Bye is disabled.** Do \`${this.client.prefix}${this.name} enable\` to enable it.`, message.channel);
 				}
 				return;
 			}
@@ -86,11 +87,11 @@ export = class extends Command {
 			if (subcommand === "channel") {
 				const channel: TextChannel = Args.parseChannel(args[1], message.guild) as TextChannel;
 				if (channel === null) {
-					message.channel.send("❌ Can't find channel.");
+					this.error("Can't find channel.", message.channel);
 					return;
 				}
 				await this.client.db.setBye(message.guild, "channel", channel);
-				message.channel.send(`✅ Set bye channel to ${channel.toString()}`);
+				this.success(`Set bye channel to ${channel.toString()}`, message.channel);
 				return;
 			}
 
@@ -98,27 +99,27 @@ export = class extends Command {
 				var channel: TextChannel;
 				if ((channel = Args.parseChannel(args[1], message.guild) as TextChannel) !== null) {
 					await this.client.db.setBye(message.guild, "logChannel", channel);
-					await message.channel.send(`✅ Set leaves logs channel to ${channel.toString()}`);
+					await this.success(`Set leaves logs channel to ${channel.toString()}`, message.channel);
 					if (!(await this.client.db.getBye(message.guild)).logs) {
-						await message.channel.send(`**Leave logs are disabled.** Do \`${this.client.prefix}${this.name} logs enable\` to enable it.`);
+						await this.warn(`**Leave logs are disabled.** Do \`${this.client.prefix}${this.name} logs enable\` to enable it.`, message.channel);
 					}
 					return;
 				}
 
 				if (!(args[1].toLowerCase() === "enable" || args[1].toLowerCase() === "disable")) {
-					message.channel.send("❌ Invalid argument.");
+					this.error("Invalid argument.", message.channel);
 					return;
 				}
 				if ((await this.client.db.getBye(message.guild)).logChannel === null) {
-					message.channel.send(`❌ Please specify a leave logs channel with \`${this.client.prefix}${this.name} logs <channel>\``);
+					this.error(`Please specify a leave logs channel with \`${this.client.prefix}${this.name} logs <channel>\``, message.channel);
 					return;
 				}
 				const enabled: boolean = args[1].toLowerCase() === "enable";
 				await this.client.db.setBye(message.guild, "logs", enabled);
-				message.channel.send(`✅ ${(enabled) ? "Enabled" : "Disabled"} leave logs on this server.`);
+				this.success(`${(enabled) ? "Enabled" : "Disabled"} leave logs on this server.`, message.channel);
 				return;
 			}
-			message.channel.send(`❌ Invalid argument. Do \`${this.client.prefix}help ${this.name}\` for more informations.`);
+			this.error(`Invalid argument. Do \`${this.client.prefix}help ${this.name}\` for more informations.`, message.channel);
 		});
 	}
 }

@@ -24,7 +24,7 @@ export = class extends Command {
 			const proposing: User = message.author;
 			const proposed: User = parseUser(args[0], this.client);
 			if (!proposed || !message.guild.members.cache.has(proposed.id)) {
-				message.channel.send("❌ Can't find user.");
+				this.error("Can't find user.", message.channel);
 				return;
 			}
 			const proposingProfile: BotProfile = await this.client.db.getProfile(proposing);

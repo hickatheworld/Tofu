@@ -28,7 +28,7 @@ export = class extends Command {
 				user = parseUser(args[0], this.client);
 				member = parseMember(args[0], message.guild);
 				if (!member) {
-					this.error("❌ User is not in this guild", message.channel);
+					this.error("User is not in this guild", message.channel);
 					return;
 				}
 			}

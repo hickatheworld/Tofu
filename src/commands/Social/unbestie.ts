@@ -23,7 +23,7 @@ export = class extends Command {
 			}
 			await this.client.db.setUser(message.author, "bestie", null);
 			await this.client.db.setUser(profile.bestie, "bestie", null);
-			this.success("✅ You are now free again!", message.channel);
+			this.success("You are now free again!", message.channel);
 		});
 	}
 }

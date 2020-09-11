@@ -29,24 +29,24 @@ export = class extends Command {
 				const enabled: boolean = (subcommand === "enable");
 				const sb: StarboardSettings = await this.client.db.getStarboard(message.guild);
 				if (enabled && !sb.channel) {
-					message.channel.send(`❌ Please specify a starboard channel with \`${this.client.prefix}${this.name} channel\``);
+					this.error(`Please specify a starboard channel with \`${this.client.prefix}${this.name} channel\``, message.channel);
 					return;
 				}
 				await this.client.db.setStarboard(message.guild, "enabled", enabled);
-				message.channel.send(`✅ ${(enabled) ? "Enabled" : "Disabled"} starboard on this server.`);
+				this.success(`${(enabled) ? "Enabled" : "Disabled"} starboard on this server.`, message.channel);
 				return;
 			}
 			if (subcommand === "channel") {
 				const channel: TextChannel = parseChannel(args.shift(), message.guild) as TextChannel;
 				if (!channel) {
-					message.channel.send(`❌ Incorrect channel.`);
+					this.error("Incorrect channel.", message.channel);
 					return;
 				}
 				await this.client.db.setStarboard(message.guild, "channel", channel);
-				message.channel.send(`✅ Set starboard channel to **#${channel.name}**`);
+				this.success(`Set starboard channel to **#${channel.name}**`, message.channel);
 				return;
 			}
-			message.channel.send(`❌ Invalid argument. Do \`${this.client.prefix}help ${this.name}\` for more informations.`);
+			this.error(`Invalid argument. Do \`${this.client.prefix}help ${this.name}\` for more informations.`, message.channel);
 		});
 	}
 }
