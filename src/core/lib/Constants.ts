@@ -2,12 +2,12 @@
  * Default emotes are hosted on https://discord.gg/nJjDQGz
  * You must have your bot in the guild you're hosting the emotes at to make it able to use them
  */
-export enum BotAnswersColors {
+export enum BotResponseColors {
 	SUCCESS = "GREEN",
 	WARNING = "YELLOW",
 	ERROR = "RED"
 }
-export enum BotAnswersEmotes {
+export enum BotResponseEmotes {
 	SUCCESS = "✅",
 	WARNING = "⚠",
 	ERROR = "<:rejected:753971493901172762>"
