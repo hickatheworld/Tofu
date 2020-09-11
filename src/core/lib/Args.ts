@@ -1,4 +1,4 @@
-import { Client, Guild, GuildChannel, GuildMember, Role, Snowflake, User } from "discord.js";
+import { Client, Guild, GuildChannel, GuildMember, Role, Snowflake, TextChannel, User } from "discord.js";
 
 export const userMention: RegExp = /<@!?(\d{18,})>/;
 export const channelMention: RegExp = /<#(\d{18,})>/;
@@ -13,11 +13,18 @@ export function parseID(str: string, regex: RegExp): Snowflake | null {
 	} else return null;
 }
 
-export function parseChannel(str: string, guild: Guild): GuildChannel | null {
-	if (parseID(str, channelMention) === null) return null;
+export function parseChannel(str: string, guild: Guild, global: boolean = false, client?: Client): TextChannel | null {
 	const id: Snowflake = parseID(str, channelMention);
+	if (global) {
+		if (!client) {
+			return null;
+		}
+		if (!(client.channels.cache.has(id))) return null;
+		return client.channels.cache.get(id) as TextChannel;
+	}
+	if (parseID(str, channelMention) === null) return null;
 	if (!guild.channels.cache.has(id) || guild.channels.cache.get(id).type !== "text") return null;
-	return guild.channels.cache.get(id);
+	return guild.channels.cache.get(id) as TextChannel;
 }
 
 export function parseMember(str: string, guild: Guild): GuildMember | null {
