@@ -46,11 +46,11 @@ export = class extends Command {
 				return;
 			}
 			const name = (args.shift() || "").toLowerCase();
-			if (!this.client.commands.has(name)) {
+			if (!this.client.commands.has(name) && !this.client.aliases.has(name)) {
 				message.channel.send("❌ Can't find command");
 				return;
 			}
-			const command: Command = this.client.commands.get(name);
+			const command: Command = this.client.commands.get(name) || this.client.commands.get(this.client.aliases.get(name));
 			if (command.module === "Social") {
 				message.channel.send("⚠ Social commands are likely to fail with oc!execute even if no error is triggered.");
 			}
