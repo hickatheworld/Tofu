@@ -42,7 +42,7 @@ export = class extends Command {
 			if (type === "LISTENING" && name.toLowerCase().startsWith("to"))
 				name = name.slice(3);
 			if (type === "STREAMING")
-				await this.client.user.setActivity(name, { type: type, url: "https://twitch.tv/puddingmangue" });
+				await this.client.user.setActivity(name, { type: type, url: "https://twitch.tv/theuniqueocbot" });
 			else
 				await this.client.user.setActivity(name, { type: type });
 			message.channel.send(`✅ Set activity to : ${type[0] + type.slice(1).toLocaleLowerCase()} ${(type === "LISTENING") ? "to" : ""} **${name}**`);
