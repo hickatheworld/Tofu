@@ -1,11 +1,12 @@
 import * as cron from "node-cron";
-import { Message, User } from "discord.js";
+import { Message, MessageEmbed, User } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
 import { formatDuration } from "../../core/lib/Time";
 import * as log from "../../core/lib/Log";
+import { ReputationColor, ReputationEmote } from "../../core/lib/Constants";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -55,7 +56,10 @@ export = class extends Command {
 			const profile: BotProfile = await this.client.db.getProfile(user);
 			await this.client.db.setUser(user, "rep", ++profile.rep);
 			await this.client.db.setUser(message.author, "canRep", false);
-			message.channel.send(`<:DHWinkMM:720095840152191027> | I gave a reputation point to ${user.toString()}!`);
+			const embed: MessageEmbed = new MessageEmbed()
+				.setColor(ReputationColor)
+				.setDescription(`${ReputationEmote} | I gave a reputation point to ${user.toString()}!`);
+			message.channel.send(embed);
 		});
 	}
 }

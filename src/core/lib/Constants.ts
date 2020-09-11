@@ -1,4 +1,4 @@
-import { Snowflake } from "discord.js";
+import { ColorResolvable, Snowflake } from "discord.js";
 /**
  * Default emotes are hosted on https://discord.gg/nJjDQGz
  * You must have your bot in the guild you're hosting the emotes at to make it able to use them
@@ -38,6 +38,10 @@ export enum ProfileEmotes {
 	SERVER_AGE = "⏲",
 	TITLE_DEFAULT = "<:dahyunHeart:753971883988353065>"
 }
+
+export const ReputationColor: ColorResolvable = "BLUE";
+
+export const ReputationEmote: string = "⬆";
 
 export enum TriviaColors {
 	EASY = "BLUE",
