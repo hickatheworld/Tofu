@@ -14,7 +14,7 @@ export enum BotResponseEmotes {
 	ERROR = "<:rejected:753971493901172762>"
 }
 
-export const COOKIE_GIVER_ID: Snowflake = "";
+export const COOKIE_GIVER_ID: Snowflake = "573812128482459648";
 
 export enum DiscordBadgesEmotes {
 	DISCORD_EMPLOYEE = "<:discord_employee:753970243025764363>",
