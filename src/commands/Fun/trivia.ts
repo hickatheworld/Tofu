@@ -5,6 +5,7 @@ import OCBot from "../../core/base/Client";
 import { AllHtmlEntities } from "html-entities";
 import Trivia from "../../core/typedefs/Trivia";
 import { shuffleArray } from "../../core/lib/utils";
+import { TriviaColors, TriviaLetters } from "../../core/lib/Constants";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -34,28 +35,22 @@ export = class extends Command {
 				difficulty: res.difficulty,
 				question: decode(res.question),
 			}
-			const letters: string[] = ["🇦", "🇧", "🇨", "🇩"];
-			const colors: any = {
-				"easy": "#31a6e0",
-				"medium": "#f5d41b",
-				"hard": "#d61c1c"
-			};
 
 			var questions: string = "";
 			for (const i in answers) {
-				questions += `\n${letters[i]} ${answers[i]}`;
+				questions += `\n${TriviaLetters[i]} ${answers[i]}`;
 			}
 			const questionEmbed: MessageEmbed = new MessageEmbed()
 				.setAuthor(res.category)
-				.setColor(colors[res.difficulty])
+				.setColor(TriviaColors[res.difficulty.toUpperCase() as keyof typeof TriviaColors])
 				.setTitle(trivia.question)
 				.setDescription(questions)
 				.setFooter(`Difficulty : ${res.difficulty[0].toUpperCase() + res.difficulty.slice(1)}`);
 			await message.channel.send(questionEmbed);
 			setTimeout(() => {
 				const answerEmbed: MessageEmbed = new MessageEmbed()
-					.setDescription(`${letters[trivia.correct]} **${trivia.answers[trivia.correct]}**`)
-					.setColor("GREEN")
+					.setDescription(`${TriviaLetters[trivia.correct]} **${trivia.answers[trivia.correct]}**`)
+					.setColor(TriviaColors.CORRECT)
 					.setAuthor("Correct answer")
 				message.channel.send(answerEmbed);
 			}, 10000);
