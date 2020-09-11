@@ -2,6 +2,7 @@ import { Message, Snowflake, Collection, PermissionResolvable } from "discord.js
 import OCBot from "./Client";
 import { formatDuration } from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
+import { formatPermission } from "../lib/utils";
 
 export default abstract class Command {
 	public aliases: string[];
@@ -47,7 +48,7 @@ export default abstract class Command {
 		if (this.perms) {
 			for (const perm of this.perms) {
 				if (!message.member.hasPermission(perm)) {
-					message.channel.send(`❌ You need the \`${perm}\` permission to run this command in this server.`);
+					message.channel.send(`❌ You need the \`${formatPermission(perm.toString())}\` permission to run this command in this server.`);
 					return;
 				}
 			}

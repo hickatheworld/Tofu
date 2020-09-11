@@ -1,4 +1,5 @@
 import { User, Guild } from "discord.js";
+import { DiscordBadgesEmotes } from "./Constants";
 
 export function randomInt(min: number, max: number) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -22,4 +23,20 @@ export function shuffleArray(arr: Array<any>): Array<any> {
 		arr[j] = temp
 	}
 	return arr;
+}
+
+export function capitalize(str: string): string {
+	return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export function formatPermission(name: string): string {
+	var out: string = "";
+	for (const i of name.split("_")) {
+		out += i[0].toUpperCase() + i.slice(1).toLowerCase() + " ";
+	}
+	return out.slice(0, out.length - 1);
+}
+
+export function formatFlag(name: keyof typeof DiscordBadgesEmotes): string {
+	return DiscordBadgesEmotes[name];
 }
