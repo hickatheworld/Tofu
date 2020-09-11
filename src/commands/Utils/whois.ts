@@ -35,9 +35,7 @@ export = class extends Command {
 				user = message.author;
 				member = message.member;
 			}
-			var embed: MessageEmbed;
-			try {
-				embed = new MessageEmbed()
+			const embed: MessageEmbed = new MessageEmbed()
 					.setTitle(`${user.tag} (${user.id})`)
 					.setColor(member.displayColor || "#AAAAAA")
 					.setThumbnail(user.displayAvatarURL({ dynamic: true }))
@@ -122,10 +120,6 @@ export = class extends Command {
 					}
 				])
 				message.channel.send("`" + user.id + "`", embed);
-			} catch (err) {
-				message.channel.send("Error");
-				console.log(embed);
-			}
 		});
 	}
 }
