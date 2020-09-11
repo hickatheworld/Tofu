@@ -8,6 +8,7 @@ import GuildBye from "../typedefs/GuildBye";
 import StarboardSettings from "../typedefs/StarboardSettings";
 import DVD from "../typedefs/DVD";
 import { randomInt } from "./utils";
+import { ProfileEmotes } from "./Constants";
 require("dotenv").config();
 
 export default class DB extends Sq.Sequelize {
@@ -30,7 +31,7 @@ export default class DB extends Sq.Sequelize {
 			},
 			title: {
 				type: Sq.STRING,
-				defaultValue: "<:dubuSaranghae:687377533074931782> Bot user"
+				defaultValue: ProfileEmotes.TITLE_DEFAULT + " Bot user"
 			},
 			desc: {
 				type: Sq.STRING,
@@ -204,7 +205,7 @@ export default class DB extends Sq.Sequelize {
 			cookies: 0,
 			desc: null,
 			rep: 0,
-			title: "<:dubuSaranghae:687377533074931782> Bot user",
+			title: ProfileEmotes.TITLE_DEFAULT + " Bot user",
 			uses: 0,
 			user: user
 		};

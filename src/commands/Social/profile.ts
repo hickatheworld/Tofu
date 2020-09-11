@@ -6,6 +6,7 @@ import OCBot from "../../core/base/Client";
 import { formatDuration } from "../../core/lib/Time";
 import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
+import { ProfileEmotes } from "../../core/lib/Constants";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -67,10 +68,10 @@ export = class extends Command {
 				.setTitle(`${member.user.username}'s profile`)
 				.setDescription(`**oc!**title — ${profile.title}`)
 				.setThumbnail(member.user.avatarURL({ dynamic: true }))
-				.addField("⏲ Server age", formatDuration(member.joinedAt, new Date(), true), false)
-				.addField("🍪 Cookies", `**${profile.cookies}**`, true)
-				.addField("⬆ Reputation", `**${profile.rep}**`, true)
-				.addField("🙌 Bestie", (profile.bestie) ? `**${profile.bestie.tag}**` : `*Nobody*`, true)
+				.addField(ProfileEmotes.SERVER_AGE + " Server age", formatDuration(member.joinedAt, new Date(), true), false)
+				.addField(ProfileEmotes.COOKIES + " Cookies", `**${profile.cookies}**`, true)
+				.addField(ProfileEmotes.REPUTATION + " Reputation", `**${profile.rep}**`, true)
+				.addField(ProfileEmotes.BESTIE + " Bestie", (profile.bestie) ? `**${profile.bestie.tag}**` : `*Nobody*`, true)
 				.setColor("E73863")
 				.setFooter(`Used ${profile.uses} commands`, this.client.user.avatarURL())
 				;
