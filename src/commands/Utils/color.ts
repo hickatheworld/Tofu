@@ -28,7 +28,7 @@ export = class extends Command {
 			if (hexRegExp.test(args[0])) {
 				color = hexRegExp.exec(args[0])[1].toUpperCase();
 			} else {
-				message.channel.send("❌ Please provide a correct color hexcode.");
+				this.error("Please provide a correct color hexcode.", message.channel);
 				return;
 			}
 
@@ -45,7 +45,7 @@ export = class extends Command {
 			const stream: PNGStream = canvas.createPNGStream();
 			stream.pipe(outStream);
 			stream.on("error", (err) => {
-				message.channel.send(`❌ An error occured : \n\`${err.toString()}\``)
+				this.error(`An error occured`, message.channel, err);
 			})
 			stream.on("end", async () => {
 				const embed: MessageEmbed = new MessageEmbed()

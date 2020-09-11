@@ -23,8 +23,8 @@ export = class extends Command {
 				const options: Object = JSON.parse(args.join(" "));
 				const embed: MessageEmbed = new MessageEmbed(options);
 				message.channel.send(embed);
-			} catch (e) {
-				message.channel.send(`❌ An error occured :\n\`\`\`${e.toString()}\`\`\``);
+			} catch (err) {
+				this.error("An error occured", message.channel, err);
 			}
 		});
 	}

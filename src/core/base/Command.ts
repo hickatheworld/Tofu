@@ -1,8 +1,10 @@
-import { Message, Snowflake, Collection, PermissionResolvable } from "discord.js";
+import { Message, Snowflake, Collection, PermissionResolvable, TextChannel, DMChannel, NewsChannel } from "discord.js";
 import OCBot from "./Client";
 import { formatDuration } from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
 import { formatPermission } from "../lib/utils";
+import { TextChange } from "typescript";
+import BotResponse from "./BotResponse";
 
 export default abstract class Command {
 	public aliases: string[];
@@ -36,7 +38,7 @@ export default abstract class Command {
 	public async check(message: Message, callback: Function): Promise<void> {
 		if (this.whitelist) {
 			if (!this.whitelist.includes(message.author.id)) {
-				const msg: Message = await message.channel.send("You're not authorized to use this command.")
+				const msg: Message = await this.error("You're not authorized to use this command.", message.channel)
 				setTimeout(() => {
 					msg.delete();
 					if (message.deletable) message.delete();
@@ -48,7 +50,7 @@ export default abstract class Command {
 		if (this.perms) {
 			for (const perm of this.perms) {
 				if (!message.member.hasPermission(perm)) {
-					message.channel.send(`❌ You need the \`${formatPermission(perm.toString())}\` permission to run this command in this server.`);
+					this.error(`You need the \`${formatPermission(perm.toString())}\` permission to run this command in this server.`, message.channel);
 					return;
 				}
 			}
@@ -56,7 +58,7 @@ export default abstract class Command {
 
 		if (this.cooldowned.has(message.author.id)) {
 			const duration: string = formatDuration(new Date(this.cooldowned.get(message.author.id)), new Date(), true);
-			const msg: Message = await message.channel.send(`You're on cooldown for this command. Please wait another ${duration}.`);
+			const msg: Message = await this.error(`You're on cooldown for this command. Please wait another ${duration}.`, message.channel);
 			setTimeout(() => {
 				msg.delete();
 				if (message.deletable) message.delete();
@@ -70,6 +72,21 @@ export default abstract class Command {
 			setTimeout(() => this.cooldowned.delete(message.author.id), this.cooldown);
 		}
 		callback();
+	}
+
+	public async success(message: string, channel: TextChannel | DMChannel | NewsChannel): Promise<Message> {
+		const response: BotResponse = new BotResponse(message, "SUCCESS");
+		return channel.send(response.toEmbed());
+	}
+
+	public async warn(message: string, channel: TextChannel | DMChannel | NewsChannel): Promise<Message> {
+		const response: BotResponse = new BotResponse(message, "WARNING");
+		return channel.send(response.toEmbed());
+	}
+	
+	public async error(message: string, channel: TextChannel | DMChannel | NewsChannel, error?: Error): Promise<Message> {
+		const response: BotResponse = new BotResponse(message, "ERROR", error);
+		return channel.send(response.toEmbed());
 	}
 
 }

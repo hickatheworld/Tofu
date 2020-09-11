@@ -35,21 +35,21 @@ export = class extends Command {
 				next12.setDate(next12.getDate() + 1);
 				next12.setHours(0, 0, 0, 0);
 				const duration: string = formatDuration(new Date(), next12, true);
-				message.channel.send(`❌ You can rep someone again in ${duration}`);
+				this.error(`You can rep someone again in ${duration}`, message.channel);
 				return;
 			}
 
 			const user: User = parseUser(args[0], this.client);
 			if (!user) {
-				message.channel.send("❌ Can't find user.");
+				this.error("Can't find user.", message.channel);
 				return;
 			}
 			if (user.bot) {
-				message.channel.send("❌ You can't rep a bot...")
+				this.error("You can't rep a bot...", message.channel);
 				return;
 			}
 			if (user === message.author) {
-				message.channel.send("❌ You can't rep yourself...");
+				this.error("You can't rep yourself...", message.channel);
 				return;
 			}
 			const profile: BotProfile = await this.client.db.getProfile(user);

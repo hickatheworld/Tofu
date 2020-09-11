@@ -47,7 +47,7 @@ export = class extends Command {
 			}
 			if (subcommand === "reset") {
 				if (!message.member.hasPermission("MANAGE_CHANNELS")) {
-					message.channel.send("❌ You must have the `Manage Channels` permission to reset dvd.");
+					this.error("You must have the `Manage Channels` permission to reset dvd.", message.channel);
 					return;
 				}
 				await message.reply(`are you sure that you want to reset ${message.guild.name}'s DVD? **(yes/no)**`);
@@ -56,25 +56,25 @@ export = class extends Command {
 					const t: string = msg.content.toLowerCase();
 					if (t === "yes") {
 						await this.client.db.resetDVD(message.guild);
-						message.channel.send("✅ Reset DVD.");
+						this.success("Reset DVD.", message.channel);
 						collector.stop();
 						return;
 					}
 					if (t === "no") {
-						message.channel.send("✅ Cancelled reset.");
+						this.success("Cancelled reset.", message.channel);
 						collector.stop();
 						return;
 					}
 				});
 				collector.on("end", (_collected, reason) => {
 					if (reason === "time") {
-						message.channel.send("❌ You've been idle for too long. DVD reset cancelled.");
+						this.error("You've been idle for too long. DVD reset cancelled.", message.channel);
 					}
 				});
 				return;
 			}
 			if (this.props.get("busy").has(message.guild.id)) {
-				message.channel.send("❌ A gif is already being generated for this guid. Please wait.");
+				this.error("A gif is already being generated for this guid. Please wait.", message.channel);
 				return;
 			}
 			this.props.get("busy").add(message.guild.id);
@@ -133,7 +133,7 @@ export = class extends Command {
 			generationMessage.delete();
 			unlinkSync(join(__dirname, "../../../temp", `dvd_${message.guild.id}.gif`));
 			} catch (err) {
-				message.channel.send(`❌ An error occured :\n\`${err.toString()}\``);
+				this.error("An error occured", message.channel, err);
 			}
 		});
 	}

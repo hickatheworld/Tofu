@@ -27,16 +27,16 @@ export = class extends Command {
 			if ((type as string) == "" && args.length < 2) {
 				await this.client.user.setActivity();
 				log.info(`${log.user(message.author)} cleared bot's activity`);
-				message.channel.send("✅ Cleared activity.");
+				this.success("Cleared activity.", message.channel);
 				return;
 			}
 			if (!types.includes(type)) {
-				message.channel.send("❌ Invalid type");
+				this.error("Invalid type", message.channel);
 				return;
 			}
 			var name: string = args.join(" ").trim();
 			if (!name) {
-				message.channel.send("❌ Please set an activity name");
+				this.error("Please set an activity name", message.channel);
 				return;
 			}
 			if (type === "LISTENING" && name.toLowerCase().startsWith("to"))
@@ -45,7 +45,7 @@ export = class extends Command {
 				await this.client.user.setActivity(name, { type: type, url: "https://twitch.tv/theuniqueocbot" });
 			else
 				await this.client.user.setActivity(name, { type: type });
-			message.channel.send(`✅ Set activity to : ${type[0] + type.slice(1).toLocaleLowerCase()} ${(type === "LISTENING") ? "to" : ""} **${name}**`);
+			this.success(`Set activity to : ${type[0] + type.slice(1).toLocaleLowerCase()} ${(type === "LISTENING") ? "to" : ""} **${name}**`, message.channel);
 			log.info(`${log.user(message.author)} set bot's activity to : ${log.text(type + " " + name)}`);
 			return;
 		});

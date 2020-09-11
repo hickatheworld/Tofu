@@ -18,12 +18,12 @@ export = class extends Command {
 		super.check(message, async () => {
 			const profile: BotProfile = await this.client.db.getProfile(message.author);
 			if (!profile.bestie) {
-				message.channel.send("❌ You don't even have a bestie...");
+				this.error("You don't even have a bestie...", message.channel);
 				return;
 			}
 			await this.client.db.setUser(message.author, "bestie", null);
 			await this.client.db.setUser(profile.bestie, "bestie", null);
-			message.channel.send("✅ You are now free again!");
+			this.success("✅ You are now free again!", message.channel);
 		});
 	}
 }

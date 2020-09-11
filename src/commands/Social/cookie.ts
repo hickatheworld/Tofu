@@ -3,6 +3,7 @@ import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
+import { rejects } from "assert";
 
 
 export = class extends Command {
@@ -25,20 +26,19 @@ export = class extends Command {
 		super.check(message, async () => {
 			const giver: User = this.props.get("giver");
 			if (message.author !== giver) {
-				message.channel.send(`❌ Only ${giver.username} can give cookies here.`);
+				this.error(`Only ${giver.username} can give cookies here.`, message.channel);
 				return;
 			}
 			const cookied: User = parseUser(args.shift(), this.client);
 			if (!cookied) {
-				message.channel.send("❌ Please mention someone to give a cookie to.")
+				this.error("Please specify someone to give a cookie to", message.channel);
 				return;
 			}
 			if (cookied.bot) {
-				message.channel.send("❌ You can't give a cookie to a bot..");
-				return;
+				this.error("You can't give a cookie to a bot..", message.channel);
 			}
 			if (cookied === message.author) {
-				message.channel.send("❌ Self-giving..?");
+				this.error("Self-giving..?", message.channel);
 				return;
 			}
 			const cookies: number = (await this.client.db.getProfile(cookied)).cookies + 1;

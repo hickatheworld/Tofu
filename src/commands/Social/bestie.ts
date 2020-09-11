@@ -30,19 +30,19 @@ export = class extends Command {
 			const proposingProfile: BotProfile = await this.client.db.getProfile(proposing);
 			const proposedProfile: BotProfile = await this.client.db.getProfile(proposed);
 			if (proposingProfile.bestie) {
-				message.channel.send("❌ You already have bestie, stay loyal.");
+				this.error("You already have bestie, stay loyal.", message.channel)
 				return;
 			}
 			if (proposedProfile.bestie) {
-				message.channel.send("❌ This person already has a bestie.");
+				this.error("This person already has a bestie.", message.channel)
 				return;
 			}
 			if (proposed.bot) {
-				message.channel.send("❌ You can't bestie a bot, duh.");
+				this.error("You can't bestie a bot, duh.", message.channel)
 				return;
 			}
 			if (proposed === proposing) {
-				message.channel.send("❌ Being your own bestie is such a weird concept..");
+				this.error("Being your own bestie is such a weird concept..", message.channel)
 				return;
 			}
 			const proposition: Message = await message.channel.send(`${proposed.toString()}, ${proposing.toString()} wants to be your bestie! React with ✅ to accept or with ❎ to reject <:3yourefunny:722392186355712140>\n*You have 2 minutes.*`);

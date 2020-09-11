@@ -26,7 +26,7 @@ export = class extends Command {
 			var link: string;
 			if (message.attachments.array().length < 1) {
 				if (!parseLink(args[0])) {
-					message.channel.send("❌ Please provide an image as a link or attachment.");
+					this.error("Please provide an image as a link or attachment.", message.channel)
 					return;
 				}
 				link = parseLink(args[0]);
@@ -35,13 +35,13 @@ export = class extends Command {
 				link = message.attachments.first().url;
 			}
 			if (link.endsWith(".gif")) {
-				message.channel.send("⚠ **You can't set a gif as your banner.** It will be frozen on your profile");
+				this.warn("**You can't set a gif as your banner.** It will be frozen on your profile", message.channel);
 			}
 			var img: Image;
 			try {
 				img = await loadImage(link);
 			} catch (err) {
-				message.channel.send(`❌ An error occured.\n\`${err.toString()}\``);
+				this.error("An error occured", message.channel, err);
 				return;
 			}
 			const canvas: Canvas = createCanvas(800, 200);
@@ -61,10 +61,10 @@ export = class extends Command {
 			}
 			const outStream: WriteStream = createWriteStream(join(__dirname, "../../../assets/img/banners", `user_${message.author.id}.png`))
 			outStream.on("error", (err) => {
-				message.channel.send(`❌ An error occured.\n\`${err.toString()}\``);
+				this.error("An error occured", message.channel, err);
 			});
 			outStream.on("finish", () => {
-				message.channel.send(`✅ Sucessfully set your new banner! You can check it with \`${this.client.prefix}profile\``);
+				this.success(`Sucessfully set your new banner! You can check it with \`${this.client.prefix}profile\``, message.channel);
 			});
 			canvas.createPNGStream().pipe(outStream);
 		});

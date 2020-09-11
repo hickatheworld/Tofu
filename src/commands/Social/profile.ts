@@ -31,28 +31,28 @@ export = class extends Command {
 				args.shift();
 				const desc: string = args.join(" ");
 				if (desc.length > 55) {
-					message.channel.send("❌ Your description must be 55 characters or less.");
+					this.error("Your description must be 55 characters or less.", message.channel);
 					return;
 				}
 				await this.client.db.setUser(message.author, "desc", desc);
-				message.channel.send(`✅ Set your description to : ${desc}`);
+				this.success(`Set your description to : ${desc}`, message.channel);
 				return;
 			}
 			if (subcommand === "title") {
 				if (!this.client.admins.includes(message.author.id)) {
-					message.channel.send("❌ Only admins can change your **oc!**title");
+					this.error("Only admins can change your **oc!**title", message.channel);
 					return;
 				}
 				args.shift();
 				const user: User = parseUser(args[0], this.client);
 				if (!user) {
-					message.channel.send("❌ Can't find user.");
+					this.error("Can't find user.", message.channel);
 					return;
 				}
 				args.shift();
 				const title: string = args.join(" ");
 				await this.client.db.setUser(user, "title", title);
-				message.channel.send(`✅ Set ${user.toString()}'s title to : ${title}`);
+				this.success(`Set ${user.toString()}'s title to : ${title}`, message.channel);
 				return;
 			}
 			var member: GuildMember;
@@ -60,7 +60,7 @@ export = class extends Command {
 			if ((u = parseUser(args[0], this.client)) && message.guild.members.cache.has(u.id)) member = message.guild.members.cache.get(u.id);
 			else member = message.member;
 			if (member.user.bot) {
-				message.channel.send("❌ Bots don't have a profile!");
+				this.error("Bots don't have a profile!", message.channel);
 				return;
 			}
 			const profile: BotProfile = await this.client.db.getProfile(member.user);

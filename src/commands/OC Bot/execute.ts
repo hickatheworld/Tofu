@@ -29,30 +29,30 @@ export = class extends Command {
 					args.shift();
 					user = parseUser(args.shift(), this.client);
 					if (!user) {
-						message.channel.send("❌ Can't find user.");
+						this.error("Can't find user.", message.channel);
 						return;
 					}
 				} else if (args[0].toLowerCase() === "at") {
 					args.shift();
 					channel = parseChannel(args.shift(), message.guild, true, this.client) as TextChannel;
 					if (!channel) {
-						message.channel.send("❌ Can't find channel");
+						this.error("Can't find channel", message.channel);
 						return;
 					}
 				}
 			}
 			if (!channel && !user) {
-				message.channel.send("❌ Please specify at least a user or a channel.");
+				this.error("Please specify at least a user or a channel.", message.channel);
 				return;
 			}
 			const name = (args.shift() || "").toLowerCase();
 			if (!this.client.commands.has(name) && !this.client.aliases.has(name)) {
-				message.channel.send("❌ Can't find command");
+				this.error("Can't find command", message.channel);
 				return;
 			}
 			const command: Command = this.client.commands.get(name) || this.client.commands.get(this.client.aliases.get(name));
 			if (command.module === "Social") {
-				message.channel.send("⚠ Social commands are likely to fail with oc!execute even if no error is triggered.");
+				this.warn("Social commands are likely to fail with oc!execute even if no error is triggered.", message.channel);
 			}
 			const initialChannel: TextChannel = message.channel as TextChannel;
 			const initialAuthor: User = message.author;
@@ -61,10 +61,10 @@ export = class extends Command {
 			if (channel) msg.channel = channel as TextChannel;
 			try {
 				await command.exe(msg, args);
-				initialChannel.send(`✅ Successfully executed command \`${name}\` as **${msg.author.tag}** at **#${(msg.channel as TextChannel).name}**`);
+				this.success(`Successfully executed command \`${name}\` as **${msg.author.tag}** at **#${(msg.channel as TextChannel).name}**`, initialChannel);
 				log.info(`${log.user(initialAuthor)} executed ${log.text(name)} as ${log.user(msg.author)} at ${log.channel(msg.channel as GuildChannel)}`);
 			} catch (err) {
-				message.channel.send("❌ Execution failed.\n```" + err.message + "```");
+				this.error("Execution failed", message.channel, err);
 			}
 		});
 	}
