@@ -14,7 +14,7 @@ export default class BotResponse {
 			.setColor(BotResponseColors[type])
 			.setDescription(BotResponseEmotes[type] + " " + message);
 		if (error) {
-			this.embed.description += "\n**Error message:** ```" + error.message + "```";
+			this.embed.description += "\n\n**Error message:** ```" + error.message + "```";
 		}
 	}
 
@@ -25,7 +25,7 @@ export default class BotResponse {
 		this._message = message;
 		this.embed.description = BotResponseEmotes[this._type] + " " + message;
 		if (this._error) {
-			this.embed.description += "\n**Error message:** ```" + this._error.message + "```";
+			this.embed.description += "\n\n**Error message:** ```" + this._error.message + "```";
 		}
 	}
 
@@ -45,7 +45,7 @@ export default class BotResponse {
 	set error(err: Error) {
 		this._error = err;
 		this.embed.description = this.embed.description.split("\n**Error message:**")[0];
-		this.embed.description += "\n**Error message:** ```" + err.message + "```";
+		this.embed.description += "\n\n**Error message:** ```" + err.message + "```";
 	}
 
 	public toEmbed(): MessageEmbed {
