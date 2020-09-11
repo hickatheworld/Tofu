@@ -1,3 +1,4 @@
+import { Snowflake } from "discord.js";
 /**
  * Default emotes are hosted on https://discord.gg/nJjDQGz
  * You must have your bot in the guild you're hosting the emotes at to make it able to use them
@@ -12,6 +13,9 @@ export enum BotResponseEmotes {
 	WARNING = "⚠",
 	ERROR = "<:rejected:753971493901172762>"
 }
+
+export const COOKIE_GIVER_ID: Snowflake = "";
+
 export enum DiscordBadgesEmotes {
 	DISCORD_EMPLOYEE = "<:discord_employee:753970243025764363>",
 	DISCORD_PARTNER = "<:discord_partner:753970243491201134>",

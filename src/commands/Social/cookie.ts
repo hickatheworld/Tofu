@@ -4,6 +4,7 @@ import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
 import { rejects } from "assert";
+import { COOKIE_GIVER_ID } from "../../core/lib/Constants";
 
 
 export = class extends Command {
@@ -18,13 +19,15 @@ export = class extends Command {
 		});
 	}
 
-	public async setup(): Promise<void> {
-		this.props.set("giver", this.client.users.cache.get("573812128482459648"));
-	}
+	public async setup(): Promise<void> { }
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			const giver: User = this.props.get("giver");
+			const giver: User = this.client.users.cache.get(COOKIE_GIVER_ID);
+			if (!giver) {
+				this.error("Looks like there is no cookie giver set.", message.channel);
+				return;
+			}
 			if (message.author !== giver) {
 				this.error(`Only ${giver.username} can give cookies here.`, message.channel);
 				return;
