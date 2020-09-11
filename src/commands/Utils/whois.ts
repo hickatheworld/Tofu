@@ -73,7 +73,7 @@ export = class extends Command {
 							},
 							{
 								name: "Join date",
-								value: (member.joinedAt) ? member.joinedAt : "**Can't get join date**",
+								value: (member.joinedAt) ? member.joinedAt.toUTCString() : "**Can't get join date**",
 								inline: true
 							},
 							{
@@ -92,7 +92,7 @@ export = class extends Command {
 						},
 						{
 							name: "Boosting since",
-							value: member.premiumSince,
+							value: member.premiumSince.toUTCString(),
 							inline: true
 						}
 					]);
