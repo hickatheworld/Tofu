@@ -10,7 +10,8 @@
 		"start": "npm run compile && pm2 start build/app.js --name 'OC-Bot'",
 		"update": "git pull && npm run compile && npm update && pm2 restart 'OC-Bot'",
 		"restart": "pm2 restart 'OC-Bot'",
-		"stop": "pm2 stop 'OC-Bot'"
+		"stop": "pm2 stop 'OC-Bot'",
+		"test": "npm run compile && node build/app.js"
 	},
 	"author": "Hicka",
 	"license": "MIT",
