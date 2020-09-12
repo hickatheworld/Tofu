@@ -39,6 +39,21 @@ export function formatPermission(name: string): string {
 	return out.slice(0, out.length - 1);
 }
 
+export function formatRegion(name: string): string {
+	if (name === "southafrica") {
+		return "South Africa";
+	}
+	if (name === "hongkong") {
+		return "Hong Kong";
+	}
+	var out: string = "";
+	for (const i of name.split("-")) {
+		out += i[0].toUpperCase() + i.slice(1).toLowerCase() + " ";
+	}
+	out = out.replace(/$us/i, "US")
+	return out.slice(0, out.length - 1);
+}
+
 export function formatFlag(name: keyof typeof DiscordBadgesEmotes): string {
 	return DiscordBadgesEmotes[name];
 }
