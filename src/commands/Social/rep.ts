@@ -6,7 +6,7 @@ import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
 import { formatDuration } from "../../core/lib/Time";
 import * as log from "../../core/lib/Log";
-import { ReputationColor, ReputationEmote } from "../../core/lib/Constants";
+import { REPUTATION_COLOR, REPUTATION_EMOTE } from "../../core/lib/Constants";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -57,8 +57,8 @@ export = class extends Command {
 			await this.client.db.setUser(user, "rep", ++profile.rep);
 			await this.client.db.setUser(message.author, "canRep", false);
 			const embed: MessageEmbed = new MessageEmbed()
-				.setColor(ReputationColor)
-				.setDescription(`${ReputationEmote} | I gave a reputation point to ${user.toString()}!`);
+				.setColor(REPUTATION_COLOR)
+				.setDescription(`${REPUTATION_EMOTE} | I gave a reputation point to ${user.toString()}!`);
 			message.channel.send(embed);
 		});
 	}

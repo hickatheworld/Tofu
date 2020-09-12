@@ -5,7 +5,7 @@ import OCBot from "../../core/base/Client";
 import { AllHtmlEntities } from "html-entities";
 import Trivia from "../../core/typedefs/Trivia";
 import { shuffleArray } from "../../core/lib/utils";
-import { TriviaColors, TriviaLetters } from "../../core/lib/Constants";
+import { TriviaColors, TRIVIA_LETTERS } from "../../core/lib/Constants";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -38,7 +38,7 @@ export = class extends Command {
 
 			var questions: string = "";
 			for (const i in answers) {
-				questions += `\n${TriviaLetters[i]} ${answers[i]}`;
+				questions += `\n${TRIVIA_LETTERS[i]} ${answers[i]}`;
 			}
 			const questionEmbed: MessageEmbed = new MessageEmbed()
 				.setAuthor(res.category)
@@ -49,7 +49,7 @@ export = class extends Command {
 			await message.channel.send(questionEmbed);
 			setTimeout(() => {
 				const answerEmbed: MessageEmbed = new MessageEmbed()
-					.setDescription(`${TriviaLetters[trivia.correct]} **${trivia.answers[trivia.correct]}**`)
+					.setDescription(`${TRIVIA_LETTERS[trivia.correct]} **${trivia.answers[trivia.correct]}**`)
 					.setColor(TriviaColors.CORRECT)
 					.setAuthor("Correct answer")
 				message.channel.send(answerEmbed);

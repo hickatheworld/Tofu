@@ -3,6 +3,9 @@ import { ColorResolvable, Snowflake } from "discord.js";
  * Default emotes are hosted on https://discord.gg/nJjDQGz
  * You must have your bot in the guild you're hosting the emotes at to make it able to use them
  */
+
+export const BLANK_EMOTE: string = "<:blank:754343696631201822>";
+
 export enum BotResponseColors {
 	SUCCESS = "GREEN",
 	WARNING = "YELLOW",
@@ -31,17 +34,55 @@ export enum DiscordBadgesEmotes {
 	VERIFIED_BOT = "<:verified_bot:753970243277160550>",
 	VERIFIED_DEVELOPER = "<:verified_developer:753970243260514428>"
 }
+
+export enum DiscordServerIconsEmotes {
+	BOOST_LEVEL_1 = "<:boost_1:754321046005350452>",
+	BOOST_LEVEL_2 = "<:boost_2:754321046525706260>",
+	BOOST_LEVEL_3 = "<:boost_3:754321046412329040>",
+	PARTNER = "<:partner:754321046399615026>",
+	VERIFIED = "<:verified:754321046118596669>"
+}
+
 export enum ProfileEmotes {
 	BESTIE = "🙌",
 	COOKIES = "🍪",
 	REPUTATION = "⬆",
 	SERVER_AGE = "⏲",
-	TITLE_DEFAULT = "<:dahyunHeart:753971883988353065>"
+	TITLE_DEFAULT = "<:dahyun_heart:753971883988353065>"
 }
 
-export const ReputationColor: ColorResolvable = "BLUE";
+export const REPUTATION_COLOR: ColorResolvable = "BLUE";
 
-export const ReputationEmote: string = "⬆";
+export const REPUTATION_EMOTE: string = "⬆";
+
+
+export enum ServerInfosEmotes {
+	BAN = "<:ban_hammer:754322851099836477>",
+	BOOST = "<:boost:754322851036921976>",
+	NO_BOOST = "<:no_boost:754322851049504818>",
+	ONLINE = "<:online:754325427949928470>",
+	OFFLINE = "<:offline:754325427970899999>",
+	TEXT_CHANNEL = "<:text_channel:754322850973876235>",
+	VOICE_CHANNEL = "<:voice_channel:754322850852372591>"	
+}
+
+export const SERVER_INFOS_COLOR: ColorResolvable = "BLUE";
+
+export enum ServerRegionsEmotes {
+	BRAZIL = "🇧🇷",
+	EUROPE = "🇪🇺",
+	HONG_KONG = "🇭🇰",
+	INDIA = "🇮🇳",
+	JAPAN = "🇯🇵",
+	RUSSIA = "🇷🇺",
+	SINGAPORE = "🇸🇬",
+	SOUTH_AFRICA = "🇿🇦",
+	SYDNEY = "🇦🇺",
+	US_CENTRAL = "🇺🇸",
+	US_EAST = "🇺🇸",
+	US_SOUTH = "🇺🇸",
+	US_WEST = "🇺🇸"
+}
 
 export enum TriviaColors {
 	EASY = "BLUE",
@@ -50,4 +91,4 @@ export enum TriviaColors {
 	CORRECT = "GREEN"
 }
 
-export const TriviaLetters: string[] = ["🇦", "🇧", "🇨", "🇩"];
+export const TRIVIA_LETTERS: string[] = ["🇦", "🇧", "🇨", "🇩"];
