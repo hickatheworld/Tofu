@@ -11,7 +11,7 @@ export = class extends Command {
 		super(client, {
 			name: "server-infos",
 			desc: "Gets basic informations about this server",
-			module: "Server Management",
+			module: "Server",
 			aliases: ["server", "server-info"]
 		});
 	}

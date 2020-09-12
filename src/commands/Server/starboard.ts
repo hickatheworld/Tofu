@@ -9,7 +9,7 @@ export = class extends Command {
 		super(client, {
 			name: "starboard",
 			desc: "Manages server starboard",
-			module: "Server Management",
+			module: "Server",
 			usages: [
 				"enable/disable",
 				"channel <channel: Channel>"

@@ -11,7 +11,7 @@ export = class extends Command {
 		super(client, {
 			name: "roles",
 			desc: "Lists all roles from this server or gets infos about a role.",
-			module: "Server Management",
+			module: "Server",
 			usages: [
 				"[role: Role]"
 			],

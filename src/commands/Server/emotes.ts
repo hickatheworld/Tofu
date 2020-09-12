@@ -8,7 +8,7 @@ export = class extends Command {
 		super(client, {
 			name: "emotes",
 			desc: "Lists all emotes from this server or gets image file of any emote.",
-			module: "Server Management",
+			module: "Server",
 			usages: [
 				"[emote: Emote]"
 			],
