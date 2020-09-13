@@ -114,9 +114,8 @@ export = class extends Command {
 					msg.edit(`**${total}** roles`, embeds[currentPage]);
 				}
 			});
-			collector.on("end", async (_collected, _reason) => {
-				await msg.reactions.removeAll();
-				await msg.react(/<a?:.+:(\d+)>/.exec(BotResponseEmotes.ERROR)[1]);
+			collector.on("end", (_collected, _reason) => {
+				msg.reactions.removeAll();
 			});
 		});
 	}
