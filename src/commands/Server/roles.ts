@@ -97,7 +97,7 @@ export = class extends Command {
 				embed.description += roles.slice(i, i + 20).join(", ")
 				embeds.push(embed);
 			}
-			const msg: Message = await message.channel.send(`**${total}** roles`, embeds[0]);
+			const msg: Message = await message.channel.send(`> **${total}** roles`, embeds[0]);
 			var currentPage: number = 0;
 			await msg.react("⬅");
 			await msg.react("➡");
@@ -107,11 +107,11 @@ export = class extends Command {
 				if (user !== message.author) return;
 				if (reaction.emoji.name === "⬅") {
 					if (--currentPage < 0) currentPage = embeds.length - 1;
-					msg.edit(`**${total}** roles`, embeds[currentPage]);
+					msg.edit(`> **${total}** roles`, embeds[currentPage]);
 				}
 				if (reaction.emoji.name === "➡") {
 					if (++currentPage == embeds.length) currentPage = 0;
-					msg.edit(`**${total}** roles`, embeds[currentPage]);
+					msg.edit(`> **${total}** roles`, embeds[currentPage]);
 				}
 			});
 			collector.on("end", (_collected, _reason) => {

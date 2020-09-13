@@ -32,7 +32,7 @@ export = class extends Command {
 			const total: number = emotes.length;
 			const animated: number = message.guild.emojis.cache.filter(e => e.animated).array().length;
 			const fixed: number = total - animated;
-			const stats: string = `**${total}** emotes : **${animated}** animated and **${fixed}** fixed.`;
+			const stats: string = `> **${total}** emotes : **${animated}** animated and **${fixed}** fixed.`;
 			var embeds: MessageEmbed[] = [];
 			for (var i = 0; i < emotes.length; i += 10) {
 				const embed: MessageEmbed = new MessageEmbed()
