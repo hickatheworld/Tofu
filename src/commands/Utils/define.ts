@@ -29,7 +29,13 @@ export = class extends Command {
 					"x-rapidapi-key": process.env.WORDS_API_KEY,
 				}
 			});
-			const data: any = await res.json();
+			var data: any;
+			try {
+				data = await res.json();
+			} catch (err) {
+				this.error("An error occured. The API is probably down.", message.channel);
+				return;
+			}
 			if (data.success === false) {
 				this.error("API call failed", message.channel, new Error(data.message));
 				return;
