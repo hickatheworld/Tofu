@@ -114,24 +114,24 @@ export = class extends Command {
 				encoder.addFrame(ctx);
 			}
 			try {
-			encoder.finish();
-			this.props.get("busy").delete(message.guild.id);
-			const duration: number = Date.now() - start;
-			updatedDVD.x = pos[0];
-			updatedDVD.y = pos[1];
-			updatedDVD.xspeed = speed[0];
-			updatedDVD.yspeed = speed[1];
-			await this.client.db.updateDVD(message.guild, updatedDVD);
-			const embed: MessageEmbed = new MessageEmbed()
-				.setDescription(`Edge hits : **${updatedDVD.edges}** | Corner hits : **${updatedDVD.corners}**`)
-				.setFooter(`GIF generated in ${(duration / 1000).toFixed(2)}s`)
-				.attachFiles([`temp/dvd_${message.guild.id}.gif`])
-				.setImage(`attachment://dvd_${message.guild.id}.gif`)
-				;
-			if (corner) embed.description += "\n🎉**IT HIT THE CORNER!**";
-			await message.channel.send(embed);
-			generationMessage.delete();
-			unlinkSync(join(__dirname, "../../../temp", `dvd_${message.guild.id}.gif`));
+				encoder.finish();
+				this.props.get("busy").delete(message.guild.id);
+				const duration: number = Date.now() - start;
+				updatedDVD.x = pos[0];
+				updatedDVD.y = pos[1];
+				updatedDVD.xspeed = speed[0];
+				updatedDVD.yspeed = speed[1];
+				await this.client.db.updateDVD(message.guild, updatedDVD);
+				const embed: MessageEmbed = new MessageEmbed()
+					.setDescription(`Edge hits : **${updatedDVD.edges}** | Corner hits : **${updatedDVD.corners}**`)
+					.setFooter(`GIF generated in ${(duration / 1000).toFixed(2)}s`)
+					.attachFiles([`temp/dvd_${message.guild.id}.gif`])
+					.setImage(`attachment://dvd_${message.guild.id}.gif`)
+					;
+				if (corner) embed.description += "\n🎉**IT HIT THE CORNER!**";
+				await message.channel.send(embed);
+				generationMessage.delete();
+				unlinkSync(join(__dirname, "../../../temp", `dvd_${message.guild.id}.gif`));
 			} catch (err) {
 				this.error("An error occured", message.channel, err);
 			}
