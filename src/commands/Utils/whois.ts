@@ -88,12 +88,12 @@ export = class extends Command {
 				embed.addFields([
 					{
 						name: "Boosting age",
-						value: formatDuration(new Date(), member.premiumSince),
+						value: (member.premiumSince) ? formatDuration(new Date(), member.premiumSince) : "**Can't get boosting age**",
 						inline: false,
 					},
 					{
 						name: "Boosting since",
-						value: member.premiumSince.toUTCString(),
+						value: (member.premiumSince) ? member.premiumSince.toUTCString() : "**Can't get boosting age**",
 						inline: true
 					}
 				]);
