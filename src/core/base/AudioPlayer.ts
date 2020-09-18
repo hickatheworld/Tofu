@@ -1,31 +1,37 @@
 import { Guild, StreamDispatcher, VoiceChannel, VoiceConnection } from "discord.js";
 import MusicQueueItem from "../typedefs/MusicQueueItem";
 import ytdl = require("ytdl-core");
+import OCBot from "./Client";
 
 export default class AudioPlayer {
 	public channel: VoiceChannel;
 	public guild: Guild;
 	public queue: MusicQueueItem[];
+	public current?: MusicQueueItem;
 	public paused: boolean;
 	public playing: boolean;
+	private client: OCBot;
 	private connection: VoiceConnection;
 	private dispatcher: StreamDispatcher;
-	constructor(channel: VoiceChannel) {
+	constructor(client: OCBot, channel: VoiceChannel) {
+		this.client = client;
 		this.channel = channel;
 		this.guild = channel.guild;
 		this.playing = false;
 		this.paused = false;
 		this.queue = [];
 	}
-
+	
 	public async join(): Promise<void> {
 		this.connection = await this.channel.join();
+		this.connection.on("disconnect", () => {
+			this.leave();
+		});
 	}
 
 	public async leave(): Promise<void> {
 		this.channel.leave();
-		this.connection = null;
-		this.dispatcher = null;
+		this.client.audioPlayers.delete(this.guild.id);
 	}
 
 	public queueAdd(item: MusicQueueItem): MusicQueueItem[] {
@@ -54,6 +60,7 @@ export default class AudioPlayer {
 		this.dispatcher.on("error", (err) => {
 			throw err;
 		});
+		this.current = audio;
 	}
 
 	public pause(): void {

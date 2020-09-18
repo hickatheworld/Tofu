@@ -24,11 +24,19 @@ export = class extends Command {
 			var player: AudioPlayer;
 			if (this.client.audioPlayers.has(message.guild.id)) player = this.client.audioPlayers.get(message.guild.id);
 			if (!query) {
-				if (!player || player.playing) {
+				if (!player) {
 					this.error("Nothing is playing in this server", message.channel);
 					return;
 				}
 				if (player.paused) {
+					if (!message.guild.me.voice.channel) {
+						if (!player.channel.joinable || !player.channel.speakable) {
+							this.error("I can't join this voice channel.", message.channel);
+							this.client.audioPlayers.delete(message.guild.id);
+							return;
+						}
+						return;
+					}
 					player.resume();
 					message.channel.send("▶ **Resumed**");
 					return;
@@ -55,7 +63,7 @@ export = class extends Command {
 				return;
 			}
 			if (!player) {
-				player = new AudioPlayer(message.member.voice.channel);
+				player = new AudioPlayer(this.client, message.member.voice.channel);
 				this.client.audioPlayers.set(message.guild.id, player);
 			}
 			try {
