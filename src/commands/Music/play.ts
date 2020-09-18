@@ -3,7 +3,7 @@ import OCBot from "../../core/base/Client";
 import Command from "../../core/base/Command";
 import nodeFetch from "node-fetch";
 import AudioPlayer from "../../core/base/AudioPlayer";
-
+import { AllHtmlEntities } from "html-entities";
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
@@ -79,7 +79,7 @@ export = class extends Command {
 				return;
 			}
 			const vidID: string = data.items[0].id.videoId;
-			const vidTitle: string = data.items[0].snippet.title;
+			const vidTitle: string = AllHtmlEntities.decode(data.items[0].snippet.title);
 			const imgUrl: string = data.items[0].snippet.thumbnails.high.url;
 			player.queueAdd({
 				imgUrl: imgUrl,
