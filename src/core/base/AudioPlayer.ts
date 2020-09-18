@@ -24,6 +24,7 @@ export default class AudioPlayer {
 	
 	public async join(): Promise<void> {
 		this.connection = await this.channel.join();
+		this.guild.me.voice.setSelfDeaf(true);
 		this.connection.on("disconnect", () => {
 			this.leave();
 		});
