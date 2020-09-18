@@ -30,7 +30,7 @@ export = class extends Command {
 				}
 				if (player.paused) {
 					player.resume();
-					message.channel.send("▶ Resumed");
+					message.channel.send("▶ **Resumed**");
 					return;
 				}
 				else {
