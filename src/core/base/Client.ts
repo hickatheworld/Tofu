@@ -7,9 +7,11 @@ import * as log from "../lib/Log";
 import DB from "../lib/db";
 import BotEvent from "./BotEvent";
 import GuildModerationSettings from "../typedefs/GuildModerationSettings";
+import AudioPlayer from "./AudioPlayer";
 
 export default class OCBot extends Client {
 	public admins: Snowflake[];
+	public audioPlayers: Collection<Snowflake, AudioPlayer>;
 	public description: string;
 	public name: string;
 	public owner: Snowflake
@@ -23,6 +25,7 @@ export default class OCBot extends Client {
 	constructor(options: BotOptions) {
 		super();
 		this.admins = options.admins;
+		this.audioPlayers = new Collection<Snowflake, AudioPlayer>();
 		this.description = options.description;
 		this.name = options.name;
 		this.owner = options.owner;
