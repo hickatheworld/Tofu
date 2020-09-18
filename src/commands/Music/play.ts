@@ -95,7 +95,7 @@ export = class extends Command {
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor("Queued", message.author.avatarURL())
 				.setDescription(`**[${vidTitle}](https://youtube.com/watch?v=${vidID})**`)
-				.setThumbnail(imgUrl)
+				.setImage(imgUrl)
 				.addField("Channel", data.items[0].snippet.channelTitle, true)
 				.addField("Position in queue", player.queue.length, true);
 			message.channel.send(embed);
