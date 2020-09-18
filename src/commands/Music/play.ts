@@ -4,6 +4,7 @@ import Command from "../../core/base/Command";
 import nodeFetch from "node-fetch";
 import AudioPlayer from "../../core/base/AudioPlayer";
 import { AllHtmlEntities } from "html-entities";
+import { formatDuration, formatTinyDuration } from "../../core/lib/Time";
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
@@ -72,16 +73,31 @@ export = class extends Command {
 				this.error("An error occured", message.channel, err);
 				return;
 			}
-			const res: any = await nodeFetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${query}&type=video&key=${process.env.YOUTUBE_API_KEY}`);
-			const data: any = await res.json();
-			if (data.items && data.items.length == 0) {
+			const search: any = await nodeFetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${query}&type=video&key=${process.env.YOUTUBE_API_KEY}`);
+			const searchResults: any = await search.json();
+			if (searchResults.items && searchResults.items.length == 0) {
 				this.error(`No result found for **${query}** on YouTube`, message.channel);
 				return;
 			}
-			const vidID: string = data.items[0].id.videoId;
-			const vidTitle: string = AllHtmlEntities.decode(data.items[0].snippet.title);
-			const imgUrl: string = data.items[0].snippet.thumbnails.high.url;
+			const vidID: string = searchResults.items[0].id.videoId;
+			const vidTitle: string = AllHtmlEntities.decode(searchResults.items[0].snippet.title);
+			const imgUrl: string = searchResults.items[0].snippet.thumbnails.high.url;
+
+			const video: any = await nodeFetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${vidID}&key=${process.env.YOUTUBE_API_KEY}`);
+			const videoDetails: any = await video.json();
+			const isoDuration = videoDetails.items[0].contentDetails.duration;
+			const secs = (/(\d+)S/.test(isoDuration)) ? parseInt(/(\d+)S/.exec(isoDuration)[1]) : 0;
+			const mins = (/(\d+)M/.test(isoDuration)) ? parseInt(/(\d+)M/.exec(isoDuration)[1]) : 0;
+			const hours = (/(\d+)H/.test(isoDuration)) ? parseInt(/(\d+)H/.exec(isoDuration)[1]) : 0;
+			const duration: number = secs * 1000 + mins * 1000 * 60 + hours * 1000 * 60 * 60;
+			if (duration > 1.8e7) {
+				this.error("Can't play a song that is longer than 5 hours", message.channel);
+				return;
+			}
+			const display: string = formatTinyDuration(duration);
 			player.queueAdd({
+				displayDuration: display,
+				duration: duration,
 				imgUrl: imgUrl,
 				requestedBy: message.member,
 				title: vidTitle,
@@ -96,8 +112,9 @@ export = class extends Command {
 				.setAuthor("Queued", message.author.avatarURL())
 				.setDescription(`**[${vidTitle}](https://youtube.com/watch?v=${vidID})**`)
 				.setImage(imgUrl)
-				.addField("Channel", data.items[0].snippet.channelTitle, true)
-				.addField("Position in queue", player.queue.length, true);
+				.addField("Channel", searchResults.items[0].snippet.channelTitle, true)
+				.addField("Position in queue", player.queue.length, true)
+				.addField("Duration", display, true);
 			message.channel.send(embed);
 		});
 	}

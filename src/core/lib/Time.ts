@@ -68,3 +68,14 @@ export function formatDuration(date1: Date, date2: Date, boldNumbers: boolean = 
 	output = output.slice(0, output.length - 2);
 	return output;
 }
+
+export function formatTinyDuration(duration: number): string {
+	duration = Math.floor(duration / 1000);
+	const hours: number = Math.floor(duration / SECS_IN_HOUR)
+	duration -= hours * SECS_IN_HOUR;
+	const minutes: number = Math.floor(duration / SECS_IN_MINUTE);
+	duration -= minutes * SECS_IN_MINUTE;
+
+	const seconds: number = Math.floor(duration);
+	return `${formatDigit(hours)}:${formatDigit(minutes)}:${formatDigit(seconds)}`;
+}
