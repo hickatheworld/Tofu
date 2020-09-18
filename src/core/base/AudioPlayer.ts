@@ -53,7 +53,6 @@ export default class AudioPlayer {
 			highWaterMark: 1 << 25
 		}))
 		this.dispatcher.once("finish", () => {
-			console.log("finish");
 			if (this.queue.length > 0) this.play(this.queue.shift());
 			else this.playing = false;
 		});
