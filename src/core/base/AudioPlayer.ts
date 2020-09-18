@@ -70,4 +70,9 @@ export default class AudioPlayer {
 		this.paused = false;
 		this.playing = true;
 	}
+
+	public skip(): void {
+		if (!this.dispatcher) return;
+		this.dispatcher.emit("finish");
+	}
 }
