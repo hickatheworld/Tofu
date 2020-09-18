@@ -77,6 +77,7 @@ export = class extends Command {
 			const search: any = await nodeFetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${query}&type=video&key=${process.env.YOUTUBE_API_KEY}`);
 			const searchResults: any = await search.json();
 			if (searchResults.error) {
+				player.partial = true;
 				const ytID: RegExp = /(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&"'>]+)/
 				if (ytID.test(query)) {
 					const url: string = "https://youtube.com/watch?v=" + ytID.exec(query)[ytID.exec(query).length - 1];
@@ -98,6 +99,7 @@ export = class extends Command {
 				}
 			}
 			else {
+				player.partial = false;
 				if (!searchResults.items || searchResults.items.length == 0) {
 					this.error(`No result found for **${query}** on YouTube`, message.channel);
 					return;

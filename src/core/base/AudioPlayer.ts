@@ -9,6 +9,7 @@ export default class AudioPlayer {
 	public queue: MusicQueueItem[];
 	public current?: MusicQueueItem;
 	public paused: boolean;
+	public partial: boolean;
 	public playing: boolean;
 	private client: OCBot;
 	private connection: VoiceConnection;
@@ -18,6 +19,7 @@ export default class AudioPlayer {
 		this.channel = channel;
 		this.guild = channel.guild;
 		this.playing = false;
+		this.partial = false;
 		this.paused = false;
 		this.queue = [];
 	}
