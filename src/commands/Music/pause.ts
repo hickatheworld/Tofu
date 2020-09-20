@@ -18,12 +18,12 @@ export = class extends Command {
 		this.check(message, async () => {
 			var player: AudioPlayer;
 			if (this.client.audioPlayers.has(message.guild.id)) player = this.client.audioPlayers.get(message.guild.id);
-			if (!player || !player.playing) {
-				this.error("Nothing is playing in this server", message.channel);
-				return;
-			}
 			if (player.paused) {
 				this.error("The player is already paused", message.channel);
+				return;
+			}
+			if (!player || !player.playing) {
+				this.error("Nothing is playing in this server", message.channel);
 				return;
 			}
 			player.pause();

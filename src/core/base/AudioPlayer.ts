@@ -23,7 +23,7 @@ export default class AudioPlayer {
 		this.paused = false;
 		this.queue = [];
 	}
-	
+
 	public async join(): Promise<void> {
 		this.connection = await this.channel.join();
 		this.guild.me.voice.setSelfDeaf(true);
@@ -57,7 +57,10 @@ export default class AudioPlayer {
 		}))
 		this.dispatcher.once("finish", () => {
 			if (this.queue.length > 0) this.play(this.queue.shift());
-			else this.playing = false;
+			else {
+				this.playing = false;
+				this.current = null;
+			}
 		});
 		this.dispatcher.on("error", (err) => {
 			throw err;
@@ -68,20 +71,23 @@ export default class AudioPlayer {
 	public pause(): void {
 		if (!this.dispatcher) return;
 		this.dispatcher.pause();
-		this.playing = false;
 		this.paused = true;
-		
+
 	}
 
 	public resume(): void {
 		if (!this.dispatcher) return;
 		this.dispatcher.resume();
 		this.paused = false;
-		this.playing = true;
 	}
 
 	public skip(): void {
 		if (!this.dispatcher) return;
 		this.dispatcher.emit("finish");
 	}
+
+	get streamTime(): number {
+		return this.dispatcher.streamTime;
+	}
+
 }
