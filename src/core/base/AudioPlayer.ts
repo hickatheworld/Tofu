@@ -8,6 +8,7 @@ export default class AudioPlayer {
 	public guild: Guild;
 	public queue: MusicQueueItem[];
 	public current?: MusicQueueItem;
+	public loop: boolean;
 	public paused: boolean;
 	public partial: boolean;
 	public playing: boolean;
@@ -18,6 +19,7 @@ export default class AudioPlayer {
 		this.client = client;
 		this.channel = channel;
 		this.guild = channel.guild;
+		this.loop = false;
 		this.playing = false;
 		this.partial = false;
 		this.paused = false;
@@ -56,7 +58,9 @@ export default class AudioPlayer {
 			highWaterMark: 1 << 25
 		}))
 		this.dispatcher.once("finish", () => {
-			if (this.queue.length > 0) this.play(this.queue.shift());
+			if (this.loop) {
+				this.play(this.current);
+			} else if (this.queue.length > 0) this.play(this.queue.shift());
 			else {
 				this.playing = false;
 				this.current = null;
