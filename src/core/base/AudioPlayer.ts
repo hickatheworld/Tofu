@@ -48,11 +48,11 @@ export default class AudioPlayer {
 		return this.queue;
 	}
 
-	public async play(audio: MusicQueueItem): Promise<void> {
+	public async play(song: MusicQueueItem): Promise<void> {
 		if (!this.connection) await this.join();
 		this.playing = true;
 		this.paused = false;
-		this.dispatcher = this.connection.play(ytdl(audio.url, {
+		this.dispatcher = this.connection.play(ytdl(song.url, {
 			quality: "highestaudio",
 			filter: "audioonly",
 			highWaterMark: 1 << 25
@@ -69,7 +69,7 @@ export default class AudioPlayer {
 		this.dispatcher.on("error", (err) => {
 			throw err;
 		});
-		this.current = audio;
+		this.current = song;
 	}
 
 	public pause(): void {
