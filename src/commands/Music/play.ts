@@ -65,6 +65,7 @@ export = class extends Command {
 				return;
 			}
 			if (!player) {
+				this.warn("Music module is still under development. Bugs are likely to happen.", message.channel);
 				player = new AudioPlayer(this.client, message.member.voice.channel);
 				this.client.audioPlayers.set(message.guild.id, player);
 			}
