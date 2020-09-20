@@ -19,7 +19,7 @@ export = class extends Command {
 	public async exe(message: Message, args: string[]): Promise<void> {
 		this.check(message, async () => {
 			const player: AudioPlayer = this.client.audioPlayers.get(message.guild.id);
-			if (!player || player.queue.length === 0) {
+			if (!player) {
 				this.error("Nothing is playing in this server.", message.channel);
 				return;
 			}
@@ -33,7 +33,7 @@ export = class extends Command {
 			}
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor("Queue", message.author.avatarURL())
-				.setDescription(`**Now playing:** : [${player.current.title}](${player.current.url})`);
+				.setDescription(`**Now playing:** [${player.current.title}](${player.current.url})`);
 			var totalDuration: number = 0;
 			for (var i = 0; i < 10; i++) {
 				if (i == player.queue.length) break;
