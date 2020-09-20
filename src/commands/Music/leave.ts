@@ -22,6 +22,14 @@ export = class extends Command {
 				this.error("Nothing is playing in this server", message.channel);
 				return;
 			}
+			if (!message.member.voice.channel) {
+				this.error("You must be connected to a voice channel to use this command.", message.channel);
+				return;
+			}
+			if (player && player.channel !== message.member.voice.channel) {
+				this.error("You must be in the same voice channel as I am to use this command.", message.channel);
+				return;
+			}
 			player.channel.leave();
 			this.client.audioPlayers.delete(message.guild.id);
 			message.channel.send("👋 **Left voice channel**");
