@@ -21,7 +21,7 @@ export = class extends Command {
 		this.check(message, async () => {
 			const player: AudioPlayer = this.client.audioPlayers.get(message.guild.id);
 			if (!player || !player.current) {
-				this.error("Nothing is currently playing in this server.", message.channel);
+				this.error("Nothing is playing in this server.", message.channel);
 				return;
 			}
 			const current: MusicQueueItem = player.current;

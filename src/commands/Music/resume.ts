@@ -6,7 +6,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "resume",
-			desc: "Resumes audio",
+			desc: "Resumes song",
 			module: "Music",
 		});
 	}

@@ -9,7 +9,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "queue",
-			desc: "Lists songs in server's queue",
+			desc: "Lists songs in queue",
 			module: "Music",
 		});
 	}
@@ -20,7 +20,7 @@ export = class extends Command {
 		this.check(message, async () => {
 			const player: AudioPlayer = this.client.audioPlayers.get(message.guild.id);
 			if (!player || player.queue.length === 0) {
-				this.error("Nothing is currently playing in this server.", message.channel);
+				this.error("Nothing is playing in this server.", message.channel);
 				return;
 			}
 			const embed: MessageEmbed = new MessageEmbed()

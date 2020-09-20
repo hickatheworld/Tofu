@@ -7,7 +7,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "skip",
-			desc: "Skips currently playing audio",
+			desc: "Skips currently playing song",
 			module: "Music"
 		});
 	}

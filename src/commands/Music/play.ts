@@ -105,13 +105,13 @@ export = class extends Command {
 							this.error("YouTube API quota exceeded. To continue playing music, please provide direct YouTube video URLs.", message.channel);
 							return
 						}
-						this.error("Unknown YouTube API error. You can keep playing music providing direct YouTube video URLs", message.channel);
+						this.error("Unknown YouTube API error. To continue playing music, please provide direct YouTube video URLs.", message.channel);
 						return;
 					}
 				} else {
 					player.partial = false;
 					if (!searchResults.items || searchResults.items.length == 0) {
-						this.error(`No result found for **${query}** on YouTube`, message.channel);
+						this.error(`No result found for **${query}** on YouTube.`, message.channel);
 						return;
 					}
 					const item: any = searchResults.items[0];
@@ -132,7 +132,7 @@ export = class extends Command {
 			const video: any = await nodeFetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${vidID}&key=${process.env.YOUTUBE_API_KEY}`);
 			const videoDetails: any = await video.json();
 			if (videoDetails.error || !videoDetails.items || videoDetails.items.length == 0) {
-				this.warn("API Error. Added to queue with limited informations", message.channel);
+				this.warn("API Error. Added to queue with limited informations.", message.channel);
 			} else {
 				const item = videoDetails.items[0];
 				entry.channelLink = "https://youtube.com/channel/" + item.snippet.channelId;
