@@ -64,40 +64,40 @@ export = class extends Command {
 			const msg: Message = await message.channel.send("`" + user.id + "`", tiny);
 			await msg.react("*️⃣");
 			const collector: ReactionCollector = new ReactionCollector(msg, r => true, { idle: 60000 });
-			collector.on("collect", (reaction, user) => {
-				reaction.users.remove(user);
-				if (user !== message.author) return;
+			collector.on("collect", (reaction, u) => {
+				reaction.users.remove(u);
+				if (u !== message.author) return;
 				if (reaction.emoji.name === "*️⃣") {
 					collector.stop("");
 					const embed: MessageEmbed = new MessageEmbed()
-						.setTitle(`${user.tag} (${user.id})`)
+						.setTitle(`${u.tag} (${u.id})`)
 						.setColor(member.displayColor || "#AAAAAA")
-						.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
+						.setThumbnail(u.displayAvatarURL({ dynamic: true, size: 4096 }))
 						.addFields(
 							[
 								{
 									name: "Badges",
-									value: (user.flags) ? user.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badges",
+									value: (u.flags) ? u.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badges",
 									inline: true
 								},
 								{
 									name: "Mention",
-									value: user,
+									value: u,
 									inline: true
 								},
 								{
 									name: "Avatar",
-									value: "[Link](" + user.displayAvatarURL({ dynamic: true, size: 4096 }) + ")",
+									value: "[Link](" + u.displayAvatarURL({ dynamic: true, size: 4096 }) + ")",
 									inline: true
 								},
 								{
 									name: "Account creation",
-									value: user.createdAt.toUTCString(),
+									value: u.createdAt.toUTCString(),
 									inline: false
 								},
 								{
 									name: "Account age",
-									value: formatDuration(new Date(), user.createdAt, true),
+									value: formatDuration(new Date(), u.createdAt, true),
 									inline: true
 								},
 								{
@@ -154,7 +154,7 @@ export = class extends Command {
 						}
 					]);
 					msg.delete();
-					message.channel.send("`" + user.id + "`", embed);
+					message.channel.send("`" + u.id + "`", embed);
 				}
 			});
 			collector.on("end", (_collected, _reason) => {
