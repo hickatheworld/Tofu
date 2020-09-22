@@ -13,7 +13,7 @@ export = class extends Command {
 			usages: [
 				"[user: User]"
 			],
-			aliases: ["av","pfp"]
+			aliases: ["av", "pfp"]
 		});
 	}
 
@@ -36,7 +36,7 @@ export = class extends Command {
 					inline: true
 				};
 				for (const size of sizes) {
-					fields[ext].value+=`, [${size}](${baseUrl}.${ext}?size=${size})`;
+					fields[ext].value += `, [${size}](${baseUrl}.${ext}?size=${size})`;
 				}
 				fields[ext].value = fields[ext].value.slice(2);
 			}
