@@ -60,7 +60,7 @@ export = class extends Command {
 						inline: false
 					}
 				])
-				.setFooter("Click the reaction to get full informations", "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/keycap-asterisk_2a-fe0f-20e3.png")
+				.setFooter("Click the reaction to get full informations", "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/keycap-asterisk_2a-fe0f-20e3.png");
 			const msg: Message = await message.channel.send("`" + user.id + "`", tiny);
 			await msg.react("*️⃣");
 			const collector: ReactionCollector = new ReactionCollector(msg, r => true, { idle: 60000 });
