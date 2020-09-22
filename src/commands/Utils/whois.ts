@@ -42,7 +42,7 @@ export = class extends Command {
 				.setTitle(`Informations about ${member.displayName}`)
 				.setColor(member.displayColor || "#AAAAAA")
 				.setDescription(user)
-				.setThumbnail(user.displayAvatarURL({ dynamic: true }))
+				.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
 				.addFields([
 					{
 						name: "Account creation",
@@ -72,7 +72,7 @@ export = class extends Command {
 					const embed: MessageEmbed = new MessageEmbed()
 						.setTitle(`${user.tag} (${user.id})`)
 						.setColor(member.displayColor || "#AAAAAA")
-						.setThumbnail(user.displayAvatarURL({ dynamic: true }))
+						.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
 						.addFields(
 							[
 								{
@@ -87,7 +87,7 @@ export = class extends Command {
 								},
 								{
 									name: "Avatar",
-									value: "[Link](" + user.displayAvatarURL({ dynamic: true }) + ")",
+									value: "[Link](" + user.displayAvatarURL({ dynamic: true, size: 4096 }) + ")",
 									inline: true
 								},
 								{
