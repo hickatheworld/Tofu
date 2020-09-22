@@ -70,34 +70,34 @@ export = class extends Command {
 				if (reaction.emoji.name === "*️⃣") {
 					collector.stop("");
 					const embed: MessageEmbed = new MessageEmbed()
-						.setTitle(`${u.tag} (${u.id})`)
+						.setTitle(`${user.tag} (${user.id})`)
 						.setColor(member.displayColor || "#AAAAAA")
-						.setThumbnail(u.displayAvatarURL({ dynamic: true, size: 4096 }))
+						.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
 						.addFields(
 							[
 								{
 									name: "Badges",
-									value: (u.flags) ? u.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badges",
+									value: (user.flags) ? user.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badges",
 									inline: true
 								},
 								{
 									name: "Mention",
-									value: u,
+									value: user,
 									inline: true
 								},
 								{
 									name: "Avatar",
-									value: "[Link](" + u.displayAvatarURL({ dynamic: true, size: 4096 }) + ")",
+									value: "[Link](" + user.displayAvatarURL({ dynamic: true, size: 4096 }) + ")",
 									inline: true
 								},
 								{
 									name: "Account creation",
-									value: u.createdAt.toUTCString(),
+									value: user.createdAt.toUTCString(),
 									inline: false
 								},
 								{
 									name: "Account age",
-									value: formatDuration(new Date(), u.createdAt, true),
+									value: formatDuration(new Date(), user.createdAt, true),
 									inline: true
 								},
 								{
@@ -154,7 +154,7 @@ export = class extends Command {
 						}
 					]);
 					msg.delete();
-					message.channel.send("`" + u.id + "`", embed);
+					message.channel.send("`" + user.id + "`", embed);
 				}
 			});
 			collector.on("end", (_collected, _reason) => {
