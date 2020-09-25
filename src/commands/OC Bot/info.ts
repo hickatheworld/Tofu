@@ -15,13 +15,14 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
+			const version: string = require("../../../package.json").version;
 			const commit: string = require("child_process").execSync("git rev-parse HEAD");
 			const color: number = message.guild.members.cache.get(this.client.user.id).roles.color.color;
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor(this.client.name, this.client.user.avatarURL(), "https://github.com/Hickacou/OC-Bot/")
 				.setDescription(this.client.description)
 				.setColor(color)
-				.addField("Version", `${process.env.BOT_VERSION}`, true)
+				.addField("Version", version, true)
 				.addField("Commit", `[${commit.toString().substr(0, 7)}](https://github.com/Hickacou/OC-Bot/commit/${commit})`, true)
 				.addField("Creator", "**Hicka#3151**", true)
 				.addField("Language", "Typescript", true)
