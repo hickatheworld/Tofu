@@ -21,7 +21,7 @@ export = class extends Command {
 				.setAuthor(this.client.name, this.client.user.avatarURL(), "https://github.com/Hickacou/OC-Bot/")
 				.setDescription(this.client.description)
 				.setColor(color)
-				.addField("Version", `[${process.env.BOT_VERSION}](https://github.com/Hickacou/OC-Bot/releases/tag/${process.env.BOT_VERSION})`, true)
+				.addField("Version", `${process.env.BOT_VERSION}`, true)
 				.addField("Commit", `[${commit.toString().substr(0, 7)}](https://github.com/Hickacou/OC-Bot/commit/${commit})`, true)
 				.addField("Creator", "**Hicka#3151**", true)
 				.addField("Language", "Typescript", true)
