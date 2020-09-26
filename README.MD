@@ -4,7 +4,7 @@
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Hickacou/OC-Bot">
 <img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/Hickacou/OC-Bot">
 
-<a href="https://discord.gg/uJR4gvK" target="_blank"><img alt="Discord" src="https://img.shields.io/discord/648589630723325974"></a>
+<a href="https://discord.gg/oncecommunity" target="_blank"><img alt="Discord" src="https://img.shields.io/discord/648589630723325974"></a>
 
 <hr>
 This bot was made for the <a href="https://discord.gg/oncecommunity" target="_blank">Once Community Discord server</a>.<br />
