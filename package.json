@@ -37,7 +37,8 @@
 		"sqlite3": "^4.2.0",
 		"strip-ansi": "^6.0.0",
 		"typescript": "^3.9.7",
-		"ytdl-core": "^3.2.2"
+		"ytdl-core": "^3.2.2",
+		"ytsr": "^1.0.1"
 	},
 	"devDependencies": {
 		"@types/node": "^14.10.1",

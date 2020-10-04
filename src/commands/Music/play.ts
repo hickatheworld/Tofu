@@ -1,11 +1,14 @@
 import { Message, MessageEmbed } from "discord.js";
 import OCBot from "../../core/base/Client";
 import Command from "../../core/base/Command";
-import nodeFetch from "node-fetch";
 import AudioPlayer from "../../core/base/AudioPlayer";
+import ytdl = require("ytdl-core");
+import ytpl = require("ytpl");
+import ytsr = require("ytsr");
 import { AllHtmlEntities } from "html-entities";
 import { formatDuration, formatTinyDuration } from "../../core/lib/Time";
 import MusicQueueItem from "../../core/typedefs/MusicQueueItem";
+import { writeFileSync } from "fs";
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
@@ -75,90 +78,64 @@ export = class extends Command {
 				this.error("An error occured", message.channel, err);
 				return;
 			}
-			var entry: MusicQueueItem = {
-				channelLink: "https://youtube.com/",
-				channelName: "Unkown Channel",
-				displayDuration: "00:00",
-				duration: -1,
-				imgUrl: "https://i.ytimg.com/vi/q14dwkPQjfI/maxresdefault.jpg",
-				live: false,
-				requestedBy: message.member,
-				title: "Can't get title",
-				url: null
-			};
-
-			const ytID: RegExp = /(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&"'>]+)/
-			var vidID: string = "";
-			if (ytID.test(query)) {
-				vidID = ytID.exec(query)[ytID.exec(query).length - 1];
-				entry.url = "https://youtube.com/watch?v=" + vidID;
-			} else {
-				const search: any = await nodeFetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${query}&type=video&key=${process.env.YOUTUBE_API_KEY}`);
-				const searchResults: any = await search.json();
-				if (searchResults.error) {
-					player.partial = true;
-					if (ytID.test(query)) {
-						vidID = ytID.exec(query)[ytID.exec(query).length - 1];
-						entry.url = "https://youtube.com/watch?v=" + vidID;
-					} else {
-						if (searchResults.error.errors[0].reason === "quotaExceeded") {
-							this.error("YouTube API quota exceeded. To continue playing music, please provide direct YouTube video URLs.", message.channel);
-							return
-						}
-						this.error("Unknown YouTube API error. To continue playing music, please provide direct YouTube video URLs.", message.channel);
-						return;
-					}
+			var entry: MusicQueueItem = {} as MusicQueueItem;
+			try {
+				const link: string = "https://youtube.com/watch?v=" + ytdl.getVideoID(query);
+				const infos: ytdl.MoreVideoDetails = (await ytdl.getBasicInfo(link)).videoDetails;
+				entry = {
+					channelLink: infos.author.channel_url,
+					channelName: infos.author.name,
+					live: infos.isLiveContent,
+					duration: (entry.live) ? -1 : parseInt(infos.lengthSeconds) * 1000,
+					displayDuration: (entry.live) ? "LIVE" : formatTinyDuration(parseInt(infos.lengthSeconds) * 1000),
+					imgUrl: infos.thumbnail.thumbnails[infos.thumbnail.thumbnails.length - 1].url,
+					requestedBy: message.member,
+					title: infos.title,
+					url: infos.video_url
+				};
+			} catch (_) {
+				const results: ytsr.Result = await ytsr(query, { limit: 10 });
+				if (results.items.length > 0) {
+					const items: ytsr.Item[] = results.items.filter((i: any) => i.type === "video");
+					const infos: ytsr.Video = items[0] as ytsr.Video;
+					const parsedDuration: string[] = infos.duration.split(":").reverse();
+					const secs = parseInt(parsedDuration.shift());
+					var mins = 0;
+					var hours = 0;
+					if (parsedDuration.length > 0) mins = parseInt(parsedDuration.shift());
+					if (parsedDuration.length > 0) hours = parseInt(parsedDuration.shift());
+					const duration: number = secs * 1000 + mins * 1000 * 60 + hours * 1000 * 60 * 60;
+					entry = {
+						channelLink: infos.author.ref,
+						channelName: infos.author.name,
+						live: infos.live,
+						duration: duration,
+						displayDuration: (entry.live) ? "LIVE" : formatTinyDuration(duration),
+						imgUrl: infos.thumbnail,
+						requestedBy: message.member,
+						title: infos.title,
+						url: infos.link
+					};
 				} else {
-					player.partial = false;
-					if (!searchResults.items || searchResults.items.length == 0) {
-						this.error(`No result found for **${query}** on YouTube.`, message.channel);
-						return;
-					}
-					const item: any = searchResults.items[0];
-					if (item.snippet.liveBroadcastContent === "upcoming") {
-						this.error("Can't play a stream that has not started yet.", message.channel);
-						return;
-					}
-					entry.channelLink = "https://youtube.com/watch?v=" + item.id.channelId;
-					entry.channelName = AllHtmlEntities.decode(item.snippet.channelTitle);
-					entry.imgUrl = item.snippet.thumbnails.high.url;
-					entry.live = item.snippet.liveBroadcastContent === "live";
-					entry.title = AllHtmlEntities.decode(item.snippet.title);
-					entry.url = "https://youtube.com/watch?v=" + item.id.videoId;
-					vidID = item.id.videoId;
+					this.error(`No result for \`${query}\``, message.channel);
+					return;
 				}
 			}
-
-			const video: any = await nodeFetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${vidID}&key=${process.env.YOUTUBE_API_KEY}`);
-			const videoDetails: any = await video.json();
-			if (videoDetails.error || !videoDetails.items || videoDetails.items.length == 0) {
-				this.warn("API Error. Added to queue with limited informations.", message.channel);
-			} else {
-				const item = videoDetails.items[0];
-				entry.channelLink = "https://youtube.com/channel/" + item.snippet.channelId;
-				entry.channelName = AllHtmlEntities.decode(item.snippet.channelTitle);
-				entry.imgUrl = item.snippet.thumbnails.high.url;
-				entry.live = item.snippet.liveBroadcastContent === "live";
-				entry.title = AllHtmlEntities.decode(item.snippet.title);
-				const isoDuration = item.contentDetails.duration;
-				const secs = (/(\d+)S/.test(isoDuration)) ? parseInt(/(\d+)S/.exec(isoDuration)[1]) : 0;
-				const mins = (/(\d+)M/.test(isoDuration)) ? parseInt(/(\d+)M/.exec(isoDuration)[1]) : 0;
-				const hours = (/(\d+)H/.test(isoDuration)) ? parseInt(/(\d+)H/.exec(isoDuration)[1]) : 0;
-				const duration: number = secs * 1000 + mins * 1000 * 60 + hours * 1000 * 60 * 60;
-				entry.duration = duration;
-				entry.displayDuration = formatTinyDuration(duration);
-			}
-			player.queueAdd(entry);
-			if (!player.playing) {
-				player.play(player.queue.shift());
-				message.channel.send("▶ Now playing: **" + player.current.title + "**");
+			console.log(entry);
+			if (entry.duration > 1.44e7) {
+				this.error("Can't play a song that is longer than 4 hours.", message.channel);
 				return;
 			}
-			const item: MusicQueueItem = player.queue[player.queue.length - 1];
+			if (player.playing) player.queueAdd(entry);
+			else {
+				player.play(entry);
+				message.channel.send(`▶ Now playing: **${entry.title}**`);
+				return;
+			}
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor("Queued", message.author.avatarURL())
 				.setDescription(`**[${entry.title}](${entry.url})**`)
-				.setImage(item.imgUrl)
+				.setImage(entry.imgUrl)
 				.addField("Channel", `[${entry.channelName}](${entry.channelLink})`, true)
 				.addField("Position in queue", player.queue.length, true)
 				.addField("Duration", entry.displayDuration, true);

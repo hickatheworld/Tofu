@@ -46,6 +46,7 @@ export = class extends Command {
 				progress = `| ${"█".repeat(20)} |\n\`${formatTinyDuration(player.streamTime)}\` / \`LIVE\``
 			} else {
 				const count: number = Math.floor(player.streamTime / current.duration * 20);
+				console.log(count);
 				progress = `| ${"█".repeat(count)}${"░".repeat(20 - count)} |\n\`${formatTinyDuration(player.streamTime)}\` / \`${current.displayDuration}\` `
 			}
 			embed.addField("Progress", progress);
