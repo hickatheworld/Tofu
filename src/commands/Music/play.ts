@@ -3,7 +3,6 @@ import OCBot from "../../core/base/Client";
 import Command from "../../core/base/Command";
 import AudioPlayer from "../../core/base/AudioPlayer";
 import ytdl = require("ytdl-core");
-import ytpl = require("ytpl");
 import ytsr = require("ytsr");
 import { AllHtmlEntities } from "html-entities";
 import { formatDuration, formatTinyDuration } from "../../core/lib/Time";
