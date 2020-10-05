@@ -120,7 +120,6 @@ export = class extends Command {
 					return;
 				}
 			}
-			console.log(entry);
 			if (entry.duration > 1.44e7) {
 				this.error("Can't play a song that is longer than 4 hours.", message.channel);
 				return;
