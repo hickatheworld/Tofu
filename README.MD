@@ -2,7 +2,6 @@
 <h1>OC Bot</h1>
 <h2>Once Community's Discord bot</h2>
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Hickacou/OC-Bot">
-<img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/Hickacou/OC-Bot">
 
 <a href="https://discord.gg/oncecommunity" target="_blank"><img alt="Discord" src="https://img.shields.io/discord/648589630723325974"></a>
 
