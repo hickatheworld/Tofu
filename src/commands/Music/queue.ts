@@ -33,6 +33,7 @@ export = class extends Command {
 			}
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor("Queue", message.author.avatarURL())
+				.setColor("#2f3136")
 				.setDescription(`**Now playing:** [${player.current.title}](${player.current.url})`);
 			var totalDuration: number = 0;
 			for (var i = 0; i < 10; i++) {

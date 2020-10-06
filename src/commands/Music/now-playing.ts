@@ -36,6 +36,7 @@ export = class extends Command {
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor("Now playing", message.author.avatarURL())
 				.setDescription(`**[${current.title}](${current.url})**`)
+				.setColor("#2f3136")
 				.addField("Channel", `[${current.channelName}](${current.channelLink})`, true)
 				.addField("Requested by", current.requestedBy, true)
 				.setThumbnail(current.imgUrl);

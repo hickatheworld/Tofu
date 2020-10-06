@@ -134,6 +134,7 @@ export = class extends Command {
 				.setAuthor("Queued", message.author.avatarURL())
 				.setDescription(`**[${entry.title}](${entry.url})**`)
 				.setImage(entry.imgUrl)
+				.setColor("#2f3136")
 				.addField("Channel", `[${entry.channelName}](${entry.channelLink})`, true)
 				.addField("Position in queue", player.queue.length, true)
 				.addField("Duration", entry.displayDuration, true);
