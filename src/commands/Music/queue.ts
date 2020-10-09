@@ -2,7 +2,6 @@ import { Message, MessageEmbed } from "discord.js";
 import OCBot from "../../core/base/Client";
 import Command from "../../core/base/Command";
 import AudioPlayer from "../../core/base/AudioPlayer";
-import MusicQueueItem from "../../core/typedefs/MusicQueueItem";
 import { formatTinyDuration } from "../../core/lib/Time";
 
 export = class extends Command {

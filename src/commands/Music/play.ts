@@ -4,8 +4,7 @@ import Command from "../../core/base/Command";
 import AudioPlayer from "../../core/base/AudioPlayer";
 import ytdl = require("ytdl-core");
 import ytsr = require("ytsr");
-import { AllHtmlEntities } from "html-entities";
-import { formatDuration, formatTinyDuration } from "../../core/lib/Time";
+import { formatTinyDuration } from "../../core/lib/Time";
 import MusicQueueItem from "../../core/typedefs/MusicQueueItem";
 import { writeFileSync } from "fs";
 export = class extends Command {
