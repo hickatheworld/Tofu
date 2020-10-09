@@ -28,7 +28,7 @@ export = class extends Command {
 			if (this.client.audioPlayers.has(message.guild.id)) player = this.client.audioPlayers.get(message.guild.id);
 			if (!query) {
 				if (!player || !player.playing) {
-					this.error("The player isn't paused.", message.channel);
+					this.error(`Invalid usage\nCorrect syntax:\n\`\`\`${this.client.prefix}play <name or link>\`\`\``, message.channel);
 					return;
 				}
 				if (player.paused) {
