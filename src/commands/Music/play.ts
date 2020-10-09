@@ -1,13 +1,12 @@
 import { Message, MessageEmbed } from "discord.js";
 import OCBot from "../../core/base/Client";
-import Command from "../../core/base/Command";
 import AudioPlayer from "../../core/base/AudioPlayer";
 import ytdl = require("ytdl-core");
 import ytsr = require("ytsr");
 import { formatTinyDuration } from "../../core/lib/Time";
 import MusicQueueItem from "../../core/typedefs/MusicQueueItem";
-import { writeFileSync } from "fs";
-export = class extends Command {
+import MusicCommand from "../../core/base/MusicCommand";
+export = class extends MusicCommand {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "play",
@@ -16,16 +15,14 @@ export = class extends Command {
 			usages: [
 				"[video: String]"
 			],
-		});
+		}, false);
 	}
 
 	public async setup(): Promise<void> { }
 
 	public async exe(message: Message, args: string[]): Promise<void> {
-		this.check(message, async () => {
+		this.check(message, async (player: AudioPlayer) => {
 			const query: string = args.join(" ").trim();
-			var player: AudioPlayer;
-			if (this.client.audioPlayers.has(message.guild.id)) player = this.client.audioPlayers.get(message.guild.id);
 			if (!query) {
 				if (!player || !player.playing) {
 					this.error(`Invalid usage\nCorrect syntax:\n\`\`\`${this.client.prefix}play <name or link>\`\`\``, message.channel);
@@ -49,32 +46,20 @@ export = class extends Command {
 					return;
 				}
 			}
-			if (!message.member.voice.channel) {
-				this.error("You must be connected to a voice channel to use this command.", message.channel);
-				return;
-			}
-			if (!message.member.voice.channel.joinable) {
-				this.error("I can't join this voice channel.", message.channel);
-				return;
-			}
-			if (!message.member.voice.channel.speakable) {
-				this.error("I can't play audio to this voice channel.", message.channel);
-				return;
-			}
-			if (player && player.channel !== message.member.voice.channel) {
-				this.error("You must be in the same voice channel as I am to use this command.", message.channel);
-				return;
-			}
 			if (!player) {
 				this.warn("Music module is still under development. Bugs are likely to happen.", message.channel);
-				player = new AudioPlayer(this.client, message.member.voice.channel);
+				try {
+					player = new AudioPlayer(this.client, message.member.voice.channel);
+				} catch (err) {
+					if (err.message === "MISSING_PERMS") {
+						this.error("I don't have the permission to join or/and speak in this channel.", message.channel);
+						return;
+					}
+					this.error("An error occured", message.channel, err);
+					return;
+				}
 				this.client.audioPlayers.set(message.guild.id, player);
-			}
-			try {
 				await player.join();
-			} catch (err) {
-				this.error("An error occured", message.channel, err);
-				return;
 			}
 			var entry: MusicQueueItem = {} as MusicQueueItem;
 			try {

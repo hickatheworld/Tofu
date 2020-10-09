@@ -3,7 +3,6 @@ import OCBot from "./Client";
 import { formatDuration } from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
 import { formatPermission } from "../lib/utils";
-import { TextChange } from "typescript";
 import BotResponse from "./BotResponse";
 
 export default abstract class Command {

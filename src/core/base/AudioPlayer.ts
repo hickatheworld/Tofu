@@ -24,6 +24,9 @@ export default class AudioPlayer {
 		this.partial = false;
 		this.paused = false;
 		this.queue = [];
+		if (!this.channel.speakable || !this.channel.joinable) {
+			throw new Error("MISSING_PERMS");
+		}
 	}
 
 	public async join(): Promise<void> {

@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
 import OCBot from "../../core/base/Client";
-import Command from "../../core/base/Command";
 import AudioPlayer from "../../core/base/AudioPlayer";
+import MusicCommand from "../../core/base/MusicCommand";
 
-export = class extends Command {
+export = class extends MusicCommand {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "pause",
@@ -15,23 +15,13 @@ export = class extends Command {
 	public async setup(): Promise<void> { }
 
 	public async exe(message: Message, args: string[]): Promise<void> {
-		this.check(message, async () => {
-			var player: AudioPlayer;
-			if (this.client.audioPlayers.has(message.guild.id)) player = this.client.audioPlayers.get(message.guild.id);
+		this.check(message, async (player: AudioPlayer) => {
 			if (player.paused) {
 				this.error("The player is already paused", message.channel);
 				return;
 			}
 			if (!player || !player.playing) {
 				this.error("Nothing is playing in this server", message.channel);
-				return;
-			}
-			if (!message.member.voice.channel) {
-				this.error("You must be connected to a voice channel to use this command.", message.channel);
-				return;
-			}
-			if (player && player.channel !== message.member.voice.channel) {
-				this.error("You must be in the same voice channel as I am to use this command.", message.channel);
 				return;
 			}
 			player.pause();
