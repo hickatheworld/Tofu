@@ -5,7 +5,7 @@ export default abstract class BotEvent {
 	public name: string;
 	public once: boolean;
 	public props: Map<string, any>;
-	constructor(client: OCBot, name: string, once: boolean) {
+	constructor(client: OCBot, name: string, once = false) {
 		this.client = client;
 		this.name = name;
 		this.once = once;

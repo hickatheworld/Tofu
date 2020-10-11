@@ -4,7 +4,7 @@ import OCBot from "../core/base/Client";
 
 export = class extends BotEvent {
 	constructor(client: OCBot) {
-		super(client, "message", false);
+		super(client, "message");
 	}
 
 	public exe(message: Message): void {

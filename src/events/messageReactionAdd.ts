@@ -5,7 +5,7 @@ import StarboardSettings from "../core/typedefs/StarboardSettings";
 
 export = class extends BotEvent {
 	constructor(client: OCBot) {
-		super(client, "messageReactionAdd", false);
+		super(client, "messageReactionAdd");
 		this.props.set("starMessages", new Map<string, Message>());
 	}
 
