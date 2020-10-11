@@ -90,7 +90,14 @@ export default class AudioPlayer {
 
 	public skip(): void {
 		if (!this.dispatcher) return;
+		var wasLoop: boolean = false;
+		if (this.loop) {
+			this.loop = false;
+			wasLoop = true;
+		}
 		this.dispatcher.emit("finish");
+		if (wasLoop) this.loop = true;
+
 	}
 
 	get streamTime(): number {
