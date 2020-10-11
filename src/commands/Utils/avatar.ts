@@ -1,4 +1,4 @@
-import { Message, User, EmbedField, MessageEmbed, ReactionCollector } from "discord.js";
+import { Message, User, MessageEmbed, ReactionCollector } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";

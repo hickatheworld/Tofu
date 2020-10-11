@@ -12,7 +12,7 @@ export = class extends Command {
 			module: "Fun"
 		});
 	}
-	
+
 	public async setup(): Promise<void> {
 		const words: string[] = (await fs.readFile(join(__dirname, "../../../assets/txt/whatthe_words.txt"), "utf-8")).split("\n");
 		this.props.set("words", words);
@@ -20,7 +20,7 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, () => {
-			const word: string = this.props.get("words")[Math.floor(Math.random() * this.props.get("words").length)].replace("\r","");
+			const word: string = this.props.get("words")[Math.floor(Math.random() * this.props.get("words").length)].replace("\r", "");
 			message.channel.send(`What the **${word}**`);
 			if (word === "fuck") {
 				message.channel.send("OMG! YOU GOT THE **F WORD**!\nReminder : You had **0.0017%** chance to get it, so congratulations!!");

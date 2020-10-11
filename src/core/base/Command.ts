@@ -33,7 +33,7 @@ export default abstract class Command {
 
 	public abstract async setup(): Promise<void>;
 	public abstract async exe(message: Message, args: string[]): Promise<void>;
-	
+
 	public async check(message: Message, callback: Function): Promise<void> {
 		if (this.whitelist) {
 			if (!this.whitelist.includes(message.author.id)) {
@@ -82,7 +82,7 @@ export default abstract class Command {
 		const response: BotResponse = new BotResponse(message, "WARNING");
 		return channel.send(response.toEmbed());
 	}
-	
+
 	public async error(message: string, channel: TextChannel | DMChannel | NewsChannel, error?: Error): Promise<Message> {
 		const response: BotResponse = new BotResponse(message, "ERROR", error);
 		return channel.send(response.toEmbed());

@@ -1,8 +1,8 @@
 import { Message, MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
+import { AllHtmlEntities } from "html-entities";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
-import { AllHtmlEntities } from "html-entities";
 import Trivia from "../../core/typedefs/Trivia";
 import { shuffleArray } from "../../core/lib/utils";
 import { TriviaColors, TRIVIA_LETTERS } from "../../core/lib/Constants";

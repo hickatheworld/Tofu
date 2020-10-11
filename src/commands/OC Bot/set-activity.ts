@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, ActivityType, GuildAuditLogs } from "discord.js";
+import { Message, ActivityType } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import * as log from "../../core/lib/Log";

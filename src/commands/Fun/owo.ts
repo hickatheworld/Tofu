@@ -2,8 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 
-const EYES: string[] = ["OO","oo","ÒÓ","òó","QQ","qq","ÈÉ","èé","ÙÚ","ùú","--","••","¬¬",";;"];
-const MOUTHS: string[] = ["w","W","u","_","__",".","-"];
+const EYES: string[] = ["OO", "oo", "ÒÓ", "òó", "QQ", "qq", "ÈÉ", "èé", "ÙÚ", "ùú", "--", "••", "¬¬", ";;"];
+const MOUTHS: string[] = ["w", "W", "u", "_", "__", ".", "-"];
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -14,7 +14,7 @@ export = class extends Command {
 		});
 	}
 
-	public async setup(): Promise<void> {}
+	public async setup(): Promise<void> { }
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, () => {

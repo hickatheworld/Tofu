@@ -63,7 +63,7 @@ export enum ServerInfosEmotes {
 	ONLINE = "<:online:754325427949928470>",
 	OFFLINE = "<:offline:754325427970899999>",
 	TEXT_CHANNEL = "<:text_channel:754322850973876235>",
-	VOICE_CHANNEL = "<:voice_channel:754322850852372591>"	
+	VOICE_CHANNEL = "<:voice_channel:754322850852372591>"
 }
 
 export const SERVER_INFOS_COLOR: ColorResolvable = "BLUE";

@@ -3,9 +3,7 @@ import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
-import { rejects } from "assert";
 import { COOKIE_GIVER_ID } from "../../core/lib/Constants";
-
 
 export = class extends Command {
 	constructor(client: OCBot) {

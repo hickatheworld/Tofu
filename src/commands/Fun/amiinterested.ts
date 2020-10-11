@@ -1,6 +1,6 @@
+import { Message } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
-import { Message } from "discord.js";
 
 export = class extends Command {
 	constructor(client: OCBot) {

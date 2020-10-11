@@ -1,7 +1,7 @@
 import { GuildEmoji, Message, MessageEmbed, ReactionCollector, Snowflake } from "discord.js";
 import OCBot from "../../core/base/Client";
 import Command from "../../core/base/Command";
-import { BotResponseEmotes, SERVER_INFOS_COLOR } from "../../core/lib/Constants";
+import { SERVER_INFOS_COLOR } from "../../core/lib/Constants";
 
 export = class extends Command {
 	constructor(client: OCBot) {

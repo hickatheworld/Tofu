@@ -1,8 +1,8 @@
-import { GuildEmoji, Message, MessageEmbed, ReactionCollector, Role, Snowflake } from "discord.js";
+import { Message, MessageEmbed, ReactionCollector, Role } from "discord.js";
 import OCBot from "../../core/base/Client";
 import Command from "../../core/base/Command";
 import { parseRole } from "../../core/lib/Args";
-import { BotResponseEmotes, SERVER_INFOS_COLOR } from "../../core/lib/Constants";
+import { SERVER_INFOS_COLOR } from "../../core/lib/Constants";
 import { formatDuration } from "../../core/lib/Time";
 import { formatPermission } from "../../core/lib/utils";
 

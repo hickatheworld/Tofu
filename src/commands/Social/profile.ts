@@ -22,8 +22,8 @@ export = class extends Command {
 			]
 		});
 	}
-	public async setup() {}
-	
+	public async setup() { }
+
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
 			const subcommand: string = (args[0]) ? args[0].toLowerCase() : null;

@@ -14,7 +14,7 @@ export = class extends Command {
 				"enable/disable",
 				"channel <channel: Channel>"
 			],
-			aliases: ["star","sb"],
+			aliases: ["star", "sb"],
 			perms: ["MANAGE_CHANNELS"]
 		});
 	}

@@ -19,7 +19,6 @@ export = class extends MusicCommand {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		this.check(message, async (player: AudioPlayer) => {
-			
 			const current: MusicQueueItem = player.current;
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor("Now playing", message.author.avatarURL())

@@ -1,7 +1,7 @@
+import { Message } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import BotProfile from "../../core/typedefs/BotProfile";
-import { Message } from "discord.js";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -12,7 +12,7 @@ export = class extends Command {
 		});
 	}
 
-	public async setup() {}
+	public async setup() { }
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {

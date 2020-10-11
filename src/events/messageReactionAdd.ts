@@ -12,7 +12,7 @@ export = class extends BotEvent {
 	public async exe(reaction: MessageReaction, _user: User): Promise<void> {
 		const guildSettings: StarboardSettings = await this.client.db.getStarboard(reaction.message.guild);
 		if (!guildSettings.enabled) return;
-		
+
 		if (reaction.count > 2 || reaction.emoji.name !== "⭐") return;
 		const collector: ReactionCollector = new ReactionCollector(reaction.message, r => r.emoji.name === "⭐", { time: 120000, dispose: true });
 		collector.on("collect", async (r, _u) => {

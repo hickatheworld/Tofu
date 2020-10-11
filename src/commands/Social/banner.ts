@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import { createCanvas, loadImage, Image, Canvas, PNGStream } from "canvas";
+import { createCanvas, loadImage, Image, Canvas } from "canvas";
+import { WriteStream, createWriteStream, existsSync, mkdirSync } from "fs";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseLink } from "../../core/lib/Args";
-import { WriteStream, createWriteStream, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
 export = class extends Command {

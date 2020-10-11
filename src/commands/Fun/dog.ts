@@ -22,7 +22,7 @@ export = class extends Command {
 				.setColor("d99e82")
 				.setTitle("Here's a dog")
 				.setImage(dog.url)
-			;
+				;
 			message.channel.send(embed);
 		});
 	}

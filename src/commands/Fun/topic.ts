@@ -12,7 +12,7 @@ export = class extends Command {
 			module: "Fun"
 		});
 	}
-	
+
 	public async setup(): Promise<void> {
 		const questions: string[] = (await fs.readFile(join(__dirname, "../../../assets/txt/topic_questions.txt"), "utf-8")).split("\n");
 		this.props.set("questions", questions);

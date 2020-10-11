@@ -1,10 +1,10 @@
 import { Message, MessageEmbed, GuildMember, Role } from "discord.js";
 import { createCanvas, Canvas, PNGStream } from "canvas";
 import nodeFetch from "node-fetch";
-import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
 import { join } from "path";
 import { unlinkSync, createWriteStream, WriteStream } from "fs";
+import Command from "../../core/base/Command";
+import OCBot from "../../core/base/Client";
 
 export = class extends Command {
 	constructor(client: OCBot) {
