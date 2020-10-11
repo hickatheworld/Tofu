@@ -25,7 +25,15 @@ export = class extends Command {
 			if (parseUser(args[0], this.client)) user = parseUser(args[0], this.client);
 			else user = message.author;
 			const mainUrl: string = user.avatarURL({ dynamic: true, size: 4096 });
-
+			if (!mainUrl) {
+				const embed: MessageEmbed = new MessageEmbed()
+					.setTitle("This user has no avatar")
+					.setDescription(user.toString() + " has the default Discord avatar")
+					.setColor("RED")
+					.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }));
+				message.channel.send(embed);
+				return;
+			}
 			const tiny: MessageEmbed = new MessageEmbed()
 				.setTitle(user.username + "'s avatar")
 				.setImage(mainUrl)
