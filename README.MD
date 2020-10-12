@@ -15,7 +15,7 @@ $ git clone https://github.com/Hickacou/OC-Bot
 <pre>
 $ npm install
 </pre>
-- Make sur you set usable constants in <code>./src/lib/Constants.ts</code>
+- Make sure you set usable constants in <code>src/lib/Constants.ts</code>
 - Compile and run with <b>pm2</b>:
 <pre>
 $ npm run compile
@@ -36,4 +36,5 @@ You can also use <code>npm start</code>
 <a href="https://twitter.com/puddingmangue" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/puddingmangue?style=social"></a>
 <br>
 Discord direct contact : **Hicka#3151**
+
 This bot was made for the <a href="https://discord.gg/oncecommunity" target="_blank">Once Community Discord server</a>.
