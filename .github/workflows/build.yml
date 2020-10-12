@@ -1,20 +1,17 @@
-name: Remote SSH 
-on:
-  push:
-    branches: [ master ]
+name: Deploy
+
+on: [push]
 
 jobs:
-  build:
-    name: Build & Serve
-    runs-on: ubuntu-latest
+  deploy:
+    if: github.ref == 'refs/heads/master'
+    runs-on: [ubuntu-latest]
     steps:
-      - name: Execute ssh commands on host
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Run server update script
+        uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.IP }}
-          username: ${{ secrets.USER }}
-          password: ${{ secrets.PASS }}
-          port: ${{ secrets.PORT }}
-          script: |
-            cd OC-Bot
-            npm run update
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: cd ${{ secrets.PATH }} && npm run update
