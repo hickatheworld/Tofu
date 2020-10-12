@@ -15,6 +15,7 @@ export default class AudioPlayer {
 	private client: OCBot;
 	private connection: VoiceConnection;
 	private dispatcher: StreamDispatcher;
+	private leaveTimeout: NodeJS.Timeout;
 	constructor(client: OCBot, channel: VoiceChannel) {
 		this.client = client;
 		this.channel = channel;
@@ -67,6 +68,7 @@ export default class AudioPlayer {
 			else {
 				this.playing = false;
 				this.current = null;
+				this.startLeaveTimeout(6e5)
 			}
 		});
 		this.dispatcher.on("error", (err) => {
@@ -102,6 +104,14 @@ export default class AudioPlayer {
 
 	get streamTime(): number {
 		return this.dispatcher.streamTime;
+	}
+
+	public startLeaveTimeout(duration: number): void {
+		this.leaveTimeout = setTimeout(() => { this.leave() }, duration);
+	}
+	public clearLeaveTimeout(): void {
+		clearTimeout(this.leaveTimeout);
+		this.leaveTimeout = null;
 	}
 
 }

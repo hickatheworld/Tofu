@@ -25,6 +25,7 @@ export = class extends MusicCommand {
 				return;
 			}
 			player.pause();
+			player.startLeaveTimeout(6e5);
 			message.channel.send("⏸ **Paused**");
 		});
 	}
