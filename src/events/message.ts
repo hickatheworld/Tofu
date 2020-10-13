@@ -18,13 +18,13 @@ export = class extends BotEvent {
 		const collector: ReactionCollector = new ReactionCollector(message, (r: MessageReaction) => r.emoji.name === "⭐", { time: 120000, dispose: true });
 		collector.on("collect", async (reaction, _u) => {
 			if (reaction.emoji.name !== "⭐") return;
-			
+
 			const star: string = (reaction.count < 5) ? "⭐" : (reaction.count < 10) ? "🌟" : "✨";
 			if (reaction.count >= 2) {
 				if (!this.stars.has(reaction.message.id)) {
 					const link: string = `https://discord.com/channels/${reaction.message.guild.id}/${reaction.message.channel.id}/${reaction.message.id}`;
 					const embed: MessageEmbed = new MessageEmbed()
-						.setAuthor(reaction.message.author.username, reaction.message.author.avatarURL({ dynamic: true }))
+						.setAuthor(reaction.message.author.username, reaction.message.author.displayAvatarURL({ dynamic: true }))
 						.setDescription(reaction.message.content)
 						.addField("Attachments", "_ _", false)
 						.addField("Original", `[Jump!](${link})`, false)
