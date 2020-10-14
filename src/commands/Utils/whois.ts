@@ -94,7 +94,7 @@ export = class extends Command {
 				[
 					{
 						name: "Badges",
-						value: (user.flags) ? user.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badges",
+						value: (user.flags.toArray().length > 0) ? user.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badge",
 						inline: true
 					},
 					{
