@@ -69,90 +69,7 @@ export = class extends Command {
 				if (u !== message.author) return;
 				if (reaction.emoji.name === "*️⃣") {
 					collector.stop("");
-					const embed: MessageEmbed = new MessageEmbed()
-						.setTitle(`${user.tag} (${user.id})`)
-						.setColor(member.displayColor || "#AAAAAA")
-						.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
-						.addFields(
-							[
-								{
-									name: "Badges",
-									value: (user.flags) ? user.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badges",
-									inline: true
-								},
-								{
-									name: "Mention",
-									value: user,
-									inline: true
-								},
-								{
-									name: "Avatar",
-									value: "[Link](" + user.displayAvatarURL({ dynamic: true, size: 4096 }) + ")",
-									inline: true
-								},
-								{
-									name: "Account creation",
-									value: user.createdAt.toUTCString(),
-									inline: false
-								},
-								{
-									name: "Account age",
-									value: formatDuration(new Date(), user.createdAt, true),
-									inline: true
-								},
-								{
-									name: "Join age",
-									value: (member.joinedAt) ? formatDuration(new Date(), member.joinedAt, true) : "**Can't get join date**",
-									inline: false
-								},
-								{
-									name: "Join date",
-									value: (member.joinedAt) ? member.joinedAt.toUTCString() : "**Can't get join date**",
-									inline: true
-								},
-								{
-									name: "Nickname",
-									value: (member.nickname) ? member.nickname : "None",
-									inline: true
-								}
-							]
-						);
-					if (member.premiumSince) {
-						embed.addFields([
-							{
-								name: "Boosting age",
-								value: (member.premiumSince) ? formatDuration(new Date(), member.premiumSince) : "**Can't get boosting age**",
-								inline: false,
-							},
-							{
-								name: "Boosting since",
-								value: (member.premiumSince) ? member.premiumSince.toUTCString() : "**Can't get boosting age**",
-								inline: true
-							}
-						]);
-					}
-					embed.addFields([
-						{
-							name: "Highest role",
-							value: member.roles.highest,
-							inline: false
-						},
-						{
-							name: "Color role",
-							value: member.roles.color || "@everyone",
-							inline: true
-						},
-						{
-							name: "Hoisted role",
-							value: member.roles.hoist || "@everyone",
-							inline: true
-						},
-						{
-							name: "Permisions",
-							value: member.permissions.toArray().map(i => "`" + formatPermission(i) + "`").join(", ") || "None",
-							inline: false
-						}
-					]);
+					const embed: MessageEmbed = this.generateEmbed(member);
 					msg.delete();
 					message.channel.send("`" + user.id + "`", embed);
 				}
@@ -166,4 +83,94 @@ export = class extends Command {
 
 		});
 	}
+
+	public generateEmbed(member: GuildMember): MessageEmbed {
+		const user: User = member.user;
+		const embed: MessageEmbed = new MessageEmbed()
+			.setTitle(`${user.tag} (${user.id})`)
+			.setColor(member.displayColor || "#AAAAAA")
+			.setThumbnail(user.displayAvatarURL({ dynamic: true, size: 4096 }))
+			.addFields(
+				[
+					{
+						name: "Badges",
+						value: (user.flags) ? user.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badges",
+						inline: true
+					},
+					{
+						name: "Mention",
+						value: user,
+						inline: true
+					},
+					{
+						name: "Avatar",
+						value: "[Link](" + user.displayAvatarURL({ dynamic: true, size: 4096 }) + ")",
+						inline: true
+					},
+					{
+						name: "Account creation",
+						value: user.createdAt.toUTCString(),
+						inline: false
+					},
+					{
+						name: "Account age",
+						value: formatDuration(new Date(), user.createdAt, true),
+						inline: true
+					},
+					{
+						name: "Join age",
+						value: (member.joinedAt) ? formatDuration(new Date(), member.joinedAt, true) : "**Can't get join date**",
+						inline: false
+					},
+					{
+						name: "Join date",
+						value: (member.joinedAt) ? member.joinedAt.toUTCString() : "**Can't get join date**",
+						inline: true
+					},
+					{
+						name: "Nickname",
+						value: (member.nickname) ? member.nickname : "None",
+						inline: true
+					}
+				]
+			);
+		if (member.premiumSince) {
+			embed.addFields([
+				{
+					name: "Boosting age",
+					value: (member.premiumSince) ? formatDuration(new Date(), member.premiumSince) : "**Can't get boosting age**",
+					inline: false,
+				},
+				{
+					name: "Boosting since",
+					value: (member.premiumSince) ? member.premiumSince.toUTCString() : "**Can't get boosting age**",
+					inline: true
+				}
+			]);
+		}
+		embed.addFields([
+			{
+				name: "Highest role",
+				value: member.roles.highest,
+				inline: false
+			},
+			{
+				name: "Color role",
+				value: member.roles.color || "@everyone",
+				inline: true
+			},
+			{
+				name: "Hoisted role",
+				value: member.roles.hoist || "@everyone",
+				inline: true
+			},
+			{
+				name: "Permisions",
+				value: member.permissions.toArray().map(i => "`" + formatPermission(i) + "`").join(", ") || "None",
+				inline: false
+			}
+		]);
+		return embed;
+	}
+
 }

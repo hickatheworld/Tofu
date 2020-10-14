@@ -6,6 +6,7 @@ import { formatPermission } from "../lib/utils";
 import BotResponse from "./BotResponse";
 
 export default abstract class Command {
+	[x: string]: any;
 	public aliases: string[];
 	protected client: OCBot;
 	public cooldown: number;
