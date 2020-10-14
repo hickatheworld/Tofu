@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed } from "discord.js";
+import { GuildMember, Message, MessageEmbed, ReactionCollector } from "discord.js";
 import BotEvent from "../core/base/BotEvent";
 import OCBot from "../core/base/Client";
 import * as log from "../core/lib/Log";
@@ -31,10 +31,25 @@ export = class extends BotEvent {
 				.setThumbnail(member.user.avatarURL({ dynamic: true }) || member.user.defaultAvatarURL)
 				.addField("Created at", member.user.createdAt.toUTCString(), true)
 				.addField("Account age", accAge, true)
-				.setFooter(`${member.guild.memberCount}th member`)
+				.setFooter(`Click the reaction to get whois card for this member | ${member.guild.memberCount}th member`, "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/keycap-asterisk_2a-fe0f-20e3.png")
 				.setColor("GREEN")
 				.setTimestamp(new Date());
-			welcome.logChannel.send(`\`${member.id}\``, { embed: embed });
+			const msg: Message = await welcome.logChannel.send(`\`${member.id}\``, { embed: embed });
+			await msg.react("*️⃣");
+			const collector: ReactionCollector = new ReactionCollector(msg, r => true, { idle: 60000 });
+			collector.on("collect", (reaction, u) => {
+				reaction.users.remove(u);
+				if (reaction.emoji.name === "*️⃣") {
+					collector.stop("");
+					embed.setFooter(`${member.guild.memberCount}th member`);
+					msg.edit(embed);
+					const whois: MessageEmbed = this.client.commands.get("whois").generateEmbed(member);
+					msg.channel.send(whois);
+				}
+			});
+			collector.on("end", (_collected, _reason) => {
+				msg.reactions.removeAll();
+			});
 		}
 	}
 }	
