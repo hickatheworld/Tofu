@@ -1,7 +1,7 @@
-import { Message, MessageEmbed, ReactionCollector, Role } from "discord.js";
+import { GuildMember, Message, MessageEmbed, ReactionCollector, Role } from "discord.js";
 import OCBot from "../../core/base/Client";
 import Command from "../../core/base/Command";
-import { parseRole } from "../../core/lib/Args";
+import { parseMember, parseRole } from "../../core/lib/Args";
 import { SERVER_INFOS_COLOR } from "../../core/lib/Constants";
 import { formatDuration } from "../../core/lib/Time";
 import { formatPermission } from "../../core/lib/utils";
@@ -13,7 +13,8 @@ export = class extends Command {
 			desc: "Lists all roles from this server or gets infos about a role.",
 			module: "Server",
 			usages: [
-				"[role: Role]"
+				"[role: Role]",
+				"[member: User]"
 			],
 			aliases: ["role"]
 		});
@@ -24,8 +25,9 @@ export = class extends Command {
 	public async exe(message: Message, args: string[]) {
 		super.check(message, async () => {
 			const role: Role = parseRole(args[0], message.guild);
-			if (args[0] && !role) {
-				this.error("Can't find role", message.channel);
+			const member: GuildMember = parseMember(args[0], message.guild);
+			if (args[0] && !role && !member) {
+				this.error("Invalid argument", message.channel);
 				return;
 			}
 			if (role) {
@@ -84,16 +86,20 @@ export = class extends Command {
 				message.channel.send(embed);
 				return;
 			}
-			const roles: Role[] = message.guild.roles.cache.sort((a, b) => a.position - b.position).array();
+			var roles: Role[];
+			if (member) roles = member.roles.cache.sort((a, b) => a.position - b.position).array();
+			else roles = message.guild.roles.cache.sort((a, b) => a.position - b.position).array();
+			
 			const total: number = roles.length;
 			var embeds: MessageEmbed[] = [];
-			for (var i = 0; i < roles.length; i += 20) {
+			for (var i = 0; i < total; i += 20) {
 				const embed: MessageEmbed = new MessageEmbed()
 					.setAuthor(message.guild.name, message.guild.iconURL({ dynamic: true }))
 					.setTitle("Roles list")
 					.setDescription(`Get more infos about a role with \`${this.client.prefix}role <role>\`\n`)
 					.setFooter(`Page ${i / 20 + 1}/${Math.ceil(roles.length / 20)}`)
 					.setColor(SERVER_INFOS_COLOR);
+				if (member) embed.setTitle(`Roles list for ${member.displayName}`)
 				embed.description += roles.slice(i, i + 20).join(", ")
 				embeds.push(embed);
 			}
