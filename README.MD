@@ -35,6 +35,6 @@ You can also use <code>npm start</code>
 
 <a href="https://twitter.com/puddingmangue" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/puddingmangue?style=social"></a>
 <br>
-Discord direct contact : **Hicka#3151**
+Discord : **Hicka#3151**
 
 This bot was made for the <a href="https://discord.gg/oncecommunity" target="_blank">Once Community Discord server</a>.
