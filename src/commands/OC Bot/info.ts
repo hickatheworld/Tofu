@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed, User } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 
@@ -18,13 +18,14 @@ export = class extends Command {
 			const version: string = require("../../../package.json").version;
 			const commit: string = require("child_process").execSync("git rev-parse HEAD");
 			const color: number = message.guild.members.cache.get(this.client.user.id).roles.color.color;
+			const owner: User = (await this.client.users.fetch(process.env.BOT_OWNER)) || null;
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor(this.client.name, this.client.user.avatarURL(), "https://github.com/Hickacou/OC-Bot/")
 				.setDescription(this.client.description)
 				.setColor(color)
 				.addField("Version", version, true)
 				.addField("Commit", `[${commit.toString().substr(0, 7)}](https://github.com/Hickacou/OC-Bot/commit/${commit})`, true)
-				.addField("Creator", "**Hicka#3151**", true)
+				.addField("Creator", `**${(owner) ? owner.tag : "Anonymous"}**`, true)
 				.addField("Language", "Typescript", true)
 				.addField("Library", "discord.js", true)
 				.addField("Commands", `${this.client.commands.array().length}`, true)
