@@ -1,4 +1,4 @@
-import { Message, User, EmbedField, MessageEmbed, GuildMember, ReactionCollector } from "discord.js";
+import { Message, User, EmbedField, MessageEmbed, GuildMember, ReactionCollector, UserFlagsString } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseMember, parseUser } from "../../core/lib/Args";
@@ -94,7 +94,7 @@ export = class extends Command {
 				[
 					{
 						name: "Badges",
-						value: (user.flags.toArray().length > 0) ? user.flags.toArray().map(i => formatFlag(i)).join(" ") : "No Badge",
+						value: (user.flags.toArray().length > 0) ? user.flags.toArray().map(i => formatFlag(i as UserFlagsString)).join(" ") : "No Badge",
 						inline: true
 					},
 					{
