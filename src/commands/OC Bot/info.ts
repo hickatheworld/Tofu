@@ -29,7 +29,7 @@ export = class extends Command {
 				.addField("Language", "Typescript", true)
 				.addField("Library", "discord.js", true)
 				.addField("Commands", `${this.client.commands.array().length}`, true)
-				.setFooter(`Hosted on ${process.env.BOT_HOST} | Ping : ${this.client.ws.ping}ms`)
+				.setFooter(`Hosted on ${process.env.BOT_HOST} | Ping : ${this.client.ws.ping}ms`);
 			message.channel.send(embed);
 		});
 	}
