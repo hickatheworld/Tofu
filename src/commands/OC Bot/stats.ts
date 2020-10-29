@@ -19,7 +19,6 @@ export = class extends Command {
 			module: "OC Bot",
 			aliases: ["flex"]
 		});
-		this.commands = this.client.commands.size;
 		this.getSourceStats().then(stats => this.srcStats = stats);
 		this.getSourceStats(true).then(stats => this.buildStats = stats);
 		this.dependencies = Object.keys(require("../../../package.json").dependencies).length;
@@ -27,7 +26,9 @@ export = class extends Command {
 
 	}
 
-	public async setup(): Promise<void> { }
+	public async setup(): Promise<void> {
+		this.commands = this.client.commands.size;
+	}
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
