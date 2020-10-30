@@ -95,7 +95,8 @@ export = class extends Command {
 					},
 					{
 						name: "Bans",
-						value: ServerInfosEmotes.BAN + ` **${num((await guild.fetchBans()).array().length)}**`,
+						value: (message.guild.me.hasPermission("BAN_MEMBERS")) ? ServerInfosEmotes.BAN + ` **${num((await guild.fetchBans()).array().length)}**`
+							: ServerInfosEmotes.BAN + "*Missing `Ban members` permission*",
 						inline: true
 					},
 					{
