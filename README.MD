@@ -1,6 +1,7 @@
 <div align="center">
 <h1>OC Bot</h1>
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/Hickacou/OC-Bot/Deploy">
+<img alt="GitHub Deploying Status" src="https://github.com/Hickacou/OC-Bot/workflows/Deploy/badge.svg">    
+<img alt="GitHub CodeQL Status" src="https://github.com/Hickacou/OC-Bot/workflows/CodeQL/badge.svg">
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Hickacou/OC-Bot">
 </div>
 <h2>Self hosting</h2>
