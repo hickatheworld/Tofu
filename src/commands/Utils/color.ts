@@ -5,6 +5,7 @@ import { join } from "path";
 import { unlinkSync, createWriteStream, WriteStream } from "fs";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
+import { randomInt } from "../../core/lib/utils";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -25,7 +26,9 @@ export = class extends Command {
 		super.check(message, async () => {
 			const hexRegExp: RegExp = /#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/;
 			var color: string;
-			if (hexRegExp.test(args[0])) {
+			if (!args[0]) {
+				color = randomColor();
+			} else if (hexRegExp.test(args[0])) {
 				color = hexRegExp.exec(args[0])[1].toUpperCase();
 			} else {
 				this.error("Please provide a correct color hexcode.", message.channel);
@@ -73,4 +76,14 @@ export = class extends Command {
 			});
 		});
 	}
+}
+/* I am disgusted of myself, this command is terrible. */
+function randomColor(): string {
+	var color: string = "";
+	const chars: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
+	for (var i = 0; i < 6; i++) {
+		const n: number = randomInt(0, 15);
+		color += chars[n];
+	}
+	return color;
 }
