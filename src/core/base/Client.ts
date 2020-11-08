@@ -7,11 +7,13 @@ import * as log from "../lib/Log";
 import DB from "../lib/db";
 import BotEvent from "./BotEvent";
 import AudioPlayer from "./AudioPlayer";
+import Giveaway from "../typedefs/Giveaway";
 
 export default class OCBot extends Client {
 	public admins: Snowflake[];
 	public audioPlayers: Collection<Snowflake, AudioPlayer>;
 	public description: string;
+	public giveaways: Collection<number, Giveaway>;
 	public name: string;
 	public owner: Snowflake
 	public prefix: string;
@@ -26,6 +28,7 @@ export default class OCBot extends Client {
 		this.admins = options.admins;
 		this.audioPlayers = new Collection<Snowflake, AudioPlayer>();
 		this.description = options.description;
+		this.giveaways = new Collection<number, Giveaway>();
 		this.name = options.name;
 		this.owner = options.owner;
 		this.prefix = options.prefix;

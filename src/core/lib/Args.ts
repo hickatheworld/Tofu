@@ -23,7 +23,7 @@ export function parseChannel(str: string, guild: Guild, global: boolean = false,
 		return client.channels.cache.get(id) as TextChannel;
 	}
 	if (parseID(str, channelMention) === null) return null;
-	if (!guild.channels.cache.has(id) || guild.channels.cache.get(id).type !== "text") return null;
+	if (!guild.channels.cache.has(id) || !guild.channels.cache.get(id).isText()) return null;
 	return guild.channels.cache.get(id) as TextChannel;
 }
 

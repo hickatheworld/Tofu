@@ -1,5 +1,5 @@
 import * as Sq from "sequelize";
-import { User, Guild, TextChannel, Message, Snowflake } from "discord.js";
+import { User, Guild, TextChannel, Message, Snowflake, Collection, GuildChannel, GuildMemberResolvable, GuildMember } from "discord.js";
 import OCBot from "../base/Client";
 import * as log from "./Log";
 import BotProfile from "../typedefs/BotProfile";
@@ -9,6 +9,7 @@ import StarboardSettings from "../typedefs/StarboardSettings";
 import DVD from "../typedefs/DVD";
 import { randomInt } from "./utils";
 import { ProfileEmotes } from "./Constants";
+import Giveaway from "../typedefs/Giveaway";
 require("dotenv").config();
 
 export default class DB extends Sq.Sequelize {
@@ -182,6 +183,43 @@ export default class DB extends Sq.Sequelize {
 			yspeed: {
 				type: Sq.INTEGER,
 				allowNull: false
+			}
+		}).sync({ force: force });
+		this.define("giveaways", {
+			end: {
+				type: Sq.DATE,
+				allowNull: false
+			},
+			channel: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			finished: {
+				type: Sq.BOOLEAN,
+				allowNull: false
+			},
+			guild: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			host: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			message: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			name: {
+				type: Sq.STRING,
+				allowNull: false
+			},
+			winCount: {
+				type: Sq.INTEGER,
+				allowNull: false
+			},
+			winners: {
+				type: Sq.STRING
 			}
 		}).sync({ force: force });
 		log.info("Defined Sequelize models");
@@ -461,5 +499,85 @@ export default class DB extends Sq.Sequelize {
 		await this.models.dvd.update(obj, { where: { guild: guild.id } });
 		log.info(`Reset dvd for ${log.guild(guild)}`);
 		return dvd;
+	}
+
+	async createGiveaway(ga: Giveaway): Promise<Giveaway> {
+		const model: Sq.Model = await this.models.giveaways.create({
+			end: ga.end,
+			channel: ga.channel.id,
+			finished: false,
+			guild: ga.guild.id,
+			host: ga.host.id,
+			message: ga.message.id,
+			name: ga.name,
+			winCount: ga.winCount
+		});
+		log.info(`New giveaway created in guild ${log.guild(ga.guild)}`);
+		return {
+			end: ga.end,
+			channel: ga.channel,
+			finished: false,
+			guild: ga.guild,
+			host: ga.host,
+			id: (model.toJSON() as any).id,
+			message: ga.message,
+			name: ga.name,
+			winCount: ga.winCount
+		}
+	}
+	async fetchGiveaways(): Promise<Collection<number, Giveaway>> {
+		const gas: Collection<number, Giveaway> = new Collection();
+		const all: any[] = (await this.models.giveaways.findAll()).map(m => m.toJSON());
+		for (var model of all) {
+			var guild: Guild = null;
+			var host: User = null;
+			var channel: GuildChannel = null;
+			var message: Message = null;
+			var winners: (GuildMember | GuildMemberResolvable)[] = [];
+			try {
+				guild = await this.client.guilds.fetch(model.guild);
+			} catch (err) { /* pass */ }
+			host = await this.client.users.fetch(model.host);
+			if (!model.finished) {
+				if (!guild) {
+					await this.models.giveaways.destroy({ where: { id: model.id } });
+					log.warn(`Giveaway ${log.number(model.id)} was deleted due to Guild loss.`);
+					continue;
+				}
+				channel = guild.channels.resolve(model.channel);
+				if (!channel) {
+					await this.models.giveaways.destroy({ where: { id: model.id } });
+					host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Channel loss.\nIt may have been deleted or I lost permissions.`);
+					log.warn(`Giveaway ${log.number(model.id)} was deleted due to Channel loss.`);
+					continue;
+				}
+				message = await (channel as TextChannel).messages.fetch(model.message);
+				if (!message) {
+					await this.models.giveaways.destroy({ where: { id: model.id } });
+					host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Message loss. (the message the members have to react to)\nIt probably was deleted`);
+					log.warn(`Giveaway ${log.number(model.id)} was deleted due to Message loss.`);
+					continue;
+				}
+				if (model.finished && model.winners) {
+					for (const u of model.winners.split(",")) {
+						const member: GuildMember = await guild.members.fetch(u);
+						winners.push(member || u);
+					}
+				}
+			}
+			gas.set(model.id, {
+				channel: channel,
+				end: model.end,
+				finished: model.finished,
+				guild: guild,
+				host: host,
+				id: model.id,
+				message: message,
+				name: model.name,
+				winCount: model.winCount,
+				winners: winners
+			});
+		}
+		return gas;
 	}
 }

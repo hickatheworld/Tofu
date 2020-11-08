@@ -43,6 +43,9 @@ export enum DiscordServerIconsEmotes {
 	VERIFIED = "<:verified:754321046118596669>"
 }
 
+export const GIVEAWAY_EMOTE: string = "<a:dubuParty:774954454910107659>";
+export const GIVEAWAY_EMOTE_ID: string = "774954454910107659";
+
 export enum ProfileEmotes {
 	BESTIE = "🙌",
 	COOKIES = "🍪",
