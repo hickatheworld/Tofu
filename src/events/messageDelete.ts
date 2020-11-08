@@ -10,12 +10,8 @@ export = class extends BotEvent {
 
 	public async exe(message: Message): Promise<void> {
 		var ga: Giveaway;
-		try {
-			if (!this.client.giveaways.array().map(ga => ga.message.id).includes(message.id)) return;
-			ga = this.client.giveaways.find(ga => ga.message.id === message.id);
-		} catch (err) {
-			ga = this.client.giveaways.find(ga => !ga.message);
-		}
+		if (!this.client.giveaways.array().map(ga => (ga.message) ? ga.message.id : null).includes(message.id)) return;
+		ga = this.client.giveaways.find(ga => (ga.message) ? ga.message.id === message.id : false);
 		if (ga.finished) return;
 		await this.client.db.models.giveaways.destroy({ where: { id: ga.id } });
 		this.client.giveaways.delete(ga.id);

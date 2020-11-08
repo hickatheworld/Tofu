@@ -9,8 +9,8 @@ export = class extends BotEvent {
 	}
 
 	public async exe(channel: GuildChannel | DMChannel): Promise<void> {
-		if (!this.client.giveaways.array().map(ga => ga.channel.id).includes(channel.id)) return;
-		const giveaways: Giveaway[] = this.client.giveaways.filter(ga => ga.channel.id === channel.id).array();
+		if (!this.client.giveaways.array().map(ga => (ga.channel) ? ga.channel.id : null).includes(channel.id)) return;
+		const giveaways: Giveaway[] = this.client.giveaways.filter(ga => (ga.channel) ? ga.channel.id === channel.id : false).array();
 		for (const ga of giveaways) {
 			if (ga.finished) return;
 			await this.client.db.models.giveaways.destroy({ where: { id: ga.id } });
