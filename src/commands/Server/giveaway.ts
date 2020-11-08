@@ -34,6 +34,7 @@ export = class extends Command {
 	}
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
+			return;
 			if (!this.loaded) {
 				this.warn("The giveaway command is still setting up, please wait.", message.channel);
 				return;
