@@ -34,7 +34,6 @@ export = class extends Command {
 	}
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			return;
 			if (!this.loaded) {
 				this.warn("The giveaway command is still setting up, please wait.", message.channel);
 				return;
@@ -284,11 +283,11 @@ export = class extends Command {
 
 	public giveawayTimeout(gaID: number): void {
 		const time: number = this.client.giveaways.get(gaID).end.getTime() - Date.now();
-		setTimeout(() => {
+		setTimeout(async () => {
 			const ga: Giveaway = this.client.giveaways.get(gaID);
 			if (!ga || ga.finished) return;
 			const reaction: MessageReaction = ga.message.reactions.resolve(GIVEAWAY_EMOTE_ID);
-			const reactions: Collection<string, User> = (reaction) ? reaction.users.cache.filter(u => !u.bot && u !== ga.host) : null;
+			const reactions: Collection<string, User> = (reaction) ? (await reaction.users.fetch()).filter(u => (!u.bot && u !== ga.host)) : null;
 			const users: User[] = (reactions) ? reactions.array() : [];
 			var winners: GuildMember[] = this.pickWinners(users, ga.guild, ga.winCount);
 			ga.winners = winners;

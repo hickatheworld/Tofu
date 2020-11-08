@@ -551,7 +551,9 @@ export default class DB extends Sq.Sequelize {
 					log.warn(`Giveaway ${log.number(model.id)} was deleted due to Channel loss.`);
 					continue;
 				}
-				message = await (channel as TextChannel).messages.fetch(model.message);
+				try {
+					message = await (channel as TextChannel).messages.fetch(model.message);
+				} catch (err) { /* pass */ }
 				if (!message) {
 					await this.models.giveaways.destroy({ where: { id: model.id } });
 					host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Message loss. (the message the members have to react to)\nIt probably was deleted`);
