@@ -13,7 +13,7 @@ export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
 			name: "giveaway",
-			desc: "Organize a giveaway in your server!\n[Full help in this wiki](INSERER_LIEN)",
+			desc: "Organize a giveaway in your server!\n[Full help in this wiki](https://github.com/Hickacou/OC-Bot/wiki/oc!giveaway)",
 			usages: [
 				"create [channel: Channel] [winners: Number] [duration: Duration] [name: String]",
 				"cancel <id: Number>",
