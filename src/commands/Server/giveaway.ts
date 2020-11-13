@@ -291,6 +291,7 @@ export = class extends Command {
 			const users: User[] = (reactions) ? reactions.array() : [];
 			var winners: GuildMember[] = this.pickWinners(users, ga.guild, ga.winCount);
 			ga.winners = winners;
+			ga.finished = true;
 			const embed: MessageEmbed = ga.message.embeds[0];
 			const participants: number = (reactions) ? reactions.size : 0;
 			if (winners.length == 0) {
