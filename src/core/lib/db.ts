@@ -538,33 +538,31 @@ export default class DB extends Sq.Sequelize {
 				guild = await this.client.guilds.fetch(model.guild);
 			} catch (err) { /* pass */ }
 			host = await this.client.users.fetch(model.host);
-			if (!model.finished) {
-				if (!guild) {
-					await this.models.giveaways.destroy({ where: { id: model.id } });
-					log.warn(`Giveaway ${log.number(model.id)} was deleted due to Guild loss.`);
-					continue;
-				}
-				channel = guild.channels.resolve(model.channel);
-				if (!channel) {
-					await this.models.giveaways.destroy({ where: { id: model.id } });
-					host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Channel loss.\nIt may have been deleted or I lost permissions.`);
-					log.warn(`Giveaway ${log.number(model.id)} was deleted due to Channel loss.`);
-					continue;
-				}
-				try {
-					message = await (channel as TextChannel).messages.fetch(model.message);
-				} catch (err) { /* pass */ }
-				if (!message) {
-					await this.models.giveaways.destroy({ where: { id: model.id } });
-					host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Message loss. (the message the members have to react to)\nIt probably was deleted`);
-					log.warn(`Giveaway ${log.number(model.id)} was deleted due to Message loss.`);
-					continue;
-				}
-				if (model.finished && model.winners) {
-					for (const u of model.winners.split(",")) {
-						const member: GuildMember = await guild.members.fetch(u);
-						winners.push(member || u);
-					}
+			if (!guild) {
+				await this.models.giveaways.destroy({ where: { id: model.id } });
+				log.warn(`Giveaway ${log.number(model.id)} was deleted due to Guild loss.`);
+				continue;
+			}
+			channel = guild.channels.resolve(model.channel);
+			if (!channel) {
+				await this.models.giveaways.destroy({ where: { id: model.id } });
+				host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Channel loss.\nIt may have been deleted or I lost permissions.`);
+				log.warn(`Giveaway ${log.number(model.id)} was deleted due to Channel loss.`);
+				continue;
+			}
+			try {
+				message = await (channel as TextChannel).messages.fetch(model.message);
+			} catch (err) { /* pass */ }
+			if (!message) {
+				await this.models.giveaways.destroy({ where: { id: model.id } });
+				host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Message loss. (the message the members have to react to)\nIt probably was deleted`);
+				log.warn(`Giveaway ${log.number(model.id)} was deleted due to Message loss.`);
+				continue;
+			}
+			if (model.finished && model.winners) {
+				for (const u of model.winners.split(",")) {
+					const member: GuildMember = await guild.members.fetch(u);
+					winners.push(member || u);
 				}
 			}
 			gas.set(model.id, {
