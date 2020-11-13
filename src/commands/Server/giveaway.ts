@@ -238,7 +238,7 @@ export = class extends Command {
 		}
 		var msg: string = `__10 last giveaways hosted in ${message.guild.name}__ :\n\n`;
 		for (const ga of giveaways) {
-			msg += `\`${ga.id}\` - ${ga.name} hosted by **${ga.host.tag}** in ${ga.channel} `
+			msg += `\`${ga.id}\` - ${ga.name} hosted by **${(ga.host) ? ga.host.tag : "@deleted-user"}** in ${ga.channel || "#deleted-channel"} `
 			if (ga.finished) {
 				var winners: string[] = [];
 				if (ga.winners) {

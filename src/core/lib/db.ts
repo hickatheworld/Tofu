@@ -544,7 +544,7 @@ export default class DB extends Sq.Sequelize {
 				continue;
 			}
 			channel = guild.channels.resolve(model.channel);
-			if (!channel) {
+			if (!channel && !model.finished) {
 				await this.models.giveaways.destroy({ where: { id: model.id } });
 				host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Channel loss.\nIt may have been deleted or I lost permissions.`);
 				log.warn(`Giveaway ${log.number(model.id)} was deleted due to Channel loss.`);
@@ -553,7 +553,7 @@ export default class DB extends Sq.Sequelize {
 			try {
 				message = await (channel as TextChannel).messages.fetch(model.message);
 			} catch (err) { /* pass */ }
-			if (!message) {
+			if (!message && !model.finished) {
 				await this.models.giveaways.destroy({ where: { id: model.id } });
 				host.send(`The giveaway \`${model.name}\` (id: ${model.id}) was deleted due to Message loss. (the message the members have to react to)\nIt probably was deleted`);
 				log.warn(`Giveaway ${log.number(model.id)} was deleted due to Message loss.`);
