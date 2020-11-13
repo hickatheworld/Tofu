@@ -250,7 +250,7 @@ export = class extends Command {
 				}
 				msg += `| Ended the **${formatDate(ga.end)} at ${formatTime(ga.end, false)} UTC** | Winners : ${(winners.length > 0) ? winners.map(s => `**${s}**`).join(", ") : "**Nobody**"}`
 			} else {
-				msg += `| Ends the **${formatDate(ga.end)} at ${formatTime(ga.end, false)} UTC** | **${ga.winCount}** winners`
+				msg += `| Ends the **${formatDate(ga.end)} at ${formatTime(ga.end, false)} UTC** | **${ga.winCount}** winner${(ga.winCount > 1) ? "s" : ""}`
 			}
 			msg += "\n";
 		}
