@@ -10,6 +10,7 @@ import DVD from "../typedefs/DVD";
 import { randomInt } from "./utils";
 import { ProfileEmotes } from "./Constants";
 import Giveaway from "../typedefs/Giveaway";
+import UserOwoInfo from "../typedefs/UserOwoInfo";
 require("dotenv").config();
 
 export default class DB extends Sq.Sequelize {
@@ -222,6 +223,21 @@ export default class DB extends Sq.Sequelize {
 				type: Sq.STRING
 			}
 		}).sync({ force: force });
+		this.define("owo", {
+			gotten: {
+				type: Sq.STRING
+			},
+			last: {
+				type: Sq.DATE
+			},
+			streak: {
+				type: Sq.NUMBER
+			},
+			user: {
+				type: Sq.STRING,
+				allowNull: false
+			}
+		}).sync({ force: true })
 		log.info("Defined Sequelize models");
 	}
 
@@ -580,4 +596,44 @@ export default class DB extends Sq.Sequelize {
 		}
 		return gas;
 	}
+
+	async createOwoInfo(user: User): Promise<UserOwoInfo> {
+		await this.models.owo.create({
+			gotten: "",
+			last: new Date(0),
+			streak: 0,
+			user: user.id
+		});
+		return {
+			gotten: [],
+			last: new Date(0),
+			streak: 0,
+			user: user
+		}
+	}
+
+	async fetchOwoInfo(user: User): Promise<UserOwoInfo> {
+		const id: Snowflake = user.id;
+		const model: Sq.Model = await this.models.owo.findOne({ where: { user: id } });
+		if (!model) return null;
+		const info: any = model.toJSON();
+		const gotten: string[] = info.gotten.split(",");
+		if (gotten[0] === "") gotten.shift(); 
+		return {
+			gotten: gotten,
+			last: info.last,
+			streak: info.streak,
+			user: user
+		}
+	}
+
+	async updateOwo(user: User, owos: string[], streak: number): Promise<void> {
+		const obj: any = {
+			gotten: owos.join(","),
+			last: new Date(),
+			streak: streak
+		}
+		const model: any = await this.models.owo.update(obj, { where: { user: user.id } });
+	}
+
 }
