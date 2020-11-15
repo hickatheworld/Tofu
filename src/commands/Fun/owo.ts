@@ -9,7 +9,7 @@ import { parseUser } from "../../core/lib/Args";
 import { formatDuration } from "../../core/lib/Time";
 
 const EYES: string[] = ["OO", "oo", "ÒÓ", "òó", "QQ", "qq", "ÈÉ", "èé", "ÙÚ", "ùú", "VV", "TT", "><", "--", "••", "°°", "¨¨", "¬¬", ";;", "^^", "++", "**", "~~", "==", "##", "@@", "$$"];
-const MOUTHS: string[] = ["w", "W", "u", "v", "_", ".", "m", "x", "◡"];
+const MOUTHS: string[] = ["w", "W", "u", "v", "_", ".", "m", "x", "…"];
 
 export = class extends Command {
 	public totalOwos: number;
@@ -154,7 +154,7 @@ export = class extends Command {
 	public async generateOwoImage(owo: string, filename: string, golden: boolean = false): Promise<WriteStream> {
 		const canvas: Canvas = createCanvas(800, 300);
 		const ctx = canvas.getContext("2d");
-		ctx.font = (owo.includes("◡")) ? "150pt Arial" : "150pt Architects Daughter";
+		ctx.font = "150pt Architects Daughter";
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.fillStyle = (golden) ? "#FFE100" : "#FFEEFF";
