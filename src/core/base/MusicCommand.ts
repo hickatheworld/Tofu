@@ -16,6 +16,8 @@ export default abstract class MusicCommand extends Command {
 
 	public async check(message: Message, callback: Function) {
 		super.check(message, () => {
+			this.error("Music module is disabled due to tier service breakage.", message.channel);
+			return;
 			var player: AudioPlayer;
 			if (this.client.audioPlayers.has(message.guild.id)) player = this.client.audioPlayers.get(message.guild.id);
 			if (!message.member.voice.channel) {
