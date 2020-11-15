@@ -63,6 +63,7 @@ export = class extends Command {
 				const collector: ReactionCollector = new ReactionCollector(msg, r => true, { idle: 60000 });
 				collector.on("collect", (reaction, user) => {
 					reaction.users.remove(user);
+					if (user.id !== message.author.id) return;
 					if (reaction.emoji.name === "⬅") {
 						if (--i < 0) i = pages - 1;
 						embed.setDescription(`**${gotten.slice(i * 10, (i + 1) * 10).map(owo => this.displayOwo(owo)).join("\n")}**`)
