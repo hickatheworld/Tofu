@@ -237,7 +237,7 @@ export default class DB extends Sq.Sequelize {
 				type: Sq.STRING,
 				allowNull: false
 			}
-		}).sync({ force: true })
+		}).sync({ force: force })
 		log.info("Defined Sequelize models");
 	}
 
