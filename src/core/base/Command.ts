@@ -4,6 +4,7 @@ import { formatDuration } from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
 import { formatPermission } from "../lib/utils";
 import BotResponse from "./BotResponse";
+import * as log from "../lib/Log";
 
 export default abstract class Command {
 	[k: string]: any;
@@ -65,8 +66,9 @@ export default abstract class Command {
 			}, 1500);
 			return;
 		}
-		this.client.db.incrementCommand(this.name);
-		this.client.db.incrementUser(message.author);
+		const cmdU: number = await this.client.db.incrementCommand(this.name);
+		const usrU: number = await this.client.db.incrementUser(message.author);
+		log.info(`${log.user(message.author)} used ${log.text(this.client.prefix + this.name)} | Command uses : ${log.number(cmdU)} - User uses : ${log.number(usrU)} `);
 		if (!this.client.admins.includes(message.author.id)) {
 			this.cooldowned.set(message.author.id, Date.now() + this.cooldown);
 			setTimeout(() => this.cooldowned.delete(message.author.id), this.cooldown);

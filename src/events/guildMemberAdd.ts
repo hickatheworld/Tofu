@@ -12,7 +12,6 @@ export = class extends BotEvent {
 	}
 
 	public async exe(member: GuildMember) {
-		log.info(`${log.user(member.user)} joined ${log.guild(member.guild)}`);
 		const welcome: GuildWelcome = await this.client.db.getWelcome(member.guild);
 		if (welcome.enabled) {
 			if (welcome.type === "embed") {

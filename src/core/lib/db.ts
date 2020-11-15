@@ -290,10 +290,6 @@ export default class DB extends Sq.Sequelize {
 		if (key === "bestie") obj[key] = (value) ? value.id : null;
 		else obj[key] = value;
 		await this.models.profiles.update(obj, { where: { user: user.id } });
-
-		if (typeof value === "number") log.info(`Set ${log.text(key)} to ${log.number(value)} for ${log.user(user)}`);
-		else if (value instanceof User) log.info(`Set ${log.text(key)} to ${log.user(value)} for ${log.user(user)}`);
-		else log.info(`Set ${log.text(key)} to ${log.text(value)} for ${log.user(user)}`);
 		return profile;
 	}
 
@@ -306,7 +302,6 @@ export default class DB extends Sq.Sequelize {
 	async setCommandUses(name: string, count: number): Promise<number> {
 		await this.getCommandUses(name);
 		await this.models.commandUses.update({ count: count }, { where: { name: name } });
-		log.info(`Set ${log.text(name)} command uses to ${log.number(count)}`);
 		return count;
 	}
 
@@ -332,7 +327,6 @@ export default class DB extends Sq.Sequelize {
 		await this.models.welcomes.create({
 			guild: guild.id
 		});
-		log.info(`Created row in ${log.text("welcome")} table for guild ${log.guild(guild)}`);
 		return {
 			channel: null,
 			enabled: false,
@@ -368,9 +362,6 @@ export default class DB extends Sq.Sequelize {
 		if (key === "channel" || key === "logChannel") obj[key] = value.id;
 		else obj[key] = value;
 		await this.models.welcomes.update(obj, { where: { guild: guild.id } });
-		if (typeof value === "boolean") log.info(`Set welcome ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
-		else if (value instanceof TextChannel) log.info(`Set welcome ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
-		else log.info(`Set welcome ${log.text(key)} to ${log.text(value.toString())} for ${log.guild(guild)}`);
 		return welcome;
 	}
 
@@ -378,7 +369,6 @@ export default class DB extends Sq.Sequelize {
 		await this.models.byes.create({
 			guild: guild.id
 		});
-		log.info(`Created row in ${log.text("byes")} table for guild ${log.guild(guild)}`);
 		return {
 			channel: null,
 			enabled: false,
@@ -414,9 +404,6 @@ export default class DB extends Sq.Sequelize {
 		if (key === "channel" || key === "logChannel") obj[key] = value.id;
 		else obj[key] = value;
 		await this.models.byes.update(obj, { where: { guild: guild.id } });
-		if (typeof value === "boolean") log.info(`Set bye ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
-		else if (value instanceof TextChannel) log.info(`Set bye ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
-		else log.info(`Set bye ${log.text(key)} to ${log.text(value.toString())} for ${log.guild(guild)}`);
 		return bye;
 	}
 
@@ -424,7 +411,6 @@ export default class DB extends Sq.Sequelize {
 		await this.models.starboards.create({
 			guild: guild.id
 		});
-		log.info(`Created row in ${log.text("starboards")} table for guild ${log.guild(guild)}`);
 		return {
 			channel: null,
 			enabled: false,
@@ -450,8 +436,6 @@ export default class DB extends Sq.Sequelize {
 		var obj: any = {};
 		obj[key] = value;
 		this.models.starboards.update(obj, { where: { guild: guild.id } });
-		if (key === "enabled") log.info(`Set starboard ${log.text(key)} to ${log.bool(value)} for ${log.guild(guild)}`);
-		else log.info(`Set starboard ${log.text(key)} to ${log.channel(value)} for ${log.guild(guild)}`);
 		return sb;
 	}
 
@@ -481,7 +465,6 @@ export default class DB extends Sq.Sequelize {
 			y: dvd.y,
 			yspeed: dvd.yspeed
 		});
-		log.info(`Created row in ${log.text("dvd")} table for guild ${log.guild(guild)}`);
 		return dvd;
 	}
 
@@ -504,7 +487,6 @@ export default class DB extends Sq.Sequelize {
 		const obj: any = dvd;
 		obj.guild = dvd.guild.id;
 		await this.models.dvd.update(obj, { where: { guild: guild.id } });
-		log.info(`Updated dvd for ${log.guild(guild)}`);
 		return dvd;
 	}
 
@@ -513,7 +495,6 @@ export default class DB extends Sq.Sequelize {
 		const obj: any = dvd;
 		obj.guild = dvd.guild.id;
 		await this.models.dvd.update(obj, { where: { guild: guild.id } });
-		log.info(`Reset dvd for ${log.guild(guild)}`);
 		return dvd;
 	}
 

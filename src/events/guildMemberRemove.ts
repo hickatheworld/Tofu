@@ -12,7 +12,6 @@ export = class extends BotEvent {
 	}
 
 	public async exe(member: GuildMember) {
-		log.info(`${log.user(member.user)} left ${log.guild(member.guild)}`);
 		const bye: GuildBye = await this.client.db.getBye(member.guild);
 		if (bye.enabled) {
 			if (bye.type === "embed") {
