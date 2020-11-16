@@ -15,7 +15,7 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			const version: string = require("../../../package.json").version;
+			const version: string = require("../../../package.json").ver;
 			const commit: string = require("child_process").execSync("git rev-parse HEAD");
 			const color: number = message.guild.members.cache.get(this.client.user.id).roles.color.color;
 			const owner: User = (await this.client.users.fetch(process.env.BOT_OWNER)) || null;
