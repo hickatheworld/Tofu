@@ -1,6 +1,6 @@
 {
 	"name": "oc-bot",
-	"ver": "1.8.0.1",
+	"ver": "1.8.0.2",
 	"description": "Once Community's Discord Bot",
 	"main": "build/app.js",
 	"scripts": {

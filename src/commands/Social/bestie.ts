@@ -3,6 +3,7 @@ import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
+import * as log from "../../core/lib/Log";
 export = class extends Command {
 	constructor(client: OCBot) {
 		super(client, {
@@ -58,6 +59,7 @@ export = class extends Command {
 					this.client.db.setUser(proposed, "bestie", proposing);
 					this.client.db.setUser(proposing, "bestie", proposed);
 					collector.stop();
+					log.info(`${log.user(proposing)} and ${log.user(proposed)} are besties.`);
 					return;
 				}
 				if (reaction.emoji.name === "❎") {

@@ -56,6 +56,7 @@ export = class extends Command {
 			const profile: BotProfile = await this.client.db.getProfile(user);
 			await this.client.db.setUser(user, "rep", ++profile.rep);
 			await this.client.db.setUser(message.author, "canRep", false);
+			log.info(`${log.user(user)} now has ${log.number(profile.rep)} reputation.`);
 			const embed: MessageEmbed = new MessageEmbed()
 				.setColor(REPUTATION_COLOR)
 				.setDescription(`${REPUTATION_EMOTE} | I gave a reputation point to ${user.toString()}!`);

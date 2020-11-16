@@ -7,6 +7,7 @@ import OCBot from "../../core/base/Client";
 import UserOwoInfo from "../../core/typedefs/UserOwoInfo";
 import { parseUser } from "../../core/lib/Args";
 import { formatDuration } from "../../core/lib/Time";
+import * as log from "../../core/lib/Log";
 
 const EYES: string[] = ["OO", "oo", "ÒÓ", "òó", "QQ", "qq", "ÈÉ", "èé", "ÙÚ", "ùú", "VV", "TT", "><", "--", "••", "°°", "¨¨", "¬¬", ";;", "^^", "++", "**", "~~", "==", "##", "@@", "$$"];
 const MOUTHS: string[] = ["w", "W", "u", "v", "_", ".", "m", "x", "…"];
@@ -116,6 +117,7 @@ export = class extends Command {
 					.setImage("attachment://owo.png")
 					.setFooter(`You have ${owoInfos.gotten.length}/${this.totalOwos} owos`, message.author.displayAvatarURL({ dynamic: true }));
 				await message.channel.send(`**Current streak: \`${owoInfos.streak}\`**`, embed);
+				log.info(`${log.user(message.author)} got a ${log.text(owo)} | x${log.number(owoInfos.streak)} | ${owoInfos.gotten.length}/${this.totalOwos}`);
 				unlinkSync(join(__dirname, "../../../temp/", filename));
 				if (lostStreak) message.channel.send("It has been more than 24 hours since your last owo, your streak has been reset..");
 				if (owoInfos.streak % 50 == 0 && owoInfos.gotten.length < this.totalOwos) {
@@ -135,6 +137,7 @@ export = class extends Command {
 							.setImage("attachment://owo.png")
 							.setFooter(`You have ${owoInfos.gotten.length}/${this.totalOwos} owos`, message.author.displayAvatarURL({ dynamic: true }));
 						message.channel.send(embed);
+						log.info(`${log.user(message.author)} was gifted a ${log.text(owo)} | ${owoInfos.gotten.length}/${this.totalOwos}`);
 					});
 				}
 				if (owoInfos.gotten.length == this.totalOwos && oldLength !== owoInfos.gotten.length) {

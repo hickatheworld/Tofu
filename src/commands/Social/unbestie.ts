@@ -2,6 +2,7 @@ import { Message } from "discord.js";
 import Command from "../../core/base/Command";
 import OCBot from "../../core/base/Client";
 import BotProfile from "../../core/typedefs/BotProfile";
+import * as log from "../../core/lib/Log";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -23,6 +24,7 @@ export = class extends Command {
 			}
 			await this.client.db.setUser(message.author, "bestie", null);
 			await this.client.db.setUser(profile.bestie, "bestie", null);
+			log.info(`${log.user(message.author)} unbestied ${log.user(profile.bestie)}.`);
 			this.success("You are now free again!", message.channel);
 		});
 	}
