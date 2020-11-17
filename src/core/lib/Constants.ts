@@ -49,6 +49,7 @@ export const GIVEAWAY_EMOTE_ID: string = "774954454910107659";
 export enum ProfileEmotes {
 	BESTIE = "🙌",
 	COOKIES = "🍪",
+	OWO = "😙",
 	REPUTATION = "⬆",
 	SERVER_AGE = "⏲",
 	TITLE_DEFAULT = "<:dahyun_heart:753971883988353065>"

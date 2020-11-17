@@ -7,6 +7,7 @@ import { formatDuration } from "../../core/lib/Time";
 import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
 import { ProfileEmotes } from "../../core/lib/Constants";
+import UserOwoInfo from "../../core/typedefs/UserOwoInfo";
 
 export = class extends Command {
 	constructor(client: OCBot) {
@@ -64,14 +65,16 @@ export = class extends Command {
 				return;
 			}
 			const profile: BotProfile = await this.client.db.getProfile(member.user);
+			const owos: UserOwoInfo = await this.client.db.fetchOwoInfo(member.user);
 			const embed: MessageEmbed = new MessageEmbed()
 				.setTitle(`${member.user.username}'s profile`)
 				.setDescription(`**oc!**title — ${profile.title}`)
 				.setThumbnail(member.user.avatarURL({ dynamic: true }))
 				.addField(ProfileEmotes.SERVER_AGE + " Server age", formatDuration(member.joinedAt, new Date(), true), false)
+				.addField(ProfileEmotes.BESTIE + " Bestie", (profile.bestie) ? `**${profile.bestie.tag}**` : `*Nobody*`, false)
 				.addField(ProfileEmotes.COOKIES + " Cookies", `**${profile.cookies}**`, true)
 				.addField(ProfileEmotes.REPUTATION + " Reputation", `**${profile.rep}**`, true)
-				.addField(ProfileEmotes.BESTIE + " Bestie", (profile.bestie) ? `**${profile.bestie.tag}**` : `*Nobody*`, true)
+				.addField(ProfileEmotes.OWO + " owos", `**${owos.gotten.length}**/${this.client.commands.get("owo").totalOwos}`, true)
 				.setColor("E73863")
 				.setFooter(`Used ${profile.uses} commands`, this.client.user.avatarURL())
 				;
