@@ -17,7 +17,8 @@ export = class extends Command {
 			name: "trivia",
 			desc: "Gets you a trivia question. Powered by [Open Trivia Database](https://opentdb.com/)",
 			usages: [
-				"[category: Number | String]",
+				"[category: Number | String] [difficulty: 'Easy' | 'Normal' | 'Hard']",
+				"[difficulty: 'Easy' | 'Normal' | 'Hard']",
 				"categories"
 			],
 			module: "Fun",
@@ -46,18 +47,24 @@ export = class extends Command {
 				message.channel.send(this.categoriesEmbed);
 				return;
 			}
-			var res: any;
-			const argNum: number = parseNumber(args[0]);
-			const argWords: string = args.join(" ").trim();
-			if (this.categories.has(argNum)) {
-				res = await fetch("https://opentdb.com/api.php?amount=1&category=" + argNum).then(async res => (await res.json()).results[0]);
-			} else if (argWords.length > 0 && this.categories.find(c => c.includes(argWords))) {
-				const category: number = this.categories.filter(c => c.includes(argWords)).randomKey();
-				res = await fetch("https://opentdb.com/api.php?amount=1&category=" + category).then(async res => (await res.json()).results[0]);
+			const diffs: string[] = ["easy", "medium", "hard"];
+			var query: string = "https://opentdb.com/api.php?amount=1";
+			if (args[0] && diffs.includes(args[0].toLowerCase())) {
+				query += "&difficulty=" + args.shift().toLowerCase();
 			} else {
-				if (argWords.length > 0) message.channel.send("*The specified word doesn't match any category*");
-				res = await fetch("https://opentdb.com/api.php?amount=1").then(async res => (await res.json()).results[0]);
+				const argNum: number = parseNumber(args[0]);
+				const word: string = args.shift().toLowerCase();
+				if (this.categories.has(argNum)) {
+					query += "&category=" + argNum;
+				} else if (word.length > 0 && this.categories.find(c => c.includes(word))) {
+					const category: number = this.categories.filter(c => c.includes(word)).randomKey();
+					query += "&category=" + category;
+				} else if (word.length > 0) message.channel.send("*The specified word doesn't match any category");
+				if (args[0] && diffs.includes(args[0].toLowerCase())) {
+					query += "&difficulty=" + args[0].toLowerCase();
+				}
 			}
+			const res: any = await fetch(query).then(async res => (await res.json()).results[0]);
 			const decode: Function = new AllHtmlEntities().decode;
 			var answers: string[] = res.incorrect_answers.concat(res.correct_answer);
 			for (const i in answers) {
