@@ -30,7 +30,7 @@ export = class extends Command {
 		this.categoriesEmbed = new MessageEmbed()
 			.setTitle(`${this.client.prefix}trivia`)
 			.setColor("5cff82")
-			.setDescription(`Use \`${this.client.prefix}trivia [category]\` to have a question about the specified category.\nIt can be either the id or a part of the name of a category.\nIf the specified word matches multiple categories, a random category will be chosen.\n`);
+			.setDescription(`Use \`${this.client.prefix}trivia [category]\` to have a question about the specified category.\nIt can be either the id or a part of the name of a category.\nIf the specified word matches multiple categories, a random matching category will be chosen.\n`);
 		const res: any = await fetch("https://opentdb.com/api_category.php").then(async res => (await res.json()).trivia_categories);
 		for (const i of res) {
 			this.categories.set(i.id, i.name);
