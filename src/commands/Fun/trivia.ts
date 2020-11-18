@@ -59,7 +59,7 @@ export = class extends Command {
 				} else if (word.length > 0 && this.categories.find(c => c.includes(word))) {
 					const category: number = this.categories.filter(c => c.includes(word)).randomKey();
 					query += "&category=" + category;
-				} else if (word.length > 0) message.channel.send("*The specified word doesn't match any category");
+				} else if (word.length > 0) message.channel.send("*The specified word doesn't match any category*");
 				if (args[0] && diffs.includes(args[0].toLowerCase())) {
 					query += "&difficulty=" + args[0].toLowerCase();
 				}
