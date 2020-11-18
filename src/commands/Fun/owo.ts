@@ -131,7 +131,7 @@ export = class extends Command {
 					ws.on("finish", () => {
 						const embed: MessageEmbed = new MessageEmbed()
 							.attachFiles([{ attachment: `temp/${filename}`, name: "owo.png" }])
-							.setTitle(`Streak gift! ${chance}`)
+							.setTitle(`Streak gift! ${this.displayOwo(chance)}`)
 							.setDescription(`You've been gifted a **${this.displayOwo(chance)}** for your streak! Keep going!\n`)
 							.setColor("#FFE100")
 							.setImage("attachment://owo.png")
