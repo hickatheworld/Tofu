@@ -137,7 +137,7 @@ export = class extends Command {
 							.setImage("attachment://owo.png")
 							.setFooter(`You have ${owoInfos.gotten.length}/${this.totalOwos} owos`, message.author.displayAvatarURL({ dynamic: true }));
 						message.channel.send(embed);
-						log.info(`${log.user(message.author)} was gifted a ${log.text(owo)} | ${owoInfos.gotten.length}/${this.totalOwos}`);
+						log.info(`${log.user(message.author)} was gifted a ${log.text(chance)} | ${owoInfos.gotten.length}/${this.totalOwos}`);
 					});
 				}
 				if (owoInfos.gotten.length == this.totalOwos && oldLength !== owoInfos.gotten.length) {
