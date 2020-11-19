@@ -53,7 +53,7 @@ export = class extends Command {
 				query += "&difficulty=" + args.shift().toLowerCase();
 			} else {
 				const argNum: number = parseNumber(args[0]);
-				const word: string = (args[0] ? args.shift().toLowerCase() : "";
+				const word: string = (args[0]) ? args.shift().toLowerCase() : "";
 				if (this.categories.has(argNum)) {
 					query += "&category=" + argNum;
 				} else if (word.length > 0 && this.categories.find(c => c.includes(word))) {
