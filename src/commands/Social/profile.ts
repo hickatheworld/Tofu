@@ -74,7 +74,7 @@ export = class extends Command {
 				.addField(ProfileEmotes.BESTIE + " Bestie", (profile.bestie) ? `**${profile.bestie.tag}**` : `*Nobody*`, false)
 				.addField(ProfileEmotes.COOKIES + " Cookies", `**${profile.cookies}**`, true)
 				.addField(ProfileEmotes.REPUTATION + " Reputation", `**${profile.rep}**`, true)
-				.addField(ProfileEmotes.OWO + " owos", `**${owos.gotten.length}**/${this.client.commands.get("owo").totalOwos}`, true)
+				.addField(ProfileEmotes.OWO + " owos", `**${(owos) ? owos.gotten.length : 0}**/${this.client.commands.get("owo").totalOwos}`, true)
 				.setColor("E73863")
 				.setFooter(`Used ${profile.uses} commands`, this.client.user.avatarURL())
 				;
