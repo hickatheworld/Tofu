@@ -50,18 +50,18 @@ export = class extends Command {
 			const diffs: string[] = ["easy", "medium", "hard"];
 			var query: string = "https://opentdb.com/api.php?amount=1";
 			if (args[0] && diffs.includes(args[0].toLowerCase())) {
-				query += "&difficulty=" + args.shift().toLowerCase();
+				query += `&difficulty=${args.shift().toLowerCase()}`;
 			} else {
 				const argNum: number = parseNumber(args[0]);
 				const word: string = (args[0]) ? args.shift().toLowerCase() : "";
 				if (this.categories.has(argNum)) {
-					query += "&category=" + argNum;
+					query += `&category=${argNum}`;
 				} else if (word.length > 0 && this.categories.find(c => c.includes(word))) {
 					const category: number = this.categories.filter(c => c.includes(word)).randomKey();
-					query += "&category=" + category;
+					query += `&category=${category}`;
 				} else if (word.length > 0) message.channel.send("*The specified word doesn't match any category*");
 				if (args[0] && diffs.includes(args[0].toLowerCase())) {
-					query += "&difficulty=" + args[0].toLowerCase();
+					query += `&difficulty=${args[0].toLowerCase()}`;
 				}
 			}
 			const res: any = await fetch(query).then(async res => (await res.json()).results[0]);
