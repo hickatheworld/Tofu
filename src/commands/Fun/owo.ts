@@ -22,6 +22,7 @@ export = class extends Command {
 				"",
 				"inventory/inv [user: User]",
 			],
+			aliases: ["uwu"],
 			module: "Fun"
 		});
 		var totalEyesCombinations: number = 0;
