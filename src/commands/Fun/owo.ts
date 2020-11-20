@@ -111,7 +111,7 @@ export = class extends Command {
 			ws.on("finish", async () => {
 				const embed: MessageEmbed = new MessageEmbed()
 					.attachFiles([{ attachment: `temp/${filename}`, name: "owo.png" }])
-					.setTitle(owo)
+					.setTitle(this.displayOwo(owo))
 					.setDescription((alreadyHas) ? `You got a **${this.displayOwo(owo)}**...\n...but you already have it in your inventowory.` : `**That's a new owo!**\nYou got a **${this.displayOwo(owo)}**!`)
 					.setColor("#FFEEFF")
 					.setImage("attachment://owo.png")
