@@ -1,10 +1,10 @@
 import { Message } from "discord.js";
 import fetch from "node-fetch";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "joke",
 			desc: "Gets you a joke. Powered by [Official Joke API](https://github.com/15Dkatz/official_joke_api)",

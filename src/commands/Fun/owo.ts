@@ -3,7 +3,7 @@ import { join } from "path";
 import { createWriteStream, unlinkSync, WriteStream } from "fs";
 import { createCanvas, Canvas, registerFont } from "canvas";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import UserOwoInfo from "../../core/typedefs/UserOwoInfo";
 import { parseUser } from "../../core/lib/Args";
 import { formatDuration } from "../../core/lib/Time";
@@ -14,7 +14,7 @@ const MOUTHS: string[] = ["w", "W", "u", "v", "_", ".", "m", "x", "…"];
 
 export = class extends Command {
 	public totalOwos: number;
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "owo",
 			desc: "The owo gacha.",

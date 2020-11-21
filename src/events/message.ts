@@ -1,12 +1,12 @@
 import { Message, MessageEmbed, MessageReaction, ReactionCollector, Snowflake, TextChannel } from "discord.js";
 import BotEvent from "../core/base/BotEvent";
-import OCBot from "../core/base/Client";
+import Tofu from "../core/base/Client";
 import StarboardSettings from "../core/typedefs/StarboardSettings";
 import * as log from "../core/lib/Log";
 
 export = class extends BotEvent {
 	private stars: Map<Snowflake, Message>;
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, "message");
 		this.stars = new Map<Snowflake, Message>();
 	}

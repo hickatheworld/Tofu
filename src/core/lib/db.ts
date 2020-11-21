@@ -1,6 +1,6 @@
 import * as Sq from "sequelize";
 import { User, Guild, TextChannel, Message, Snowflake, Collection, GuildChannel, GuildMemberResolvable, GuildMember } from "discord.js";
-import OCBot from "../base/Client";
+import Tofu from "../base/Client";
 import * as log from "./Log";
 import BotProfile from "../typedefs/BotProfile";
 import GuildWelcome from "../typedefs/GuildWelcome";
@@ -14,9 +14,9 @@ import UserOwoInfo from "../typedefs/UserOwoInfo";
 require("dotenv").config();
 
 export default class DB extends Sq.Sequelize {
-	private client: OCBot;
-	constructor(client: OCBot) {
-		super("OCBot", null, null, {
+	private client: Tofu;
+	constructor(client: Tofu) {
+		super("TOFU", null, null, {
 			dialect: "sqlite",
 			logging: false,
 			storage: "db.sqlite"

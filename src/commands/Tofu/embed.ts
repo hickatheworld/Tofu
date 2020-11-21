@@ -1,13 +1,13 @@
 import { Message, MessageEmbed } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "embed",
 			desc: "Makes the bot send an embed",
-			module: "OC Bot",
+			module: "Tofu",
 			usages: [
 				"<options: Object>"
 			],

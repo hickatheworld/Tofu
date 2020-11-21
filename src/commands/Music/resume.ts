@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import Command from "../../core/base/Command";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "resume",
 			desc: "Resumes song",

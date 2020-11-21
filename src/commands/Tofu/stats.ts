@@ -3,7 +3,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { promise as glob } from "glob-promise";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 
 interface sourceStats {
 	files: number,
@@ -12,11 +12,11 @@ interface sourceStats {
 };
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "stats",
-			desc: "Gives stats about OC Bot, exclusively for Hicka to flex.",
-			module: "OC Bot",
+			desc: "Gives stats about Tofu, exclusively for Hicka to flex.",
+			module: "Tofu",
 			aliases: ["flex"]
 		});
 		this.getSourceStats().then(stats => this.srcStats = stats);
@@ -36,7 +36,7 @@ export = class extends Command {
 			const users: number = this.client.users.cache.size;
 			const embed: MessageEmbed = new MessageEmbed()
 				.setAuthor("flex purposes only")
-				.setTitle("OC Bot stats")
+				.setTitle("Tofu stats")
 				.addFields([
 					{
 						name: "Guilds",

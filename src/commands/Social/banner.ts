@@ -2,12 +2,12 @@ import { Message } from "discord.js";
 import { createCanvas, loadImage, Image, Canvas } from "canvas";
 import { WriteStream, createWriteStream, existsSync, mkdirSync } from "fs";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseLink } from "../../core/lib/Args";
 import { join } from "path";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "banner",
 			desc: "Sets your profile banner.\nIt is recommanded to provide a 4:1 image. In all cases, it will be cropped to fit this aspect ratio.",

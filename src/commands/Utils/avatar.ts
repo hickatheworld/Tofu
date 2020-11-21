@@ -1,11 +1,11 @@
 import { Message, User, MessageEmbed, ReactionCollector } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "avatar",
 			desc: "The most complete avatar command you'll ever see.",

@@ -1,13 +1,13 @@
 import { Message } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "eval",
 			desc: "Executes a Javascript expression (HickER only)",
-			module: "OC Bot",
+			module: "Tofu",
 			usages: [
 				"<expression: String>"
 			],

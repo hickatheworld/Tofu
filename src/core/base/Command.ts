@@ -1,5 +1,5 @@
 import { Message, Snowflake, Collection, PermissionResolvable, TextChannel, DMChannel, NewsChannel } from "discord.js";
-import OCBot from "./Client";
+import Tofu from "./Client";
 import { formatDuration } from "../lib/Time";
 import CommandOptions from "../typedefs/CommandOptions";
 import { formatPermission } from "../lib/utils";
@@ -9,7 +9,7 @@ import * as log from "../lib/Log";
 export default abstract class Command {
 	[k: string]: any;
 	public aliases: string[];
-	protected client: OCBot;
+	protected client: Tofu;
 	public cooldown: number;
 	protected cooldowned?: Collection<Snowflake, number>;
 	public desc: string;
@@ -19,7 +19,7 @@ export default abstract class Command {
 	public props: Map<string, any>;
 	public usages?: string[];
 	public whitelist?: Snowflake[];
-	constructor(client: OCBot, options: CommandOptions) {
+	constructor(client: Tofu, options: CommandOptions) {
 		this.aliases = options.aliases ?? [];
 		this.client = client;
 		this.cooldown = options.cooldown ?? 0;

@@ -1,12 +1,12 @@
 import { Message } from "discord.js";
 import CommandOptions from "../typedefs/CommandOptions";
 import AudioPlayer from "./AudioPlayer";
-import OCBot from "./Client";
+import Tofu from "./Client";
 import Command from "./Command";
 
 export default abstract class MusicCommand extends Command {
 	private needsPlayer: boolean;
-	constructor(client: OCBot, options: CommandOptions, needsPlayer = true) {
+	constructor(client: Tofu, options: CommandOptions, needsPlayer = true) {
 		super(client, options);
 		this.needsPlayer = needsPlayer;
 	}

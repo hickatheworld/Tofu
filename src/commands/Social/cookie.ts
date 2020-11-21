@@ -1,12 +1,12 @@
 import { Message, User } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
 import { COOKIE_GIVER_ID } from "../../core/lib/Constants";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "cookie",
 			desc: "Get yourself offered a cookie by our official cookie giver",

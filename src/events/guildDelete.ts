@@ -1,10 +1,10 @@
 import { Guild } from "discord.js";
 import BotEvent from "../core/base/BotEvent";
-import OCBot from "../core/base/Client";
+import Tofu from "../core/base/Client";
 import Giveaway from "../core/typedefs/Giveaway";
 import * as log from "../core/lib/Log";
 export = class extends BotEvent {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, "guildDelete");
 	}
 

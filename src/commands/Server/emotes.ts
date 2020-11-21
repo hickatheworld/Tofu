@@ -1,10 +1,10 @@
 import { GuildEmoji, Message, MessageEmbed, ReactionCollector, Snowflake } from "discord.js";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import Command from "../../core/base/Command";
 import { SERVER_INFOS_COLOR } from "../../core/lib/Constants";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "emotes",
 			desc: "Lists all emotes from this server or gets image file of any emote.",

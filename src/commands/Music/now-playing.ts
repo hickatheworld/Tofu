@@ -1,12 +1,12 @@
 import { Message, MessageEmbed } from "discord.js";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import MusicCommand from "../../core/base/MusicCommand";
 import AudioPlayer from "../../core/base/AudioPlayer";
 import MusicQueueItem from "../../core/typedefs/MusicQueueItem";
 import { formatTinyDuration } from "../../core/lib/Time";
 
 export = class extends MusicCommand {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "now-playing",
 			desc: "Gives information about the currently playing audio",

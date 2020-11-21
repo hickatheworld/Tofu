@@ -1,15 +1,15 @@
 import { Message, User, TextChannel, GuildChannel } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseUser, parseChannel } from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "execute",
 			desc: "Executes a command in specific conditions (Admin only)",
-			module: "OC Bot",
+			module: "Tofu",
 			usages: [
 				"<[as <user: User>] [at <channel: Channel>]> <command: String> [argument: ...String]"
 			],
@@ -52,7 +52,7 @@ export = class extends Command {
 			}
 			const command: Command = this.client.commands.get(name) || this.client.commands.get(this.client.aliases.get(name));
 			if (command.module === "Social") {
-				this.warn("Social commands are likely to fail with oc!execute even if no error is triggered.", message.channel);
+				this.warn("Social commands are likely to fail with tofu execute even if no error is triggered.", message.channel);
 			}
 			const initialChannel: TextChannel = message.channel as TextChannel;
 			const initialAuthor: User = message.author;

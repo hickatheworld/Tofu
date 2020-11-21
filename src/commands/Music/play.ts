@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from "discord.js";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import AudioPlayer from "../../core/base/AudioPlayer";
 import ytdl = require("ytdl-core");
 import ytsr = require("ytsr");
@@ -7,7 +7,7 @@ import { formatTinyDuration } from "../../core/lib/Time";
 import MusicQueueItem from "../../core/typedefs/MusicQueueItem";
 import MusicCommand from "../../core/base/MusicCommand";
 export = class extends MusicCommand {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "play",
 			desc: "Plays a youtube video in voice channel from url or name",

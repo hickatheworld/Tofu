@@ -1,14 +1,14 @@
 import { Message, ActivityType } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import * as log from "../../core/lib/Log";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "set-activity",
 			desc: "Changes bot's Discord activity\nUse with no arguments to clear (Admin only)",
-			module: "OC Bot",
+			module: "Tofu",
 			usages: [
 				"<PLAYING|STREAMING|LISTENING|WATCHING> <name: String>",
 				""
@@ -42,7 +42,7 @@ export = class extends Command {
 			if (type === "LISTENING" && name.toLowerCase().startsWith("to"))
 				name = name.slice(3);
 			if (type === "STREAMING")
-				await this.client.user.setActivity(name, { type: type, url: "https://twitch.tv/theuniqueocbot" });
+				await this.client.user.setActivity(name, { type: type, url: "https://twitch.tv/Hickacou" });
 			else
 				await this.client.user.setActivity(name, { type: type });
 			this.success(`Set activity to : ${type[0] + type.slice(1).toLocaleLowerCase()} ${(type === "LISTENING") ? "to" : ""} **${name}**`, message.channel);

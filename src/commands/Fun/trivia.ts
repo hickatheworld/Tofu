@@ -2,7 +2,7 @@ import { Collection, Message, MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
 import { AllHtmlEntities } from "html-entities";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import Trivia from "../../core/typedefs/Trivia";
 import { shuffleArray } from "../../core/lib/utils";
 import { TriviaColors, TRIVIA_LETTERS } from "../../core/lib/Constants";
@@ -12,7 +12,7 @@ import { parseNumber } from "../../core/lib/Args";
 export = class extends Command {
 	public categories: Collection<number, string>;
 	public categoriesEmbed: MessageEmbed;
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "trivia",
 			desc: "Gets you a trivia question. Powered by [Open Trivia Database](https://opentdb.com/)",

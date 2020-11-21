@@ -1,13 +1,13 @@
 import { GuildMember, Message, MessageEmbed, ReactionCollector } from "discord.js";
 import BotEvent from "../core/base/BotEvent";
-import OCBot from "../core/base/Client";
+import Tofu from "../core/base/Client";
 import * as log from "../core/lib/Log";
 import { formatDuration } from "../core/lib/Time";
 import GuildWelcome from "../core/typedefs/GuildWelcome";
 import { replaceWelcomeVariables } from "../core/lib/utils";
 
 export = class extends BotEvent {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, "guildMemberAdd");
 	}
 

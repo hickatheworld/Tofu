@@ -1,10 +1,10 @@
 import { Message } from "discord.js";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import MusicCommand from "../../core/base/MusicCommand";
 import AudioPlayer from "../../core/base/AudioPlayer";
 
 export = class extends MusicCommand {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "loop",
 			desc: "Loops currently playing audio",

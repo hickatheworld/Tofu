@@ -1,7 +1,7 @@
 import { Guild, StreamDispatcher, VoiceChannel, VoiceConnection } from "discord.js";
 import MusicQueueItem from "../typedefs/MusicQueueItem";
 import ytdl = require("ytdl-core");
-import OCBot from "./Client";
+import Tofu from "./Client";
 
 export default class AudioPlayer {
 	public channel: VoiceChannel;
@@ -12,11 +12,11 @@ export default class AudioPlayer {
 	public paused: boolean;
 	public partial: boolean;
 	public playing: boolean;
-	private client: OCBot;
+	private client: Tofu;
 	private connection: VoiceConnection;
 	private dispatcher: StreamDispatcher;
 	private leaveTimeout: NodeJS.Timeout;
-	constructor(client: OCBot, channel: VoiceChannel) {
+	constructor(client: Tofu, channel: VoiceChannel) {
 		this.client = client;
 		this.channel = channel;
 		this.guild = channel.guild;

@@ -2,11 +2,11 @@ import { Message } from "discord.js";
 import { promises as fs } from "fs";
 import { join } from "path";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import * as log from "../../core/lib/Log";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "ilike",
 			desc: "I like [insert one of the 58 000 words in the list].\n**Trains are op.**",

@@ -1,4 +1,4 @@
-import OCBot from "../core/base/Client";
+import Tofu from "../core/base/Client";
 import BotEvent from "../core/base/BotEvent";
 import * as log from "../core/lib/Log";
 import { GuildMember, MessageEmbed } from "discord.js";
@@ -7,7 +7,7 @@ import GuildBye from "../core/typedefs/GuildBye";
 import { replaceWelcomeVariables } from "../core/lib/utils";
 
 export = class extends BotEvent {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, "guildMemberRemove");
 	}
 

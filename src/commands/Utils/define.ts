@@ -1,11 +1,11 @@
 import { Message, MessageEmbed, ReactionCollector } from "discord.js";
 import nodeFetch from "node-fetch";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { capitalize } from "../../core/lib/utils";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "define",
 			desc: "Gives informations about a word. Powered by [WordsAPI](https://https://www.wordsapi.com/)",

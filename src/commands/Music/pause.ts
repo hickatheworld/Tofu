@@ -1,10 +1,10 @@
 import { Message } from "discord.js";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import AudioPlayer from "../../core/base/AudioPlayer";
 import MusicCommand from "../../core/base/MusicCommand";
 
 export = class extends MusicCommand {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "pause",
 			desc: "Pauses currently playing audio",

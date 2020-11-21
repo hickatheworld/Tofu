@@ -1,15 +1,15 @@
 import { Message, MessageEmbed, TextChannel, User } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "dm",
 			desc: "Sends a dm to someone (Admin only)",
-			module: "OC Bot",
+			module: "Tofu",
 			usages: [
 				"dm <user: User> <message: String> [attachments: Attachment[]]"
 			],

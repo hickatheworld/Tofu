@@ -1,10 +1,10 @@
 import { Guild, VoiceState } from "discord.js";
 import AudioPlayer from "../core/base/AudioPlayer";
 import BotEvent from "../core/base/BotEvent";
-import OCBot from "../core/base/Client";
+import Tofu from "../core/base/Client";
 
 export = class extends BotEvent {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, "voiceStateUpdate");
 	}
 

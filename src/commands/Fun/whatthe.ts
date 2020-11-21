@@ -2,10 +2,10 @@ import { Message } from "discord.js";
 import { promises as fs } from "fs";
 import { join } from "path";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "whatthe",
 			desc: "What the [insert one of the 58 000 words in the list]. You have 0.0017% chance to get the F word!",

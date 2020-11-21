@@ -4,11 +4,11 @@ import nodeFetch from "node-fetch";
 import { join } from "path";
 import { unlinkSync, createWriteStream, WriteStream } from "fs";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { randomInt } from "../../core/lib/utils";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "color",
 			desc: "Displays a color from a given hexcode. Data provided by [thecolorapi.com](http://thecolorapi.com)",

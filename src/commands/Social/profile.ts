@@ -2,7 +2,7 @@ import { MessageEmbed, Message, GuildMember, User } from "discord.js";
 import { existsSync as exists } from "fs";
 import { join } from "path";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { formatDuration } from "../../core/lib/Time";
 import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
@@ -10,7 +10,7 @@ import { ProfileEmotes } from "../../core/lib/Constants";
 import UserOwoInfo from "../../core/typedefs/UserOwoInfo";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "profile",
 			desc: "Displays or edits an user's profile",
@@ -41,7 +41,7 @@ export = class extends Command {
 			}
 			if (subcommand === "title") {
 				if (!this.client.admins.includes(message.author.id)) {
-					this.error("Only admins can change your **oc!**title", message.channel);
+					this.error("Only admins can change your **tofu** title", message.channel);
 					return;
 				}
 				args.shift();
@@ -68,7 +68,7 @@ export = class extends Command {
 			const owos: UserOwoInfo = await this.client.db.fetchOwoInfo(member.user);
 			const embed: MessageEmbed = new MessageEmbed()
 				.setTitle(`${member.user.username}'s profile`)
-				.setDescription(`**oc!**title — ${profile.title}`)
+				.setDescription(`**tofu** title — ${profile.title}`)
 				.setThumbnail(member.user.avatarURL({ dynamic: true }))
 				.addField(ProfileEmotes.SERVER_AGE + " Server age", formatDuration(member.joinedAt, new Date(), true), false)
 				.addField(ProfileEmotes.BESTIE + " Bestie", (profile.bestie) ? `**${profile.bestie.tag}**` : `*Nobody*`, false)

@@ -1,14 +1,14 @@
 import { Message, MessageEmbed } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { formatDuration } from "../../core/lib/Time";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "uptime",
 			desc: "Displays bot's uptime",
-			module: "OC Bot",
+			module: "Tofu",
 		});
 	}
 

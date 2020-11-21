@@ -1,13 +1,13 @@
 import { Message, User, EmbedField, MessageEmbed, GuildMember, ReactionCollector, UserFlagsString } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseMember, parseUser } from "../../core/lib/Args";
 import { formatDuration } from "../../core/lib/Time";
 import { formatFlag, formatPermission } from "../../core/lib/utils";
 
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "whois",
 			desc: "Get basic informations about a user",

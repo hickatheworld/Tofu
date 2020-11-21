@@ -1,6 +1,6 @@
 import { Collection, Guild, GuildChannel, GuildMember, Message, MessageCollector, MessageEmbed, MessageReaction, Snowflake, TextChannel, User } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseChannel, parseDuration, parseNumber } from "../../core/lib/Args";
 import { BotResponseColors, BotResponseEmotes, GIVEAWAY_EMOTE, GIVEAWAY_EMOTE_ID } from "../../core/lib/Constants";
 import Giveaway from "../../core/typedefs/Giveaway";
@@ -10,10 +10,10 @@ import { randomInt } from "../../core/lib/utils";
 
 export = class extends Command {
 	public loaded: boolean;
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "giveaway",
-			desc: "Organize a giveaway in your server!\n[Full help in this wiki](https://github.com/Hickacou/OC-Bot/wiki/oc!giveaway)",
+			desc: "Organize a giveaway in your server!\n[Full help in this wiki](https://github.com/Hickacou/Tofu/wiki/giveaway)",
 			usages: [
 				"create [channel: Channel] [winners: Number] [duration: Duration] [name: String]",
 				"cancel <id: Number>",

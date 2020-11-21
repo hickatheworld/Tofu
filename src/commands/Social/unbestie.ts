@@ -1,11 +1,11 @@
 import { Message } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import BotProfile from "../../core/typedefs/BotProfile";
 import * as log from "../../core/lib/Log";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "unbestie",
 			desc: "To break up with your best friend... How tragic",

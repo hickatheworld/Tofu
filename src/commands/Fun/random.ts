@@ -1,10 +1,10 @@
 import { Message } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseNumber } from "../../core/lib/Args";
 import { randomInt } from "../../core/lib/utils";
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "random",
 			desc: "Gives you a random number",

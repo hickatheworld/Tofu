@@ -2,14 +2,14 @@ import { Message, MessageEmbed, MessageCollector, Snowflake } from "discord.js";
 import Command from "../../core/base/Command";
 // @ts-ignore
 import GIFEncoder = require("gifencoder");
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import DVD from "../../core/typedefs/DVD";
 import { Image, loadImage, Canvas } from "canvas";
 import { join } from "path";
 import { createWriteStream, unlinkSync } from "fs";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "dvd",
 			desc: "Gives you a gif of a goold old dvd screensaver. Try to make it touch the corner!",

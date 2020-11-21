@@ -1,5 +1,5 @@
 import { GuildMember, Message, MessageEmbed, ReactionCollector, Role } from "discord.js";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import Command from "../../core/base/Command";
 import { parseMember, parseRole } from "../../core/lib/Args";
 import { SERVER_INFOS_COLOR } from "../../core/lib/Constants";
@@ -7,7 +7,7 @@ import { formatDuration } from "../../core/lib/Time";
 import { formatPermission } from "../../core/lib/utils";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "roles",
 			desc: "Lists all roles from this server or gets infos about a role.",

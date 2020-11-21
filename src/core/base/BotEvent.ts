@@ -1,11 +1,11 @@
-import OCBot from "./Client";
+import Tofu from "./Client";
 
 export default abstract class BotEvent {
-	protected client: OCBot;
+	protected client: Tofu;
 	public name: string;
 	public once: boolean;
 	public props: Map<string, any>;
-	constructor(client: OCBot, name: string, once = false) {
+	constructor(client: Tofu, name: string, once = false) {
 		this.client = client;
 		this.name = name;
 		this.once = once;

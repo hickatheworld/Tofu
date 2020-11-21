@@ -1,7 +1,7 @@
 import { Message, MessageEmbed, User } from "discord.js";
 import * as cron from "node-cron";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import BotProfile from "../../core/typedefs/BotProfile";
 import { formatDuration } from "../../core/lib/Time";
@@ -9,7 +9,7 @@ import * as log from "../../core/lib/Log";
 import { REPUTATION_COLOR, REPUTATION_EMOTE } from "../../core/lib/Constants";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "rep",
 			desc: "Give a reputation point to someone",

@@ -1,13 +1,13 @@
 import { Message, MessageEmbed, Guild, ReactionCollector } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 import { BLANK_EMOTE, DiscordServerIconsEmotes, SERVER_INFOS_COLOR, ServerInfosEmotes, ServerRegionsEmotes } from "../../core/lib/Constants";
 import { formatDuration } from "../../core/lib/Time";
 import { formatRegion } from "../../core/lib/utils";
 
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "server-infos",
 			desc: "Gets basic informations about this server",

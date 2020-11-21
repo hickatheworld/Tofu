@@ -9,7 +9,7 @@ import BotEvent from "./BotEvent";
 import AudioPlayer from "./AudioPlayer";
 import Giveaway from "../typedefs/Giveaway";
 
-export default class OCBot extends Client {
+export default class Tofu extends Client {
 	public admins: Snowflake[];
 	public audioPlayers: Collection<Snowflake, AudioPlayer>;
 	public description: string;

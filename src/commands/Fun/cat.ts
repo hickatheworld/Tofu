@@ -1,10 +1,10 @@
 import { Message, MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "cat",
 			desc: "Gets you a lovely cat picture. Powered by  [TheCatAPI](https://thecatapi.com)",

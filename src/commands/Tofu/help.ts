@@ -1,13 +1,13 @@
 import { MessageEmbed, Message } from "discord.js";
 import Command from "../../core/base/Command";
-import OCBot from "../../core/base/Client";
+import Tofu from "../../core/base/Client";
 
 export = class extends Command {
-	constructor(client: OCBot) {
+	constructor(client: Tofu) {
 		super(client, {
 			name: "help",
 			desc: "Gives you the command lists of the bot or help about a given command",
-			module: "OC Bot",
+			module: "Tofu",
 			usages: [
 				"[command: String]"
 			],
@@ -17,7 +17,7 @@ export = class extends Command {
 
 	public async setup(): Promise<void> {
 		const embed: MessageEmbed = new MessageEmbed()
-			.setAuthor("OC Bot Help", this.client.user.avatarURL())
+			.setAuthor("Tofu Help", this.client.user.avatarURL())
 			.setTitle("Commands list")
 			.setDescription(`Feel free to suggest new commands!\nType \`${this.client.prefix}${this.name} [command]\` to have specific help for a command.`)
 			.setColor("5cff82")
@@ -43,7 +43,7 @@ export = class extends Command {
 			const command: Command = this.client.commands.get(name) || this.client.commands.get(this.client.aliases.get(name));
 			const usages: string = (command.usages) ? command.usages.map(u => `${this.client.prefix}${command.name} ${u}`).join("\n") : `${this.client.prefix}${command.name}`
 			const embed: MessageEmbed = new MessageEmbed()
-				.setAuthor("OC Bot Help", this.client.user.avatarURL())
+				.setAuthor("Tofu Help", this.client.user.avatarURL())
 				.setTitle(`${this.client.prefix}${command.name}`)
 				.setDescription(`${command.desc}\n\`\`\`${usages}\`\`\``)
 				.setColor("5cff82")
