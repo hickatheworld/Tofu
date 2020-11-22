@@ -68,7 +68,7 @@ export = class extends Command {
 			const owos: UserOwoInfo = await this.client.db.fetchOwoInfo(member.user);
 			const embed: MessageEmbed = new MessageEmbed()
 				.setTitle(`${member.user.username}'s profile`)
-				.setDescription(`**tofu** title — ${profile.title}`)
+				.setDescription(`**Tofu** title — ${profile.title}`)
 				.setThumbnail(member.user.avatarURL({ dynamic: true }))
 				.addField(ProfileEmotes.SERVER_AGE + " Server age", formatDuration(member.joinedAt, new Date(), true), false)
 				.addField(ProfileEmotes.BESTIE + " Bestie", (profile.bestie) ? `**${profile.bestie.tag}**` : `*Nobody*`, false)
