@@ -25,7 +25,7 @@ export = class extends Command {
 				.setColor(color)
 				.addField("Version", version, true)
 				.addField("Commit", `[${commit.toString().substr(0, 7)}](https://github.com/Hickacou/Tofu/commit/${commit})`, true)
-				.addField("Creator", `**\`${(owner) ? owner.tag : "Anonymous"}**\``, true)
+				.addField("Creator", `\`${(owner) ? owner.tag : "Anonymous"}\``, true)
 				.addField("Language", "Typescript", true)
 				.addField("Library", "discord.js", true)
 				.addField("Commands", `${this.client.commands.array().length}`, true)
