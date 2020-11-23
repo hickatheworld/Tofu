@@ -18,7 +18,7 @@ export = class extends Command {
 		super.check(message, async () => {
 			try {
 			const res = await (fetch("https://uselessfacts.jsph.pl/random.json?language=en").then(res => res.json()));
-			message.channel.send(res.text);
+			message.channel.send(res.text.replace("`","'"));
 			} catch (err) {
 				this.error("An error occured, please try again later.", message.channel);
 			}
