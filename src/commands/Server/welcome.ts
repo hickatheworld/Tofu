@@ -75,7 +75,7 @@ export = class extends Command {
 				args.shift();
 				const arg: string = args.join(" ");
 				const msg: any = replaceWelcomeVariables({ message: arg }, message.author, message.guild, false);
-				await this.client.db.setWelcome(message.guild, "value", msg);
+				await this.client.db.setWelcome(message.guild, "value", arg);
 				await this.client.db.setWelcome(message.guild, "type", "text");
 				await this.success(`Set the welcome message to :\n${msg.message}`, message.channel);
 				if (!(await this.client.db.getWelcome(message.guild)).enabled) {
