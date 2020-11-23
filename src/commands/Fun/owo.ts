@@ -9,7 +9,7 @@ import { parseUser } from "../../core/lib/Args";
 import { formatDuration } from "../../core/lib/Time";
 import * as log from "../../core/lib/Log";
 
-const EYES: string[] = ["OO", "oo", "ÒÓ", "òó", "QQ", "qq", "ÈÉ", "èé", "ÙÚ", "ùú", "VV", "TT", "><", "--", "••", "°°", "¨¨", "¬¬", ";;", "^^", "++", "**", "~~", "==", "##", "@@", "$$"];
+const EYES: string[] = ["OO", "oo", "ÒÓ", "òó", "QQ", "qq", "ÈÉ", "èé", "ÙÚ", "ùú", "VV", "TT", "><", "--", "••", "°°", "¨¨", "¬¬", ";;", "^^", "++", "**", "~~", "==", "##", "@@", "$$", "''"];
 const MOUTHS: string[] = ["w", "W", "u", "v", "_", ".", "m", "x", "…"];
 
 export = class extends Command {
