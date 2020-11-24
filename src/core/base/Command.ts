@@ -13,6 +13,7 @@ export default abstract class Command {
 	public cooldown: number;
 	protected cooldowned?: Collection<Snowflake, number>;
 	public desc: string;
+	public hidden: boolean;
 	public module: string;
 	public name: string;
 	public perms?: PermissionResolvable[];
@@ -25,6 +26,7 @@ export default abstract class Command {
 		this.cooldown = options.cooldown ?? 0;
 		this.cooldowned = new Collection<Snowflake, number>();
 		this.desc = options.desc;
+		this.hidden = options.hidden || false;
 		this.module = options.module;
 		this.name = options.name;
 		this.perms = options.perms;
