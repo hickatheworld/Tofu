@@ -26,7 +26,6 @@ export = class extends Command {
 		for (const module of this.client.modules.keyArray()) {
 			var list: string = "";
 			for (const cmd of this.client.modules.get(module)) {
-				console.log(cmd);
 				const command: Command = this.client.commands.get(cmd);
 				if (!command.hidden) list += `\`${cmd}\` `;
 			}
