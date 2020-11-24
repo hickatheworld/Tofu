@@ -9,10 +9,10 @@ import { formatRegion } from "../../core/lib/utils";
 export = class extends Command {
 	constructor(client: Tofu) {
 		super(client, {
-			name: "server-infos",
+			name: "server-info",
 			desc: "Gets basic informations about this server",
 			module: "Server",
-			aliases: ["server", "server-info"]
+			aliases: ["server"]
 		});
 	}
 
