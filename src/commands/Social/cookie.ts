@@ -3,7 +3,7 @@ import Command from "../../core/base/Command";
 import Tofu from "../../core/base/Client";
 import { parseUser } from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
-import { COOKIE_GIVER_ID } from "../../core/lib/Constants";
+require("dotenv").config();
 
 export = class extends Command {
 	constructor(client: Tofu) {
@@ -21,7 +21,7 @@ export = class extends Command {
 
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
-			const giver: User = this.client.users.cache.get(COOKIE_GIVER_ID);
+			const giver: User = this.client.users.cache.get(process.env.COOKIE_GIVER || this.client.owner);
 			if (!giver) {
 				this.error("Looks like there is no cookie giver set.", message.channel);
 				return;
