@@ -46,41 +46,43 @@ export = class extends Command {
 		log.info("Setup reminders.");
 	}
 
-	public async exe(message: Message, args: string[]) {
-		if (args.length < 1) {
-			this.client.commands.get("help").exe(message, ["remind"]);
-			return;
-		}
-		if (args[0].toLowerCase() === "in") args.shift();
-		const duration: number = parseDuration(args.shift());
-		if (!duration) {
-			this.error("Incorrect duration.", message.channel, new Error("Correct duration format: {days}d{hours}h{minutes}m{seconds}s"));
-			return;
-		}
-		if (args.length > 1 && args[0].toLowerCase() === "to") args.shift();
-		const what: string = args.join(" ").trim();
-		if (!what) {
-			this.error("Please set a reminder", message.channel);
-			return;
-		}
-		const reminder: Reminder = {
-			channel: message.channel as TextChannel,
-			guild: message.guild,
-			reminder: what,
-			user: message.author,
-			when: new Date(Date.now() + duration)
-		};
-		const model: Model = await this.client.db.models.reminders.create({
-			channel: reminder.channel.id,
-			guild: reminder.guild.id,
-			reminder: reminder.reminder,
-			user: reminder.user.id,
-			when: reminder.when
+	public async exe(message: Message, args: string[]): Promise<void> {
+		super.check(message, async () => {
+			if (args.length < 1) {
+				this.client.commands.get("help").exe(message, ["remind"]);
+				return;
+			}
+			if (args[0].toLowerCase() === "in") args.shift();
+			const duration: number = parseDuration(args.shift());
+			if (!duration) {
+				this.error("Incorrect duration.", message.channel, new Error("Correct duration format: {days}d{hours}h{minutes}m{seconds}s"));
+				return;
+			}
+			if (args.length > 1 && args[0].toLowerCase() === "to") args.shift();
+			const what: string = args.join(" ").trim();
+			if (!what) {
+				this.error("Please set a reminder", message.channel);
+				return;
+			}
+			const reminder: Reminder = {
+				channel: message.channel as TextChannel,
+				guild: message.guild,
+				reminder: what,
+				user: message.author,
+				when: new Date(Date.now() + duration)
+			};
+			const model: Model = await this.client.db.models.reminders.create({
+				channel: reminder.channel.id,
+				guild: reminder.guild.id,
+				reminder: reminder.reminder,
+				user: reminder.user.id,
+				when: reminder.when
+			});
+			const id: number = (model.toJSON() as any).id;
+			this.reminders.set(id, reminder);
+			this.setupReminder(id);
+			message.channel.send("Sure, I'll remind you!");
 		});
-		const id: number = (model.toJSON() as any).id;
-		this.reminders.set(id, reminder);
-		this.setupReminder(id);
-		message.channel.send("Sure, I'll remind you!");
 	}
 
 
