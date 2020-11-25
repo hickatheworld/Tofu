@@ -58,11 +58,13 @@ export function parseDuration(str: string): number | null {
 	var days: number = 0;
 	var hours: number = 0;
 	var minutes: number = 0;
+	var seconds: number = 0;
 	var duration: number = 0;
 	if (/(\d+)d/i.test(str)) days = parseInt(/(\d+)d/i.exec(str)[1]) || 0;
 	if (/(\d+)h/i.test(str)) hours = parseInt(/(\d+)h/i.exec(str)[1]) || 0;
 	if (/(\d+)m/i.test(str)) minutes = parseInt(/(\d+)m/i.exec(str)[1]) || 0;
-	duration = days * 86400000 + hours * 3600000 + minutes * 60000;
+	if (/(\d+)s/i.test(str)) seconds = parseInt(/(\d+)s/i.exec(str)[1]) || 0;
+	duration = days * 86400000 + hours * 3600000 + minutes * 60000 + seconds * 1000;
 	return (duration == Infinity) ? 0 : duration;
 }
 
