@@ -1,10 +1,12 @@
 import { Collection, Guild, Message, TextChannel, User } from "discord.js";
 import Command from "../../core/base/Command";
 import Tofu from "../../core/base/Client";
-import { parseDuration } from "../../core/lib/Args";
+import { parseDuration, parseNumber } from "../../core/lib/Args";
 import Reminder from "../../core/typedefs/Reminder";
 import { Model } from "sequelize/types";
 import * as log from "../../core/lib/Log";
+import { measureMemory } from "vm";
+import { formatDuration } from "../../core/lib/Time";
 
 export = class extends Command {
 	public reminders: Collection<number, Reminder>;
@@ -15,7 +17,9 @@ export = class extends Command {
 			desc: "Reminds you what you want it to remind you.",
 			module: "Utils",
 			usages: [
-				"[in] <duration: Duration> [to] <reminder: String>"
+				"[in] <duration: Duration> [to] <reminder: String>",
+				"list",
+				"cancel <id: Number>"
 			],
 			aliases: ["remindme", "reminder"]
 		});
@@ -52,6 +56,37 @@ export = class extends Command {
 				this.client.commands.get("help").exe(message, ["remind"]);
 				return;
 			}
+			if (args[0].toLocaleLowerCase() === "list") {
+				const models: any[] = (await this.client.db.models.reminders.findAll({ where: { user: message.author.id } })).map(m => m.toJSON());
+				if (models.length == 0) {
+					message.channel.send("**You have no reminder.**");
+					return;
+				}
+				var msg: string = "__Your reminders:__\n";
+				for (const model of models) {
+					msg += `**${model.reminder}** in **${formatDuration(new Date(), model.when)}** (ID: ${model.id})\n`
+				}
+				message.channel.send(msg);
+				return;
+			}
+			if (args[0].toLowerCase() === "cancel" || args[0].toLowerCase() === "delete" || args[0].toLowerCase() === "remove") {
+				args.shift();
+				const id: number = parseNumber(args[0]);
+				if (!id) {
+					this.error(`Please specify a reminder ID. You can get it with \`${this.client.prefix}remind list\``, message.channel);
+					return;
+				}
+				if (!this.reminders.has(id) || this.reminders.get(id).user.id !== message.author.id) {
+					this.error("This reminder doesn't exist or it doesn't belong to you.", message.channel);
+					return;
+				}
+				await this.client.db.models.reminders.destroy({ where: { id: id } });
+				this.reminders.delete(id);
+				clearTimeout(this.timeouts.get(id));
+				this.timeouts.delete(id);
+				this.success("This reminder has been cancelled.", message.channel);
+				return;
+			}
 			if (args[0].toLowerCase() === "in") args.shift();
 			const duration: number = parseDuration(args.shift());
 			if (!duration) {
@@ -81,7 +116,7 @@ export = class extends Command {
 			const id: number = (model.toJSON() as any).id;
 			this.reminders.set(id, reminder);
 			this.setupReminder(id);
-			message.channel.send("Sure, I'll remind you!");
+			message.channel.send(`Sure, I'll remind you! — *ID: ${id}*`);
 		});
 	}
 
