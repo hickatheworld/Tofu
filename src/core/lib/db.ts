@@ -237,7 +237,14 @@ export default class DB extends Sq.Sequelize {
 				type: Sq.STRING,
 				allowNull: false
 			}
-		}).sync({ force: force })
+		}).sync({ force: force });
+		this.define("reminders", {
+			channel: { type: Sq.STRING },
+			guild: { type: Sq.STRING },
+			reminder: { type: Sq.STRING },
+			user: { type: Sq.STRING },
+			when: { type: Sq.DATE }
+		}).sync({ force: force });
 		log.info("Defined Sequelize models");
 	}
 
@@ -599,7 +606,7 @@ export default class DB extends Sq.Sequelize {
 		if (!model) return null;
 		const info: any = model.toJSON();
 		const gotten: string[] = info.gotten.split(",");
-		if (gotten[0] === "") gotten.shift(); 
+		if (gotten[0] === "") gotten.shift();
 		return {
 			gotten: gotten,
 			last: info.last,

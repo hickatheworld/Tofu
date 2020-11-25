@@ -1,6 +1,6 @@
 {
 	"name": "tofu",
-	"ver": "2.1.0.0",
+	"ver": "2.1.1.0",
 	"description": "Once Community's Discord Bot",
 	"main": "build/app.js",
 	"scripts": {
