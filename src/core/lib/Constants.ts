@@ -4,6 +4,35 @@ import { ColorResolvable, Snowflake } from "discord.js";
  * You must have your bot in the guild you're hosting the emotes at to make it able to use them
  */
 
+export enum AlphabetEmotes {
+	A = "🇦",
+	B = "🇧",
+	C = "🇨",
+	D = "🇩",
+	E = "🇪",
+	F = "🇫",
+	G = "🇬",
+	H = "🇭",
+	I = "🇮",
+	J = "🇯",
+	K = "🇰",
+	L = "🇱",
+	M = "🇲",
+	N = "🇳",
+	O = "🇴",
+	P = "🇵",
+	Q = "🇶",
+	R = "🇷",
+	S = "🇸",
+	T = "🇹",
+	U = "🇺",
+	V = "🇻",
+	W = "🇼",
+	X = "🇽",
+	Y = "🇾",
+	Z = "🇿"
+}
+
 export const BLANK_EMOTE: string = "<:blank:754343696631201822>";
 
 export enum BotResponseColors {
@@ -45,6 +74,15 @@ export enum DiscordServerIconsEmotes {
 
 export const GIVEAWAY_EMOTE: string = "<a:dubuParty:774954454910107659>";
 export const GIVEAWAY_EMOTE_ID: string = "774954454910107659";
+
+export const OsuModesEmotes: string[] = ["<:osu_0:781232842360750140>", "<:osu_1:781232842344235028>", "<:osu_2:781232842310549525>", "<:osu_3:781232842037395507>"];
+export enum OsuRanksEmotes {
+	A = "<:osu_a:781230770445746218>",
+	S = "<:osu_s:781230770370904085>",
+	SH = "<:osu_sh:781230770768969759>",
+	X = "<:osu_x:781230770818777158>",
+	XH = "<:osu_xh:781230770785222657>"
+}
 
 export enum ProfileEmotes {
 	BESTIE = "🙌",

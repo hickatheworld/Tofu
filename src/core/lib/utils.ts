@@ -57,3 +57,16 @@ export function formatRegion(name: string): string {
 export function formatFlag(name: keyof typeof DiscordBadgesEmotes): string {
 	return DiscordBadgesEmotes[name];
 }
+
+export function formatNumber(n: number): string {
+	var str: string = "";
+	const num: string = n.toString();
+	for (var i = num.length; i--; i >= 0) {
+		const j: number = num.length - i;
+		str = num[i] + str;
+		if (j % 3 === 0 && j !== 0) str = "," + str;
+	}
+	if (str[0] === ",") str = str.slice(1);
+	if (str.startsWith("-,")) str = "-" + str.slice(2);
+	return str;
+}
