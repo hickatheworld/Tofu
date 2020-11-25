@@ -47,10 +47,14 @@ export = class extends Command {
 	}
 
 	public async exe(message: Message, args: string[]) {
+		if (args.length < 1) {
+			this.client.commands.get("help").exe(message, ["remind"]);
+			return;
+		}
 		if (args[0].toLowerCase() === "in") args.shift();
 		const duration: number = parseDuration(args.shift());
 		if (!duration) {
-			this.error("Incorrect duration.", message.channel, new Error("Correct duration format: {days}d{hours}h{minutes}m"));
+			this.error("Incorrect duration.", message.channel, new Error("Correct duration format: {days}d{hours}h{minutes}m{seconds}s"));
 			return;
 		}
 		if (args.length > 1 && args[0].toLowerCase() === "to") args.shift();
