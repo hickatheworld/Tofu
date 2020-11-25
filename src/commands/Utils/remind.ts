@@ -57,12 +57,12 @@ export = class extends Command {
 				return;
 			}
 			if (args[0].toLocaleLowerCase() === "list") {
-				const models: any[] = (await this.client.db.models.reminders.findAll({ where: { user: message.author.id } })).map(m => m.toJSON());
+				const models: any[] = (await this.client.db.models.reminders.findAll({ where: { user: message.author.id, guild: message.guild.id } })).map(m => m.toJSON());
 				if (models.length == 0) {
-					message.channel.send("**You have no reminder.**");
+					message.channel.send("**You have no reminder in this server.**");
 					return;
 				}
-				var msg: string = "__Your reminders:__\n";
+				var msg: string = "__Your reminders in this server:__\n";
 				for (const model of models) {
 					msg += `**${model.reminder}** in **${formatDuration(new Date(), model.when)}** (ID: ${model.id})\n`
 				}
@@ -76,8 +76,8 @@ export = class extends Command {
 					this.error(`Please specify a reminder ID. You can get it with \`${this.client.prefix}remind list\``, message.channel);
 					return;
 				}
-				if (!this.reminders.has(id) || this.reminders.get(id).user.id !== message.author.id) {
-					this.error("This reminder doesn't exist or it doesn't belong to you.", message.channel);
+				if (!this.reminders.has(id) || this.reminders.get(id).user.id !== message.author.id || this.reminders.get(id).guild.id !== message.guild.id) {
+					this.error("This reminder doesn't exist in this server or it doesn't belong to you.", message.channel);
 					return;
 				}
 				await this.client.db.models.reminders.destroy({ where: { id: id } });
