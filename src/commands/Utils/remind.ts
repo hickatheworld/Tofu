@@ -116,7 +116,7 @@ export = class extends Command {
 			const id: number = (model.toJSON() as any).id;
 			this.reminders.set(id, reminder);
 			this.setupReminder(id);
-			message.channel.send(`Sure, I'll remind you! — *ID: ${id}*`);
+			message.channel.send(`Sure, I'll remind you! — \`ID: ${id}\``);
 		});
 	}
 
