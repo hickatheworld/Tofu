@@ -35,4 +35,4 @@ You can also use <code>npm start</code>
 
 <a href="https://twitter.com/puddingmangue" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/puddingmangue?style=social"></a>
 <br>
-Discord : [Server](https://discord.gg/eng7arvPm3) | **Hicka🍡#3151**
+Discord : [Server](https://discord.gg/eEYzWnQtsy) | **Hicka🍡#3151**
