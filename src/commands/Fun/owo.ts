@@ -26,10 +26,15 @@ export = class extends Command {
 			module: "Fun"
 		});
 		var totalEyesCombinations: number = 0;
-		for (const i of EYES) {
-			totalEyesCombinations += (i[0] !== i[1]) ? 2 : 1;
+		var allOwos: string[] = [];
+		for (const e of EYES) {
+			for (const m of MOUTHS) {
+				allOwos.push(e[0] + m + e[1]);
+				if (e[0] !== e[1]) allOwos.push(e[1] + m + e[0]);
+			}
 		}
-		this.totalOwos = totalEyesCombinations * MOUTHS.length;
+		this.allOwos = allOwos;
+		this.totalOwos = allOwos.length;
 		registerFont(join(__dirname, "../../../assets/fonts/ArchitectsDaughter.ttf"), { family: "Architects Daughter" });
 	}
 
@@ -123,9 +128,8 @@ export = class extends Command {
 				if (lostStreak) message.channel.send("It has been more than 24 hours since your last owo, your streak has been reset..");
 				if (owoInfos.streak % 50 == 0 && owoInfos.gotten.length < this.totalOwos) {
 					var chance: string;
-					do {
-						chance = this.generateOwo();
-					} while (owoInfos.gotten.includes(chance));
+					var notGotten = this.allOwos.filter((owo: string) => !owoInfos.gotten.includes(owo))
+					chance = this.generateOwo(notGotten);
 					owoInfos.gotten.push(chance);
 					const filename: string = `${owo}_${Date.now()}.png`;
 					const ws: WriteStream = await this.generateOwoImage(chance, filename, true);
@@ -149,11 +153,8 @@ export = class extends Command {
 		});
 	}
 
-	public generateOwo(): string {
-		const mouth: string = MOUTHS[Math.floor(Math.random() * MOUTHS.length)];
-		const eyes: string = EYES[Math.floor(Math.random() * EYES.length)];
-		if (Math.random() >= 0.5) return `${eyes[0]}${mouth}${eyes[1]}`;
-		return `${eyes[1]}${mouth}${eyes[0]}`;
+	public generateOwo(arr: string[] = this.allOwos): string {
+		return arr[Math.floor(Math.random() * arr.length)];
 	}
 
 	public async generateOwoImage(owo: string, filename: string, golden: boolean = false): Promise<WriteStream> {
