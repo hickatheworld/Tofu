@@ -615,10 +615,10 @@ export default class DB extends Sq.Sequelize {
 		}
 	}
 
-	async updateOwo(user: User, owos: string[], streak: number): Promise<void> {
+	async updateOwo(user: User, owos: string[], streak: number, last?: Date): Promise<void> {
 		const obj: any = {
 			gotten: owos.join(","),
-			last: new Date(),
+			last: last || new Date(),
 			streak: streak
 		}
 		const model: any = await this.models.owo.update(obj, { where: { user: user.id } });
