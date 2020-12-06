@@ -112,7 +112,7 @@ export = class extends Command {
 			const owo: string = this.generateOwo();
 			var alreadyHas: boolean = owoInfos.gotten.includes(owo);
 			if (!alreadyHas) owoInfos.gotten.push(owo);
-			const filename: string = `${owo}_${Date.now()}.png`;
+			const filename: string = `owo_${message.author.id}_${Date.now()}.png`;
 			const ws: WriteStream = await this.generateOwoImage(owo, filename);
 			ws.on("finish", async () => {
 				const embed: MessageEmbed = new MessageEmbed()
@@ -131,7 +131,7 @@ export = class extends Command {
 					var notGotten = this.allOwos.filter((owo: string) => !owoInfos.gotten.includes(owo))
 					chance = this.generateOwo(notGotten);
 					owoInfos.gotten.push(chance);
-					const filename: string = `${owo}_${Date.now()}.png`;
+					const filename: string = `owo_${message.author.id}_${Date.now()}.png`;
 					const ws: WriteStream = await this.generateOwoImage(chance, filename, true);
 					ws.on("finish", () => {
 						const embed: MessageEmbed = new MessageEmbed()
@@ -143,6 +143,7 @@ export = class extends Command {
 							.setFooter(`You have ${owoInfos.gotten.length}/${this.totalOwos} owos`, message.author.displayAvatarURL({ dynamic: true }));
 						message.channel.send(embed);
 						log.info(`${log.user(message.author)} was gifted a ${log.text(chance)} | ${owoInfos.gotten.length}/${this.totalOwos}`);
+						unlinkSync(join(__dirname, "../../../temp/", filename));
 					});
 				}
 				if (owoInfos.gotten.length == this.totalOwos && oldLength !== owoInfos.gotten.length) {
