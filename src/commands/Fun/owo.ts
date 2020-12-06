@@ -25,7 +25,6 @@ export = class extends Command {
 			aliases: ["uwu"],
 			module: "Fun"
 		});
-		var totalEyesCombinations: number = 0;
 		var allOwos: string[] = [];
 		for (const e of EYES) {
 			for (const m of MOUTHS) {
