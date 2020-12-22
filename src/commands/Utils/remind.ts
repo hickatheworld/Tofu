@@ -1,4 +1,4 @@
-import { Collection, Guild, Message, TextChannel, User } from "discord.js";
+import { Collection, Guild, Message, MessageEmbed, TextChannel, User } from "discord.js";
 import { Model } from "sequelize/types";
 import Tofu from "../../core/base/Client";
 import Command from "../../core/base/Command";
@@ -115,7 +115,7 @@ export = class extends Command {
 			const id: number = (model.toJSON() as any).id;
 			this.reminders.set(id, reminder);
 			this.setupReminder(id);
-			message.channel.send(`Sure, I'll remind you! — \`ID: ${id}\``);
+			message.channel.send(`Sure, I'll remind you to **${reminder.reminder}** in ${formatDuration(new Date(), reminder.when, true)}. *\`${id}\`*`)
 		});
 	}
 
