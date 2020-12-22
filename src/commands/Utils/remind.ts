@@ -1,12 +1,11 @@
 import { Collection, Guild, Message, TextChannel, User } from "discord.js";
-import Command from "../../core/base/Command";
-import Tofu from "../../core/base/Client";
-import { parseDuration, parseNumber } from "../../core/lib/Args";
-import Reminder from "../../core/typedefs/Reminder";
 import { Model } from "sequelize/types";
+import Tofu from "../../core/base/Client";
+import Command from "../../core/base/Command";
+import { parseDuration, parseNumber } from "../../core/lib/Args";
 import * as log from "../../core/lib/Log";
-import { measureMemory } from "vm";
 import { formatDuration } from "../../core/lib/Time";
+import Reminder from "../../core/typedefs/Reminder";
 
 export = class extends Command {
 	public reminders: Collection<number, Reminder>;
