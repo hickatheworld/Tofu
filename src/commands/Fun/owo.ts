@@ -14,6 +14,7 @@ const MOUTHS: string[] = ["w", "W", "u", "v", "_", ".", "m", "x", "…"];
 
 export = class extends Command {
 	public totalOwos: number;
+	public allOwos: string[];
 	constructor(client: Tofu) {
 		super(client, {
 			name: "owo",
@@ -21,6 +22,7 @@ export = class extends Command {
 			usages: [
 				"",
 				"inventory/inv [user: User]",
+				"missing [user: User]"
 			],
 			aliases: ["uwu"],
 			module: "Fun"
@@ -42,7 +44,8 @@ export = class extends Command {
 	public async exe(message: Message, args: string[]): Promise<void> {
 		super.check(message, async () => {
 			var owoInfos: UserOwoInfo;
-			if (args[0] && (args[0].toLowerCase() === "inv" || args[0].toLowerCase() === "inventory")) {
+			if (args[0] && (args[0].toLowerCase() === "inv" || args[0].toLowerCase() === "inventory" || args[0].toLowerCase() === "missing")) {
+				const missing: boolean = args[0].toLowerCase() === "missing";
 				const user: User = parseUser(args[1], this.client);
 				if (args[1] && !user) {
 					this.error("User not found", message.channel);
@@ -55,14 +58,15 @@ export = class extends Command {
 					return;
 				}
 				const gotten: string[] = owoInfos.gotten;
+				const arr: string[] = (missing) ? this.allOwos.filter(o => !gotten.includes(o)) : gotten;
 				var i: number = 0;
-				const pages: number = Math.ceil(gotten.length / 10);
+				const pages: number = Math.ceil(arr.length / 10);
 				const embed: MessageEmbed = new MessageEmbed()
-					.setAuthor(`${(user) ? user.username : message.author.username}'s inventowory`, (user || message.author).displayAvatarURL({ dynamic: true }))
-					.setTitle(`${gotten.length}/${this.totalOwos} owos`)
+					.setAuthor(`${(user) ? user.username : message.author.username}'s ${(missing) ? 'missing owos' : 'inventowory'}`, (user || message.author).displayAvatarURL({ dynamic: true }))
+					.setTitle((missing) ? `${arr.length} missing` : `${arr.length}/${this.totalOwos} owos`)
 					.setColor("#FFEEFF")
 					.setFooter(`Page ${i + 1}/${pages}`)
-				embed.setDescription(`**${gotten.slice(i * 10, (i + 1) * 10).join("\n")}**`);
+				embed.setDescription(`**${arr.slice(i * 10, (i + 1) * 10).join("\n")}**`);
 				const msg: Message = await message.channel.send(embed);
 				await msg.react("⬅");
 				await msg.react("➡");
@@ -72,12 +76,12 @@ export = class extends Command {
 					if (user.id !== message.author.id) return;
 					if (reaction.emoji.name === "⬅") {
 						if (--i < 0) i = pages - 1;
-						embed.setDescription(`**${gotten.slice(i * 10, (i + 1) * 10).map(owo => this.displayOwo(owo)).join("\n")}**`)
+						embed.setDescription(`**${arr.slice(i * 10, (i + 1) * 10).map(owo => this.displayOwo(owo)).join("\n")}**`)
 							.setFooter(`Page ${i + 1}/${pages}`);
 						msg.edit(embed);
 					} else if (reaction.emoji.name === "➡") {
 						if (++i == pages) i = 0;
-						embed.setDescription(`**${gotten.slice(i * 10, (i + 1) * 10).map(owo => this.displayOwo(owo)).join("\n")}**`)
+						embed.setDescription(`**${arr.slice(i * 10, (i + 1) * 10).map(owo => this.displayOwo(owo)).join("\n")}**`)
 							.setFooter(`Page ${i + 1}/${pages}`);
 						msg.edit(embed);
 					}
