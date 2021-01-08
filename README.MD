@@ -32,7 +32,6 @@ You can also use <code>npm start</code>
 </div>
 <h3>Made by Hicka</h3>
 <a href="https://github.com/Hickacou" target="_blank"><img alt="GitHub followers" src="https://img.shields.io/github/followers/Hickacou?style=social"></a>
-
-<a href="https://twitter.com/puddingmangue" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/puddingmangue?style=social"></a>
 <br>
+
 Discord : [Server](https://discord.gg/eEYzWnQtsy) | **Hicka🍡#3151**
