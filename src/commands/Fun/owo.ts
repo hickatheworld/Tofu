@@ -100,7 +100,7 @@ export = class extends Command {
 				firstOwo = true;
 			}
 			if (Date.now() - owoInfos.last.getTime() < 3600000) {
-				message.channel.send(`❌ You must wait another **${formatDuration(new Date(3600000 - Date.now() + owoInfos.last.getTime()), new Date(0))}** before getting a new owo.\nBored? Try The owo generator! => **https://hickacou.js.org/owo**`);
+				message.channel.send(`❌ You must wait another **${formatDuration(new Date(3600000 - Date.now() + owoInfos.last.getTime()), new Date(0))}** before getting a new owo.`);
 				return;
 			}
 			var lostStreak: boolean = false;
