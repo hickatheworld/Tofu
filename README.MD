@@ -35,4 +35,4 @@ You can also use <code>npm start</code>
 <a href="https://github.com/Hickacou" target="_blank"><img alt="GitHub followers" src="https://img.shields.io/github/followers/Hickacou?style=social"></a>
 <br>
 
-Discord : [Server](https://discord.gg/eEYzWnQtsy) | **Hicka🍡#3151**
+Discord : [Server](https://discord.gg/eEYzWnQtsy) | **Hicka#3151**
