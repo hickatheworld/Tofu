@@ -3,6 +3,7 @@
 <img alt="GitHub Deploying Status" src="https://github.com/Hickacou/Tofu/workflows/Deploy/badge.svg">    
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Hickacou/Tofu">
 </div>
+<blockquote><b>This project is near death due to its horrible base code, refraining me to add features and fix long time bugs. Therefore, it will <i>(almost)</i> not be maintained anymore.</i><br>If you want to follow or even contribute in Tofu's rewrite and growth, please go to <a href="https://hicka.dev/tofu-next">its new repository</a>.</b></blockquote>
 <h2>Self hosting</h2>
 To host your own version of Tofu, follow the steps : 
 
@@ -32,7 +33,6 @@ You can also use <code>npm start</code>
 </div>
 <h3>Made by Hicka</h3>
 <a href="https://github.com/Hickacou" target="_blank"><img alt="GitHub followers" src="https://img.shields.io/github/followers/Hickacou?style=social"></a>
-
-<a href="https://twitter.com/puddingmangue" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/puddingmangue?style=social"></a>
 <br>
-Discord : [Server](https://discord.gg/eEYzWnQtsy) | **Hicka🍡#3151**
+
+Discord : [Server](https://discord.gg/eEYzWnQtsy) | **Hicka#3151**
