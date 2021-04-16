@@ -30,4 +30,4 @@ You can also use <code>npm start</code>
 
 <a href="https://forthebadge.com" target="_blank"><img src="https://forthebadge.com/images/badges/powered-by-water.svg" /></a>
 </div>
-Discord : **Hicka#3151**
+Discord : <b>Hicka#3151</b>
